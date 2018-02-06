@@ -19,12 +19,12 @@ class DataManager: NSObject {
     var baseURL = "http://rasamfard.ir/api/"
     var delegate:DataManagerDelegate?
 
-    func RegisterNumber(fullName:String,phonenumber:String,completion: @escaping (APIResponse) -> Void) {
+    func RegisterNumber(phonenumber:String,completion: @escaping (APIResponse) -> Void) {
         
-        let params: [String: Any] = ["fullname":fullName,"number":phonenumber]
+        let params: [String: Any] = ["phone":phonenumber]
         let response = APIResponse()
         
-        Alamofire.request(baseURL+"registernumber", method: .post, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON { (responseData) -> Void in
+        Alamofire.request(baseURL+"login", method: .post, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON { (responseData) -> Void in
             if((responseData.result.value) != nil) {
                 
                 print(responseData)
@@ -51,10 +51,10 @@ class DataManager: NSObject {
     
     func CheckCode(Code:String,phonenumber:String,completion: @escaping (APIResponse) -> Void) {
         
-        let params: [String: Any] = ["number":phonenumber,"code":Code]
+        let params: [String: Any] = ["phone":phonenumber,"password":Code]
         let response = APIResponse()
         
-        Alamofire.request(baseURL+"checkcode", method: .post, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON { (responseData) -> Void in
+        Alamofire.request(baseURL+"gettoken", method: .post, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON { (responseData) -> Void in
             if((responseData.result.value) != nil) {
                 
                 print(responseData)
@@ -65,7 +65,8 @@ class DataManager: NSObject {
                         if let resData = JSON(responseData.result.value!).dictionaryObject {
                             if resData.count > 0 {
                                 response.message = resData["message"] as? String
-                                response.result = resData["result"] as? Bool
+                                response.result = true
+                                response.token = resData["token"] as? String   
                             }
                         }
                     default:

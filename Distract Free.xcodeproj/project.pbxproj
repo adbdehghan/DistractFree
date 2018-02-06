@@ -20,6 +20,7 @@
 		3A4BC62D202898AD0017E213 /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC62B202898AD0017E213 /* APIResponse.swift */; };
 		3A4BC62E202898AD0017E213 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC62C202898AD0017E213 /* TokenManager.swift */; };
 		3A4BC631202898CA0017E213 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC630202898CA0017E213 /* DataManager.swift */; };
+		3A4BC6342029FB130017E213 /* CarBluetoothViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC6332029FB130017E213 /* CarBluetoothViewController.swift */; };
 		8EFB7996AFEAE7B05CF31DA5 /* Pods_Distract_FreeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D8C39DAD623DD979C92445B /* Pods_Distract_FreeUITests.framework */; };
 		9A298592B0A7C20E9F17DE12 /* Pods_Distract_Free.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD1653444E5AF0FE3E1DE937 /* Pods_Distract_Free.framework */; };
 /* End PBXBuildFile section */
@@ -63,6 +64,7 @@
 		3A4BC62B202898AD0017E213 /* APIResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
 		3A4BC62C202898AD0017E213 /* TokenManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		3A4BC630202898CA0017E213 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		3A4BC6332029FB130017E213 /* CarBluetoothViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarBluetoothViewController.swift; sourceTree = "<group>"; };
 		6D8C39DAD623DD979C92445B /* Pods_Distract_FreeUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Distract_FreeUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		851D28E66F27A012ACCF3D28 /* Pods_Distract_FreeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Distract_FreeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		99AC223DCE381BF1E863DD4E /* Pods-Distract FreeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Distract FreeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Distract FreeTests/Pods-Distract FreeTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 				3A4BC62F202898CA0017E213 /* DataManagement */,
 				3A4BC62A202898AD0017E213 /* Models */,
 				3A4BC6272027CB420017E213 /* Helper */,
+				3A4BC6322029FAF80017E213 /* Setup */,
 				3A4BC5F72025DB960017E213 /* AppDelegate.swift */,
 				3A4BC6252027AFC50017E213 /* LoginViewController.swift */,
 				3A4BC5F92025DB960017E213 /* ViewController.swift */,
@@ -202,6 +205,14 @@
 				3A4BC630202898CA0017E213 /* DataManager.swift */,
 			);
 			path = DataManagement;
+			sourceTree = "<group>";
+		};
+		3A4BC6322029FAF80017E213 /* Setup */ = {
+			isa = PBXGroup;
+			children = (
+				3A4BC6332029FB130017E213 /* CarBluetoothViewController.swift */,
+			);
+			path = Setup;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -282,6 +293,11 @@
 					3A4BC5F32025DB960017E213 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					3A4BC6072025DB970017E213 = {
 						CreatedOnToolsVersion = 9.2;
@@ -448,7 +464,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Distract Free/Pods-Distract Free-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/ABSteppedProgressBar/ABSteppedProgressBar.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/Bleu/Bleu.framework",
+				"${BUILT_PRODUCTS_DIR}/Bluetonium/Bluetonium.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
@@ -461,7 +477,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ABSteppedProgressBar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bleu.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bluetonium.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
@@ -519,6 +535,7 @@
 				3A4BC62E202898AD0017E213 /* TokenManager.swift in Sources */,
 				3A4BC6262027AFC50017E213 /* LoginViewController.swift in Sources */,
 				3A4BC631202898CA0017E213 /* DataManager.swift in Sources */,
+				3A4BC6342029FB130017E213 /* CarBluetoothViewController.swift in Sources */,
 				3A4BC5FA2025DB960017E213 /* ViewController.swift in Sources */,
 				3A4BC62D202898AD0017E213 /* APIResponse.swift in Sources */,
 				3A4BC5F82025DB960017E213 /* AppDelegate.swift in Sources */,

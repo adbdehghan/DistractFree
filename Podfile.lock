@@ -1,7 +1,7 @@
 PODS:
   - ABSteppedProgressBar (0.2.0)
   - Alamofire (4.6.0)
-  - Bleu (1.0)
+  - Bluetonium (2.1.0)
   - IQKeyboardManagerSwift (5.0.6)
   - NVActivityIndicatorView (4.1.0):
     - NVActivityIndicatorView/Presenter (= 4.1.0)
@@ -18,7 +18,7 @@ PODS:
 DEPENDENCIES:
   - ABSteppedProgressBar
   - Alamofire (~> 4.5)
-  - Bleu
+  - Bluetonium
   - IQKeyboardManagerSwift
   - NVActivityIndicatorView
   - SDWebImage (~> 4.0)
@@ -30,7 +30,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   ABSteppedProgressBar: f83d33bf8088be482dc7b2f06a3b10de097d317a
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
-  Bleu: 860eec07724c34a1b2803ab1974d1360baebb803
+  Bluetonium: 45d465084e1a663b579e2c8d937aebf5551c2d67
   IQKeyboardManagerSwift: 02bfbb0dff71c66d0ab77d80d25dfce0c3717735
   NVActivityIndicatorView: dc4726052dc24e89fa8576d43acf9e96f61d49db
   SDWebImage: 89a9d32cd520bbb46eb14e541d5109b3564af198
@@ -39,6 +39,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   ZAlertView: 59fffdb4e37a01df461835566d5101052b8af953
 
-PODFILE CHECKSUM: e49449fb831b40369375bb19cf0bff7ba5186ae4
+PODFILE CHECKSUM: a358ebee630275cfbed60a1a1931dc91a6cfea64
 
 COCOAPODS: 1.3.1

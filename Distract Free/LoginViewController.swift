@@ -8,13 +8,12 @@
 
 import UIKit
 
-class LoginViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class LoginViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate {
     //MARK: Properties
     @IBOutlet weak var darkView: UIView!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     @IBOutlet var registerView: UIView!
     @IBOutlet var loginView: UIView!
-    @IBOutlet weak var profilePicView: RoundedImageView!
     @IBOutlet weak var registerNameField: UITextField!
     @IBOutlet weak var registerEmailField: UITextField!
     @IBOutlet weak var registerPasswordField: UITextField!
@@ -36,16 +35,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UINavigationCo
     
     func customization()  {
         self.darkView.alpha = 0
-        self.imagePicker.delegate = self
-        self.profilePicView.layer.borderColor = GlobalVariables.blue.cgColor
-        self.profilePicView.layer.borderWidth = 2
+        
         //LoginView customization
         self.view.insertSubview(self.loginView, belowSubview: self.cloudsView)
         self.loginView.translatesAutoresizingMaskIntoConstraints = false
         self.loginView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.loginViewTopConstraint = NSLayoutConstraint.init(item: self.loginView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 60)
+        self.loginViewTopConstraint = NSLayoutConstraint.init(item: self.loginView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 150)
         self.loginViewTopConstraint.isActive = true
-        self.loginView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.45).isActive = true
+        self.loginView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.37).isActive = true
         self.loginView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.8).isActive = true
         self.loginView.layer.cornerRadius = 8
         //RegisterView Customization
@@ -54,7 +51,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UINavigationCo
         self.registerView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.registerTopConstraint = NSLayoutConstraint.init(item: self.registerView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 1000)
         self.registerTopConstraint.isActive = true
-        self.registerView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.6).isActive = true
+        self.registerView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.37).isActive = true
         self.registerView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.8).isActive = true
         self.registerView.layer.cornerRadius = 8
     }
@@ -92,13 +89,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UINavigationCo
     @IBAction func switchViews(_ sender: UIButton) {
         if self.isLoginViewVisible {
             self.isLoginViewVisible = false
-            sender.setTitle("Login", for: .normal)
+            sender.setTitle("Back", for: .normal)
             self.loginViewTopConstraint.constant = 1000
-            self.registerTopConstraint.constant = 60
+            self.registerTopConstraint.constant = 150
+            sender.isHidden = false
         } else {
             self.isLoginViewVisible = true
-            sender.setTitle("Create New Account", for: .normal)
-            self.loginViewTopConstraint.constant = 60
+            sender.isHidden = true
+            self.loginViewTopConstraint.constant = 150
             self.registerTopConstraint.constant = 1000
         }
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
@@ -109,11 +107,42 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UINavigationCo
         }
     }
     
+    func switchViewsAuto(Login:Bool){
+        
+        if Login {
+            self.isLoginViewVisible = false
+            
+            self.loginViewTopConstraint.constant = 1000
+            self.registerTopConstraint.constant = 150
+        } else {
+            self.isLoginViewVisible = true
+            
+            self.loginViewTopConstraint.constant = 150
+            self.registerTopConstraint.constant = 1000
+        }
+        
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+            self.view.layoutIfNeeded()
+        })
+        for item in self.waringLabels {
+            item.isHidden = true
+        }
+    }
+    
+    
     @IBAction func register(_ sender: Any) {
         for item in self.inputFields {
             item.resignFirstResponder()
         }
-
+        self.showLoading(state: true)
+        let manager = DataManager()
+        manager.CheckCode(Code: registerPasswordField.text!, phonenumber: loginEmailField.text!, completion: {(APIResponse)-> Void in
+            
+            self.showLoading(state: false)
+            let tokenManager = TokenManager()
+            tokenManager.SaveToken(Phonenumber: self.loginEmailField.text!, Token: APIResponse.token!, Password: self.registerPasswordField.text!)
+            
+        })
     }
     
     @IBAction func login(_ sender: Any) {
@@ -121,7 +150,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UINavigationCo
             item.resignFirstResponder()
         }
         self.showLoading(state: true)
-
+        let manager = DataManager()
+        
+        manager.RegisterNumber(phonenumber: loginEmailField.text!, completion: {(APIResponse)-> Void in
+            
+            self.showLoading(state: false)
+            self.switchViewsAuto(Login: true)
+        })
     }    
     
     //MARK: Delegates
