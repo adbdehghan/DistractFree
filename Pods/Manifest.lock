@@ -3,9 +3,11 @@ PODS:
   - Alamofire (4.6.0)
   - Bluetonium (2.1.0)
   - IQKeyboardManagerSwift (5.0.6)
+  - KVSpinnerView (1.0.1)
   - NVActivityIndicatorView (4.1.0):
     - NVActivityIndicatorView/Presenter (= 4.1.0)
   - NVActivityIndicatorView/Presenter (4.1.0)
+  - PinCodeTextField (0.1.0)
   - SDWebImage (4.2.2):
     - SDWebImage/Core (= 4.2.2)
   - SDWebImage/Core (4.2.2)
@@ -20,7 +22,9 @@ DEPENDENCIES:
   - Alamofire (~> 4.5)
   - Bluetonium
   - IQKeyboardManagerSwift
+  - KVSpinnerView
   - NVActivityIndicatorView
+  - PinCodeTextField
   - SDWebImage (~> 4.0)
   - SmileLock
   - SwiftLocation (~> 3.1.0)
@@ -32,13 +36,15 @@ SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
   Bluetonium: 45d465084e1a663b579e2c8d937aebf5551c2d67
   IQKeyboardManagerSwift: 02bfbb0dff71c66d0ab77d80d25dfce0c3717735
+  KVSpinnerView: ce89cec80a5776ba4639c312770f01c8a091e80a
   NVActivityIndicatorView: dc4726052dc24e89fa8576d43acf9e96f61d49db
+  PinCodeTextField: a3c39be58bde3ed1d6888d0fb1d88b0a4a2277cc
   SDWebImage: 89a9d32cd520bbb46eb14e541d5109b3564af198
   SmileLock: 94289220d5e1fbfd774115b605d3c0371024df59
   SwiftLocation: 8f5ef4f510a45e43239de57a3145b3669301e898
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   ZAlertView: 59fffdb4e37a01df461835566d5101052b8af953
 
-PODFILE CHECKSUM: a358ebee630275cfbed60a1a1931dc91a6cfea64
+PODFILE CHECKSUM: 2d4b75805e9ac9a9a7b4b8e2d5a4171b3bbdf571
 
 COCOAPODS: 1.3.1

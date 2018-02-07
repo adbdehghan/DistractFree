@@ -15,6 +15,8 @@ pod 'Bluetonium'
 pod 'ABSteppedProgressBar'
 pod 'SwiftLocation', '~> 3.1.0'
 pod 'SmileLock'
+pod 'PinCodeTextField'
+pod 'KVSpinnerView'
 
   target 'Distract FreeTests' do
     inherit! :search_paths

@@ -21,6 +21,17 @@
 		3A4BC62E202898AD0017E213 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC62C202898AD0017E213 /* TokenManager.swift */; };
 		3A4BC631202898CA0017E213 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC630202898CA0017E213 /* DataManager.swift */; };
 		3A4BC6342029FB130017E213 /* CarBluetoothViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC6332029FB130017E213 /* CarBluetoothViewController.swift */; };
+		3A4BC647202B36D90017E213 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 3A4BC63A202B36D90017E213 /* .gitkeep */; };
+		3A4BC648202B36D90017E213 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 3A4BC63C202B36D90017E213 /* .gitkeep */; };
+		3A4BC649202B36D90017E213 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC63D202B36D90017E213 /* Item.swift */; };
+		3A4BC64A202B36D90017E213 /* ItemLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC63E202B36D90017E213 /* ItemLayer.swift */; };
+		3A4BC64B202B36D90017E213 /* RadarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC63F202B36D90017E213 /* RadarView.swift */; };
+		3A4BC64C202B36D90017E213 /* RadarViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC640202B36D90017E213 /* RadarViewProtocol.swift */; };
+		3A4BC64D202B36D90017E213 /* RippleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC641202B36D90017E213 /* RippleView.swift */; };
+		3A4BC64E202B36D90017E213 /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC643202B36D90017E213 /* Animation.swift */; };
+		3A4BC64F202B36D90017E213 /* Drawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC644202B36D90017E213 /* Drawer.swift */; };
+		3A4BC650202B36D90017E213 /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC645202B36D90017E213 /* Geometry.swift */; };
+		3A4BC651202B36D90017E213 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC646202B36D90017E213 /* UIColor.swift */; };
 		8EFB7996AFEAE7B05CF31DA5 /* Pods_Distract_FreeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D8C39DAD623DD979C92445B /* Pods_Distract_FreeUITests.framework */; };
 		9A298592B0A7C20E9F17DE12 /* Pods_Distract_Free.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD1653444E5AF0FE3E1DE937 /* Pods_Distract_Free.framework */; };
 /* End PBXBuildFile section */
@@ -65,6 +76,17 @@
 		3A4BC62C202898AD0017E213 /* TokenManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		3A4BC630202898CA0017E213 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		3A4BC6332029FB130017E213 /* CarBluetoothViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarBluetoothViewController.swift; sourceTree = "<group>"; };
+		3A4BC63A202B36D90017E213 /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
+		3A4BC63C202B36D90017E213 /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
+		3A4BC63D202B36D90017E213 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		3A4BC63E202B36D90017E213 /* ItemLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemLayer.swift; sourceTree = "<group>"; };
+		3A4BC63F202B36D90017E213 /* RadarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadarView.swift; sourceTree = "<group>"; };
+		3A4BC640202B36D90017E213 /* RadarViewProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadarViewProtocol.swift; sourceTree = "<group>"; };
+		3A4BC641202B36D90017E213 /* RippleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RippleView.swift; sourceTree = "<group>"; };
+		3A4BC643202B36D90017E213 /* Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
+		3A4BC644202B36D90017E213 /* Drawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Drawer.swift; sourceTree = "<group>"; };
+		3A4BC645202B36D90017E213 /* Geometry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
+		3A4BC646202B36D90017E213 /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		6D8C39DAD623DD979C92445B /* Pods_Distract_FreeUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Distract_FreeUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		851D28E66F27A012ACCF3D28 /* Pods_Distract_FreeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Distract_FreeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		99AC223DCE381BF1E863DD4E /* Pods-Distract FreeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Distract FreeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Distract FreeTests/Pods-Distract FreeTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -149,6 +171,7 @@
 		3A4BC5F62025DB960017E213 /* Distract Free */ = {
 			isa = PBXGroup;
 			children = (
+				3A4BC637202B36B80017E213 /* Libraries */,
 				3A4BC62F202898CA0017E213 /* DataManagement */,
 				3A4BC62A202898AD0017E213 /* Models */,
 				3A4BC6272027CB420017E213 /* Helper */,
@@ -213,6 +236,56 @@
 				3A4BC6332029FB130017E213 /* CarBluetoothViewController.swift */,
 			);
 			path = Setup;
+			sourceTree = "<group>";
+		};
+		3A4BC637202B36B80017E213 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				3A4BC638202B36D90017E213 /* HGRippleRadarView */,
+			);
+			path = Libraries;
+			sourceTree = "<group>";
+		};
+		3A4BC638202B36D90017E213 /* HGRippleRadarView */ = {
+			isa = PBXGroup;
+			children = (
+				3A4BC639202B36D90017E213 /* Assets */,
+				3A4BC63B202B36D90017E213 /* Classes */,
+			);
+			path = HGRippleRadarView;
+			sourceTree = "<group>";
+		};
+		3A4BC639202B36D90017E213 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				3A4BC63A202B36D90017E213 /* .gitkeep */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		3A4BC63B202B36D90017E213 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				3A4BC63C202B36D90017E213 /* .gitkeep */,
+				3A4BC63D202B36D90017E213 /* Item.swift */,
+				3A4BC63E202B36D90017E213 /* ItemLayer.swift */,
+				3A4BC63F202B36D90017E213 /* RadarView.swift */,
+				3A4BC640202B36D90017E213 /* RadarViewProtocol.swift */,
+				3A4BC641202B36D90017E213 /* RippleView.swift */,
+				3A4BC642202B36D90017E213 /* Utilities */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		3A4BC642202B36D90017E213 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				3A4BC643202B36D90017E213 /* Animation.swift */,
+				3A4BC644202B36D90017E213 /* Drawer.swift */,
+				3A4BC645202B36D90017E213 /* Geometry.swift */,
+				3A4BC646202B36D90017E213 /* UIColor.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -338,7 +411,9 @@
 			files = (
 				3A4BC6022025DB960017E213 /* LaunchScreen.storyboard in Resources */,
 				3A4BC5FF2025DB960017E213 /* Assets.xcassets in Resources */,
+				3A4BC648202B36D90017E213 /* .gitkeep in Resources */,
 				3A4BC5FD2025DB960017E213 /* Main.storyboard in Resources */,
+				3A4BC647202B36D90017E213 /* .gitkeep in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,7 +541,9 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bluetonium/Bluetonium.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/KVSpinnerView/KVSpinnerView.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
+				"${BUILT_PRODUCTS_DIR}/PinCodeTextField/PinCodeTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SmileLock/SmileLock.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftLocation/SwiftLocation.framework",
@@ -479,7 +556,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bluetonium.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KVSpinnerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PinCodeTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SmileLock.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftLocation.framework",
@@ -531,13 +610,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A4BC64D202B36D90017E213 /* RippleView.swift in Sources */,
+				3A4BC64B202B36D90017E213 /* RadarView.swift in Sources */,
 				3A4BC6292027CB5A0017E213 /* Helper Files.swift in Sources */,
+				3A4BC649202B36D90017E213 /* Item.swift in Sources */,
 				3A4BC62E202898AD0017E213 /* TokenManager.swift in Sources */,
+				3A4BC650202B36D90017E213 /* Geometry.swift in Sources */,
+				3A4BC651202B36D90017E213 /* UIColor.swift in Sources */,
 				3A4BC6262027AFC50017E213 /* LoginViewController.swift in Sources */,
+				3A4BC64C202B36D90017E213 /* RadarViewProtocol.swift in Sources */,
 				3A4BC631202898CA0017E213 /* DataManager.swift in Sources */,
 				3A4BC6342029FB130017E213 /* CarBluetoothViewController.swift in Sources */,
+				3A4BC64A202B36D90017E213 /* ItemLayer.swift in Sources */,
+				3A4BC64F202B36D90017E213 /* Drawer.swift in Sources */,
 				3A4BC5FA2025DB960017E213 /* ViewController.swift in Sources */,
 				3A4BC62D202898AD0017E213 /* APIResponse.swift in Sources */,
+				3A4BC64E202B36D90017E213 /* Animation.swift in Sources */,
 				3A4BC5F82025DB960017E213 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

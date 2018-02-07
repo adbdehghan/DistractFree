@@ -75,8 +75,8 @@ import UIKit
     open static var buttonFont: UIFont?
     
     // Color
-    open static var positiveColor: UIColor?            = UIColor(red:0.09, green:0.47, blue:0.24, alpha:1.0)
-    open static var negativeColor: UIColor?            = UIColor(red:0.91, green:0.3, blue:0.24, alpha:1.0)
+    open static var positiveColor: UIColor?            = UIColor(red: 115/255.0, green: 231/255.0, blue: 124/255.0, alpha: 1.0)
+    open static var negativeColor: UIColor?            = UIColor(red: 255/255.0, green: 28/255.0, blue: 109/255.0, alpha: 1.0)
     open static var neutralColor: UIColor?             = UIColor(red:0.93, green:0.94, blue:0.95, alpha:1.0)
     open static var titleColor: UIColor?               = UIColor(red:0.5, green:0.55, blue:0.55, alpha:1.0)
     open static var buttonTitleColor: UIColor?         = UIColor.white
