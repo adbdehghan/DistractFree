@@ -824,10 +824,10 @@
             </objects>
             <point key="canvasLocation" x="4310" y="347"/>
         </scene>
-        <!--View Controller-->
+        <!--Set Password View Controller-->
         <scene sceneID="xc5-T6-ilr">
             <objects>
-                <viewController id="suQ-CU-bsx" sceneMemberID="viewController">
+                <viewController id="suQ-CU-bsx" customClass="SetPasswordViewController" customModule="Distract_Free" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zdF-eI-QOx">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -900,6 +900,9 @@
                                 <state key="normal" title="Next">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="NextButtonAction:" destination="suQ-CU-bsx" eventType="touchUpInside" id="ylC-tH-X5x"/>
+                                </connections>
                             </button>
                             <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UFC-i9-lBv">
                                 <rect key="frame" x="16" y="621" width="46" height="30"/>
@@ -911,6 +914,9 @@
                                 <state key="normal" title="Back">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="BackButtonAction:" destination="suQ-CU-bsx" eventType="touchUpInside" id="Z98-IV-512"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -931,6 +937,7 @@
                         <viewLayoutGuide key="safeArea" id="RxL-Lq-Q4t"/>
                     </view>
                     <connections>
+                        <outlet property="passwordTextField" destination="aCS-Ig-3u8" id="K0p-HJ-xIf"/>
                         <segue destination="DMu-0N-g17" kind="show" id="Dto-Al-sJe"/>
                     </connections>
                 </viewController>
