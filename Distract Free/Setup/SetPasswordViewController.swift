@@ -8,6 +8,7 @@
 
 import UIKit
 import PinCodeTextField
+import ZAlertView
 
 class SetPasswordViewController: UIViewController {
 
@@ -25,11 +26,27 @@ class SetPasswordViewController: UIViewController {
     }
     
     @IBAction func NextButtonAction(_ sender: Any) {
+        
+        if passwordTextField.text?.count == 6 {
+            let manager = PasswordManager()
+            manager.SavePassword(Password: passwordTextField.text!)
+            performSegue(withIdentifier: "next", sender: self)
+        }
+        else
+        {
+            let dialog = ZAlertView(title: "🙄", message: "Please choose a password" , closeButtonText: "OK",closeButtonHandler:{alertView in
+                
+                alertView.dismissAlertView()
+            })
+            dialog.show()
+        }
+        
     }
     
     @IBAction func BackButtonAction(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
+    
     /*
     // MARK: - Navigation
 

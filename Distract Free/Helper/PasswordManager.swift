@@ -11,7 +11,7 @@ import UIKit
 class PasswordManager: NSObject {
     var Password :String = " "
     
-    func SavePassword(Phonenumber:String,Token:String,Password:String) -> Void {
+    func SavePassword(Password:String) -> Void {
         
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true) as NSArray
         let documentsDirectory = paths.object(at: 0) as! NSString

@@ -118,7 +118,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="330" height="454"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CXM-3k-dz1" customClass="RoundedButton" customModule="QuickChat" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CXM-3k-dz1" customClass="RoundedButton" customModule="Distract_Free" customModuleProvider="target">
                             <rect key="frame" x="90" y="384" width="150" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="mTQ-hc-m0c"/>
@@ -145,7 +145,7 @@
                             <rect key="frame" x="33" y="103" width="264" height="239"/>
                             <subviews>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Tt-FG-fCL">
-                                    <rect key="frame" x="0.0" y="-103" width="264" height="0.0"/>
+                                    <rect key="frame" x="0.0" y="-59" width="264" height="0.0"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="name" translatesAutoresizingMaskIntoConstraints="NO" id="OBq-uU-32i">
                                             <rect key="frame" x="0.0" y="75.5" width="24" height="24"/>
@@ -186,7 +186,7 @@
                                     </constraints>
                                 </view>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cHN-dd-TsK">
-                                    <rect key="frame" x="0.0" y="-60" width="264" height="0.0"/>
+                                    <rect key="frame" x="0.0" y="-54" width="264" height="0.0"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="email" translatesAutoresizingMaskIntoConstraints="NO" id="IvH-z8-omN">
                                             <rect key="frame" x="0.0" y="-43" width="24" height="24"/>
@@ -288,7 +288,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="452" height="459"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cgK-uE-Pbc" customClass="RoundedButton" customModule="QuickChat" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cgK-uE-Pbc" customClass="RoundedButton" customModule="Distract_Free" customModuleProvider="target">
                             <rect key="frame" x="166" y="389" width="120" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="120" id="O2y-JY-qzj"/>
@@ -356,7 +356,7 @@
                                     </constraints>
                                 </view>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y2g-bq-s0q">
-                                    <rect key="frame" x="0.0" y="31" width="362" height="0.0"/>
+                                    <rect key="frame" x="0.0" y="37" width="362" height="0.0"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="password" translatesAutoresizingMaskIntoConstraints="NO" id="tCh-5a-eZl">
                                             <rect key="frame" x="0.0" y="124.5" width="24" height="24"/>
@@ -551,7 +551,7 @@
                                     <constraint firstAttribute="width" constant="198" id="B4n-ag-VPc"/>
                                     <constraint firstAttribute="height" constant="21" id="XDC-sd-3T6"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -653,7 +653,7 @@
                                     <constraint firstAttribute="height" constant="21" id="P4b-SP-Zdm"/>
                                     <constraint firstAttribute="width" constant="251" id="cWj-is-3gd"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -683,7 +683,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Krr-ac-8sh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2845.5999999999999" y="346.77661169415296"/>
+            <point key="canvasLocation" x="2847" y="347"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="WJv-8o-Gh3">
@@ -734,7 +734,7 @@
                                     <constraint firstAttribute="width" constant="251" id="GUE-as-8AN"/>
                                     <constraint firstAttribute="height" constant="21" id="cGs-3w-Bk3"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -771,10 +771,10 @@
             </objects>
             <point key="canvasLocation" x="3589.5999999999999" y="346.77661169415296"/>
         </scene>
-        <!--View Controller-->
+        <!--Beacon Setup View Controller-->
         <scene sceneID="OMI-Na-4DC">
             <objects>
-                <viewController id="Fkk-xg-fVy" sceneMemberID="viewController">
+                <viewController id="Fkk-xg-fVy" customClass="BeaconSetupViewController" customModule="Distract_Free" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PE6-G3-9X3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -792,6 +792,9 @@
                                 <state key="normal" title="Next">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="NextButtonAction:" destination="Fkk-xg-fVy" eventType="touchUpInside" id="cGz-f4-Wdt"/>
+                                </connections>
                             </button>
                             <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GVZ-Jf-0ar">
                                 <rect key="frame" x="16" y="621" width="46" height="30"/>
@@ -803,6 +806,9 @@
                                 <state key="normal" title="Back">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="BackButtonAction:" destination="Fkk-xg-fVy" eventType="touchUpInside" id="2Pb-tR-ijr"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -817,7 +823,7 @@
                         <viewLayoutGuide key="safeArea" id="N4J-ju-4ie"/>
                     </view>
                     <connections>
-                        <segue destination="suQ-CU-bsx" kind="show" id="wkt-1C-vrt"/>
+                        <segue destination="suQ-CU-bsx" kind="show" identifier="next" id="wkt-1C-vrt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="chF-5N-pAG" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -841,7 +847,7 @@
                                     <constraint firstAttribute="width" constant="251" id="4Ek-hD-Wli"/>
                                     <constraint firstAttribute="height" constant="21" id="Qy8-eV-l1V"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -938,7 +944,7 @@
                     </view>
                     <connections>
                         <outlet property="passwordTextField" destination="aCS-Ig-3u8" id="K0p-HJ-xIf"/>
-                        <segue destination="DMu-0N-g17" kind="show" id="Dto-Al-sJe"/>
+                        <segue destination="DMu-0N-g17" kind="show" identifier="next" id="Dto-Al-sJe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bdf-Qe-tDN" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -948,7 +954,7 @@
         <!--LandingVC-->
         <scene sceneID="jpu-Pq-c5c">
             <objects>
-                <viewController id="3Kd-6f-aql" customClass="LandingVC" customModule="QuickChat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="3Kd-6f-aql" customClass="LandingVC" customModule="Distract_Free" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sOp-ac-czJ"/>
                         <viewControllerLayoutGuide type="bottom" id="8fU-oH-kyH"/>
@@ -973,10 +979,10 @@
             </objects>
             <point key="canvasLocation" x="-839" y="347"/>
         </scene>
-        <!--View Controller-->
+        <!--Fina Step View Controller-->
         <scene sceneID="sAv-ea-5i6">
             <objects>
-                <viewController id="DMu-0N-g17" sceneMemberID="viewController">
+                <viewController id="DMu-0N-g17" customClass="FinaStepViewController" customModule="Distract_Free" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JyL-oW-W58">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -990,7 +996,7 @@
                                     <constraint firstAttribute="width" constant="251" id="0zA-Du-o3R"/>
                                     <constraint firstAttribute="height" constant="21" id="KhM-mc-Eql"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -1011,6 +1017,9 @@
                                 <state key="normal" title="Complete">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="NextButtonAction:" destination="DMu-0N-g17" eventType="touchUpInside" id="AEt-EQ-WMm"/>
+                                </connections>
                             </button>
                             <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MWD-Hs-aoU">
                                 <rect key="frame" x="16" y="621" width="46" height="30"/>
@@ -1022,6 +1031,9 @@
                                 <state key="normal" title="Back">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="BackButtonAction:" destination="DMu-0N-g17" eventType="touchUpInside" id="j4a-I1-1At"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.94999998807907104" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your installation is Complete!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z6j-6G-5rh">
                                 <rect key="frame" x="77" y="438" width="221.5" height="27"/>
@@ -1073,6 +1085,6 @@
         <image name="success" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="lRc-ud-4bn"/>
+        <segue reference="EcS-Rn-95q"/>
     </inferredMetricsTieBreakers>
 </document>
