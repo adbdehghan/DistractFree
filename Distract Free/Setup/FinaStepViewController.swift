@@ -23,7 +23,7 @@ class FinaStepViewController: UIViewController {
     
     @IBAction func NextButtonAction(_ sender: Any) {
         
-  
+        performSegue(withIdentifier: "main", sender: self)
         
     }
     
