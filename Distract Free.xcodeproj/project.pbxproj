@@ -12,6 +12,7 @@
 		3A3E603D2030D79C00E4B0D4 /* FinaStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3E603C2030D79C00E4B0D4 /* FinaStepViewController.swift */; };
 		3A3E6040203230CC00E4B0D4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3E603F203230CC00E4B0D4 /* MainViewController.swift */; };
 		3A3E6044203248D100E4B0D4 /* MapStyle.json in Resources */ = {isa = PBXBuildFile; fileRef = 3A3E6043203248D100E4B0D4 /* MapStyle.json */; };
+		3A3E60482033519000E4B0D4 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3E60472033519000E4B0D4 /* BluetoothManager.swift */; };
 		3A4BC5F82025DB960017E213 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC5F72025DB960017E213 /* AppDelegate.swift */; };
 		3A4BC5FA2025DB960017E213 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC5F92025DB960017E213 /* ViewController.swift */; };
 		3A4BC5FD2025DB960017E213 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A4BC5FB2025DB960017E213 /* Main.storyboard */; };
@@ -67,6 +68,7 @@
 		3A3E603C2030D79C00E4B0D4 /* FinaStepViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinaStepViewController.swift; sourceTree = "<group>"; };
 		3A3E603F203230CC00E4B0D4 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		3A3E6043203248D100E4B0D4 /* MapStyle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MapStyle.json; sourceTree = "<group>"; };
+		3A3E60472033519000E4B0D4 /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 		3A4BC5F42025DB960017E213 /* Distract Free.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Distract Free.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A4BC5F72025DB960017E213 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A4BC5F92025DB960017E213 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 			children = (
 				3A4BC6282027CB5A0017E213 /* Helper Files.swift */,
 				3A4BC654202B9B970017E213 /* PasswordManager.swift */,
+				3A3E60472033519000E4B0D4 /* BluetoothManager.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -659,6 +662,7 @@
 				3A4BC651202B36D90017E213 /* UIColor.swift in Sources */,
 				3A4BC6262027AFC50017E213 /* LoginViewController.swift in Sources */,
 				3A4BC64C202B36D90017E213 /* RadarViewProtocol.swift in Sources */,
+				3A3E60482033519000E4B0D4 /* BluetoothManager.swift in Sources */,
 				3A4BC655202B9B970017E213 /* PasswordManager.swift in Sources */,
 				3A4BC631202898CA0017E213 /* DataManager.swift in Sources */,
 				3A4BC6342029FB130017E213 /* CarBluetoothViewController.swift in Sources */,

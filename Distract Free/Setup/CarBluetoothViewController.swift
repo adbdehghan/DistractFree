@@ -34,7 +34,6 @@ class CarBluetoothViewController: UIViewController,UITableViewDelegate,UITableVi
         bluetoothListTableView.backgroundColor = .clear
         manager.delegate = self
         manager.startScanForDevices()
-        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -54,7 +53,11 @@ class CarBluetoothViewController: UIViewController,UITableViewDelegate,UITableVi
     }
     
     func manager(_ manager: Manager, connectedToDevice device: Device) {
-        
+     
+        let manager = BluetoothManager()
+        manager.SaveBlutoothIdentifier(identifier: device.peripheral.identifier.uuidString, name: (device.peripheral.name ?? "no name"))
+        KVSpinnerView.show(saying: "Connected")
+        KVSpinnerView.dismiss(after: 1.5)
     }
     
     func manager(_ manager: Manager, disconnectedFromDevice device: Device, willRetry retry: Bool) {
@@ -72,7 +75,6 @@ class CarBluetoothViewController: UIViewController,UITableViewDelegate,UITableVi
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return manager.foundDevices.count
     }
     
@@ -99,15 +101,20 @@ class CarBluetoothViewController: UIViewController,UITableViewDelegate,UITableVi
             
             alertView.dismissAlertView()
             
-            self.manager.connect(with: device)
+            KVSpinnerView.show(saying: "Connecting")
+            self.manager.disconnectFromDevice()
             
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.manager.connect(with: device)
+            }
+  
         }, cancelButtonHandler: { alertView in
             alertView.dismissAlertView()
         })
         
         dialog.show()
-        
     }
+    
     @IBAction func NextButtonAction(_ sender: Any) {
         performSegue(withIdentifier: "next", sender: self)
     }
@@ -115,14 +122,4 @@ class CarBluetoothViewController: UIViewController,UITableViewDelegate,UITableVi
     @IBAction func BackButtonAction(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

@@ -12,6 +12,7 @@ import SwiftLocation
 
 class MainViewController: UIViewController,CLLocationManagerDelegate {
     
+    @IBOutlet weak var speedBackLayer: UIView!
     @IBOutlet weak var speedLabel: UILabel!
     @IBOutlet weak var SpeedContainerView: UIView!
     let manager = CLLocationManager()
@@ -22,6 +23,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate {
         super.viewDidLoad()
 
         SpeedContainerView.layer.cornerRadius = SpeedContainerView.frame.width/2
+        speedBackLayer.layer.cornerRadius = speedBackLayer.frame.width/2
         
         let camera = GMSCameraPosition.camera(withLatitude: 35.6961, longitude: 51.4231, zoom: 18.0)
         mapView = GMSMapView.map(withFrame: view.frame, camera: camera)
