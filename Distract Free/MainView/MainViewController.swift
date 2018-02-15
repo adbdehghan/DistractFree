@@ -9,6 +9,7 @@
 import UIKit
 import GoogleMaps
 import SwiftLocation
+import Bluetonium
 
 class MainViewController: UIViewController,CLLocationManagerDelegate {
     
@@ -22,9 +23,42 @@ class MainViewController: UIViewController,CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        UICustomization()
+        InitMap()
+        LocationInitializer()
+    }
+    
+    func LocationInitializer()
+    {
+        Locator.requestAuthorizationIfNeeded(.always)
+        
+        Locator.subscribePosition(accuracy: .block, onUpdate:{ loc in
+            
+            let speed = Double((loc.speed))
+            if speed > 0.0
+            {
+                self.speedLabel.text = String(format: "%d",Int((loc.speed) * 3.6)) + " km/h"
+            }
+            
+            let camera = GMSCameraPosition.camera(withLatitude:(loc.coordinate.latitude),
+                                                  longitude: (loc.coordinate.longitude),
+                                                  zoom: 18)
+            self.mapView.camera = camera
+            
+        },onFail: { err, last in
+                print("Failed with error: \(err)")
+        })
+    }
+    
+    func UICustomization()
+    {
         SpeedContainerView.layer.cornerRadius = SpeedContainerView.frame.width/2
         speedBackLayer.layer.cornerRadius = speedBackLayer.frame.width/2
         
+    }
+    
+    func InitMap()
+    {
         let camera = GMSCameraPosition.camera(withLatitude: 35.6961, longitude: 51.4231, zoom: 18.0)
         mapView = GMSMapView.map(withFrame: view.frame, camera: camera)
         mapView.isMyLocationEnabled = true
@@ -43,30 +77,6 @@ class MainViewController: UIViewController,CLLocationManagerDelegate {
         self.view.addSubview(mapView)
         view.sendSubview(toBack: mapView)
         
-        manager.requestWhenInUseAuthorization()
-        
-        manager.delegate = self
-        manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        manager.startUpdatingLocation()
-    }
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-        let speed = Double((manager.location?.speed)!)
-        if speed > 0.0
-        {
-            speedLabel.text = String(format: "%d",Int((manager.location?.speed)! * 3.6)) + " km/h"
-        }
-        
-        let camera = GMSCameraPosition.camera(withLatitude:(locations.last?.coordinate.latitude)!,
-                                              longitude: (locations.last?.coordinate.longitude)!,
-                                              zoom: 18)
-        mapView.camera = camera
-        
-        
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Error: \(error.localizedDescription)")
     }
     
     override func didReceiveMemoryWarning() {
@@ -77,14 +87,6 @@ class MainViewController: UIViewController,CLLocationManagerDelegate {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
