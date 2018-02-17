@@ -38,7 +38,7 @@ class CarBluetoothViewController: UIViewController,UITableViewDelegate,UITableVi
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
-        manager.stopScanForDevices()
+     
     }
     
     func manager(_ manager: Manager, didFindDevice device: Device) {
@@ -63,6 +63,9 @@ class CarBluetoothViewController: UIViewController,UITableViewDelegate,UITableVi
     func manager(_ manager: Manager, disconnectedFromDevice device: Device, willRetry retry: Bool) {
         
     }
+    func manager(_ manager: Manager, RSSIUpdated device: Device) {
+
+    }
     
     func radarView(radarView: RadarView, didSelect item: Item) {
         
@@ -86,7 +89,7 @@ class CarBluetoothViewController: UIViewController,UITableViewDelegate,UITableVi
         
         cell.textLabel?.textColor = UIColor.white
         cell.backgroundColor = .clear
-        cell.textLabel?.text = device.peripheral.name ?? "⛄️ No name"
+        cell.textLabel?.text = (device.peripheral.name ?? "⛄️ No name")
         cell.textLabel?.font = (device.peripheral.state == .connected) ? UIFont.boldSystemFont(ofSize: 14) : UIFont.systemFont(ofSize: 14)
         
         return cell

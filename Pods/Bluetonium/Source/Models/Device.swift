@@ -23,6 +23,8 @@ public class Device: Equatable {
     // The peripheral it represents.
     private(set) public var peripheral: CBPeripheral
     
+    private(set) public var rssi: NSNumber
+    
     // The ServiceModelManager that will manage all registered `ServiceModels`
     private(set) var serviceModelManager: ServiceModelManager
     
@@ -33,8 +35,9 @@ public class Device: Equatable {
     
      - parameter peripheral: The peripheral it will represent
      */
-    public init(peripheral: CBPeripheral) {
+    public init(peripheral: CBPeripheral,rssi:NSNumber) {
         self.peripheral = peripheral
+        self.rssi = rssi
         self.serviceModelManager = ServiceModelManager(peripheral: peripheral)
     }
     

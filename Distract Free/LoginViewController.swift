@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ZAlertView
 
 class LoginViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate {
     //MARK: Properties
@@ -139,8 +140,21 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UINavigationCo
         manager.CheckCode(Code: registerPasswordField.text!, phonenumber: loginEmailField.text!, completion: {(APIResponse)-> Void in
             
             self.showLoading(state: false)
-            let tokenManager = TokenManager()
-            tokenManager.SaveToken(Phonenumber: self.loginEmailField.text!, Token: APIResponse.token!, Password: self.registerPasswordField.text!)
+            if  !APIResponse.result!
+            {
+                let dialog = ZAlertView(title: "🙄", message: APIResponse.message , closeButtonText: "OK",closeButtonHandler:{alertView in
+                    
+                    alertView.dismissAlertView()
+                })
+                dialog.show()
+                
+            }
+            else
+            {
+                let tokenManager = TokenManager()
+                tokenManager.SaveToken(Phonenumber: self.loginEmailField.text!, Token: APIResponse.token!, Password: self.registerPasswordField.text!)
+            }
+   
             
         })
     }

@@ -13,14 +13,23 @@ import Bluetonium
 import CoreLocation
 
 class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDelegate {
+
+    
     
     @IBOutlet weak var speedBackLayer: UIView!
     @IBOutlet weak var speedLabel: UILabel!
     @IBOutlet weak var SpeedContainerView: UIView!
+    @IBOutlet weak var beaconStatus: UILabel!
+    @IBOutlet weak var beaconStatusContainer: UIView!
+    @IBOutlet weak var beaconStatusBackgroundView: UIView!
     let manager = CLLocationManager()
     var currentSpeed = 0.0
     var mapView:GMSMapView!
     let bleManager = Manager()
+    var beacons:[Beacon]!
+    var driverBeacon:Beacon!
+    var passengerBeacon:Beacon!
+    
 //    var locationManager: CLLocationManager!
 
     override func viewDidLoad() {
@@ -29,6 +38,12 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         UICustomization()
         InitMap()
         LocationInitializer()
+        
+        let beacon = Beacon()
+        beacon.identifier = "9E0C8526-EFA8-999C-55AF-CD30D347BDB8"
+        beacon.type = BeaconType.Driver
+        beacons = [Beacon]()
+        beacons.append(beacon)
         
         bleManager.delegate = self
         bleManager.startScanForDevices()
@@ -44,8 +59,10 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         Locator.subscribePosition(accuracy: .block, onUpdate:{ loc in
             
             let speed = Double((loc.speed))
+            
             if speed > 0.0
             {
+                
                 self.speedLabel.text = String(format: "%d",Int((loc.speed) * 3.6)) 
             }
             
@@ -63,6 +80,8 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     {
         SpeedContainerView.layer.cornerRadius = SpeedContainerView.frame.width/2
         speedBackLayer.layer.cornerRadius = speedBackLayer.frame.width/2
+        beaconStatusContainer.layer.cornerRadius = SpeedContainerView.frame.width/2
+        beaconStatusBackgroundView.layer.cornerRadius = speedBackLayer.frame.width/2
         
     }
     
@@ -88,21 +107,59 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         
     }
 
+    func CheckBLE(device:Device) -> Beacon?
+    {
+        for item in beacons {
+            
+            if device.peripheral.identifier.uuidString == item.identifier
+            {
+                return item
+            }
+            else
+            {
+                return nil
+            }
+            
+        }
+        return nil
+    }
+    
     func manager(_ manager: Manager, didFindDevice device: Device) {
-
+                let beacon = CheckBLE(device: device)
+        
+                if beacon != nil {
+                    bleManager.connect(with: device)
+                    if beacon?.type == BeaconType.Driver
+                    {
+                        self.beaconStatus.text = "Driver"
+                        driverBeacon = beacon
+        
+                    }
+                    else
+                    {
+                        self.beaconStatus.text = "Passenger"
+                        passengerBeacon = beacon
+                    }
+                }
     }
     
     func manager(_ manager: Manager, willConnectToDevice device: Device) {
         
     }
     
-    func manager(_ manager: Manager, connectedToDevice device: Device) {        
-
+    func manager(_ manager: Manager, connectedToDevice device: Device) {
+        self.beaconStatusContainer.backgroundColor = .green
     }
     
     func manager(_ manager: Manager, disconnectedFromDevice device: Device, willRetry retry: Bool) {
-        
+          self.beaconStatusContainer.backgroundColor = .red
     }
+    
+    func manager(_ manager: Manager, RSSIUpdated device: Device) {
+        let beacon = CheckBLE(device: device)
+        print(device.rssi)
+    }
+
     
 //    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
 //        if status == .authorizedAlways {

@@ -70,6 +70,12 @@ class DataManager: NSObject {
                             }
                         }
                     default:
+                        if let resData = JSON(responseData.result.value!).dictionaryObject {
+                            if resData.count > 0 {
+                                response.message = resData["message"] as? String
+                                response.result = false                                
+                            }
+                        }
                         print("error with response status: \(status)")
                     }
                 }

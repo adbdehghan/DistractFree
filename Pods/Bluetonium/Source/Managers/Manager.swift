@@ -9,7 +9,7 @@
 import Foundation
 import CoreBluetooth
 
-open class Manager: NSObject, CBCentralManagerDelegate {
+open class Manager: NSObject, CBCentralManagerDelegate,CBPeripheralDelegate {
     
     open var bluetoothEnabled: Bool {
         return centralManager?.state == .poweredOn
@@ -189,8 +189,8 @@ open class Manager: NSObject, CBCentralManagerDelegate {
         if foundDevices.has(peripheral: peripheral) {
             return
         }
-
-        let device = Device(peripheral: peripheral)
+        
+        let device = Device(peripheral: peripheral,rssi:RSSI)
         foundDevices.append(device)
         
         // Only after adding it to the list to prevent issues reregistering the delegate.
@@ -201,6 +201,8 @@ open class Manager: NSObject, CBCentralManagerDelegate {
         }
     }
     
+    
+    
     @objc public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         guard let connectedDevice = connectedDevice else {
             return
@@ -209,9 +211,23 @@ open class Manager: NSObject, CBCentralManagerDelegate {
         DispatchQueue.main.async {
             // Send callback to delegate.
             self.delegate?.manager(self, connectedToDevice: connectedDevice)
-            
+            peripheral.delegate = self
+            peripheral.readRSSI()
             // Start discovering services process after connecting to peripheral.
             connectedDevice.serviceModelManager.discoverRegisteredServices()
+        }
+    }
+    
+   @objc public func peripheral(_ peripheral: CBPeripheral, didReadRSSI RSSI: NSNumber, error: Error?) {
+        if (error != nil) {
+            print(error!)
+        } else {
+            let device = Device(peripheral: peripheral,rssi:RSSI)
+            self.delegate?.manager(self, RSSIUpdated: device)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                peripheral.readRSSI()
+            }
+
         }
     }
     
@@ -259,7 +275,7 @@ extension Collection where Iterator.Element == String {
 
 extension Array where Element:Device {
     fileprivate func create(from peripheral: CBPeripheral) -> Device {
-        return self.filter { $0.peripheral.identifier == peripheral.identifier }.first ?? Device(peripheral: peripheral)
+        return self.filter { $0.peripheral.identifier == peripheral.identifier }.first ?? Device(peripheral: peripheral,rssi:0)
     }
 
     fileprivate func has(peripheral: CBPeripheral) -> Bool {
