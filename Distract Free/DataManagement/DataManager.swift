@@ -86,6 +86,52 @@ class DataManager: NSObject {
         }
     }
     
+    func Beacons(completion: @escaping ([Beacon]) -> Void) {
+        
+        let response = APIResponse()
+        var beacons = [Beacon]()
+        let headers = [
+            "Authorization": "Bearer " + TokenManager().Token
+        ]
+        
+        Alamofire.request(baseURL+"beacons", method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers).responseJSON { (responseData) -> Void in
+            if((responseData.result.value) != nil) {
+                
+                print(responseData)
+                //to get status code
+                if let status = responseData.response?.statusCode {
+                    switch(status){
+                    case 200:
+                        if let resData = JSON(responseData.result.value!).dictionaryObject {
+                            if resData.count > 0 {
+                                let dBeacon = Beacon()
+                                let pBeacon = Beacon()
+                                
+                                dBeacon.identifier = (resData["driverMacs"] as? Array)?.first
+                                dBeacon.type = BeaconType.Driver
+                                pBeacon.identifier = (resData["frontMacs"] as? Array)?.first
+                                pBeacon.type = BeaconType.Passenger
+                                beacons.append(dBeacon)
+                                beacons.append(pBeacon)
+                            }
+                        }
+                    default:
+                        if let resData = JSON(responseData.result.value!).dictionaryObject {
+                            if resData.count > 0 {
+                                response.message = resData["message"] as? String
+                                response.result = false
+                            }
+                        }
+                        print("error with response status: \(status)")
+                    }
+                }
+                
+                
+            }
+            completion(beacons)
+        }
+    }
+    
     func GetToken(phonenumber:String,Password:String,completion: @escaping (APIResponse) -> Void) {
         
         

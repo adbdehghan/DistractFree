@@ -148,7 +148,7 @@
                             <rect key="frame" x="33" y="103" width="264" height="239"/>
                             <subviews>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Tt-FG-fCL">
-                                    <rect key="frame" x="0.0" y="-54" width="264" height="0.0"/>
+                                    <rect key="frame" x="0.0" y="-103" width="264" height="0.0"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="name" translatesAutoresizingMaskIntoConstraints="NO" id="OBq-uU-32i">
                                             <rect key="frame" x="0.0" y="75.5" width="24" height="24"/>
@@ -359,7 +359,7 @@
                                     </constraints>
                                 </view>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y2g-bq-s0q">
-                                    <rect key="frame" x="0.0" y="3" width="362" height="0.0"/>
+                                    <rect key="frame" x="0.0" y="37" width="362" height="0.0"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="password" translatesAutoresizingMaskIntoConstraints="NO" id="tCh-5a-eZl">
                                             <rect key="frame" x="0.0" y="124.5" width="24" height="24"/>
@@ -809,10 +809,10 @@
             </objects>
             <point key="canvasLocation" x="3586" y="347"/>
         </scene>
-        <!--LandingVC-->
+        <!--Launch View Controller-->
         <scene sceneID="jpu-Pq-c5c">
             <objects>
-                <viewController id="3Kd-6f-aql" customClass="LandingVC" customModule="Distract_Free" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="3Kd-6f-aql" customClass="LaunchViewController" customModule="Distract_Free" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sOp-ac-czJ"/>
                         <viewControllerLayoutGuide type="bottom" id="8fU-oH-kyH"/>
@@ -832,6 +832,10 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Mcg-sm-1eO"/>
                     </view>
+                    <connections>
+                        <segue destination="VKv-dR-V9E" kind="presentation" identifier="login" modalTransitionStyle="crossDissolve" id="uIB-qo-tH3"/>
+                        <segue destination="Vrn-oZ-9rA" kind="presentation" identifier="setup" modalTransitionStyle="crossDissolve" id="1Az-Zb-rVX"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xef-FI-B0w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1077,5 +1081,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="qs5-27-teX"/>
+        <segue reference="Bbb-ao-EdL"/>
     </inferredMetricsTieBreakers>
 </document>

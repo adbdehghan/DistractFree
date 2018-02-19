@@ -42,11 +42,11 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         InitMap()
         LocationInitializer()
         
-        let beacon = Beacon()
-        beacon.identifier = "9E0C8526-EFA8-999C-55AF-CD30D347BDB8"
-        beacon.type = BeaconType.Driver
+        let glbData = GlobalData.sharedInstance
+        
         beacons = [Beacon]()
-        beacons.append(beacon)
+        beacons.append((glbData.driverBeacon))
+        beacons.append((glbData.passengerBeacon))
         
         rssiArray = [Double]()
         
@@ -181,10 +181,6 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
 //            counter = 0
 //            rssiArray.removeAll()
 //        }
-    
- 
-        
-        
     }
     
     func calculateNewDistance(txCalibratedPower: Int, rssi: Int) -> Double{
@@ -201,49 +197,6 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         
     }
     
-//    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-//        if status == .authorizedAlways {
-//            if CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) {
-//                if CLLocationManager.isRangingAvailable() {
-//                    startScanning()
-//                }
-//            }
-//        }
-//    }
-//    func startScanning() {
-//        let uuid = UUID(uuidString: "9E0C8526-EFA8-999C-55AF-CD30D347BDB8")!
-//        let beaconRegion = CLBeaconRegion.init(proximityUUID: UUID.init(uuidString: "9E0C8526-EFA8-999C-55AF-CD30D347BDB8")!,
-//                                                       identifier: "9E0C8526-EFA8-999C-55AF-CD30D347BDB8")
-//
-//        locationManager.startMonitoring(for: beaconRegion)
-//        locationManager.startRangingBeacons(in: beaconRegion)
-//    }
-//
-//    func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
-//        if beacons.count > 0 {
-//            updateDistance(beacons[0].proximity)
-//        } else {
-//            updateDistance(.unknown)
-//        }
-//    }
-//
-//    func updateDistance(_ distance: CLProximity) {
-//        UIView.animate(withDuration: 0.8) {
-//            switch distance {
-//            case .unknown:
-//                self.view.backgroundColor = UIColor.gray
-//
-//            case .far:
-//                self.view.backgroundColor = UIColor.blue
-//
-//            case .near:
-//                self.view.backgroundColor = UIColor.orange
-//
-//            case .immediate:
-//                self.view.backgroundColor = UIColor.red
-//            }
-//        }
-//    }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
         bleManager.stopScanForDevices()
