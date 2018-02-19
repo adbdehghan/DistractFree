@@ -224,9 +224,9 @@ open class Manager: NSObject, CBCentralManagerDelegate,CBPeripheralDelegate {
         } else {
             let device = Device(peripheral: peripheral,rssi:RSSI)
             self.delegate?.manager(self, RSSIUpdated: device)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                peripheral.readRSSI()
-            }
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                peripheral.readRSSI()            
+//            }
 
         }
     }

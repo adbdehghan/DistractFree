@@ -39,6 +39,10 @@
 		3A4BC651202B36D90017E213 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC646202B36D90017E213 /* UIColor.swift */; };
 		3A4BC653202B70840017E213 /* SetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC652202B70840017E213 /* SetPasswordViewController.swift */; };
 		3A4BC655202B9B970017E213 /* PasswordManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC654202B9B970017E213 /* PasswordManager.swift */; };
+		64C1CB452039093C00905707 /* KalmanFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C1CB402039093C00905707 /* KalmanFilter.swift */; };
+		64C1CB462039093C00905707 /* KalmanFilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C1CB412039093C00905707 /* KalmanFilterType.swift */; };
+		64C1CB472039093C00905707 /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C1CB422039093C00905707 /* Matrix.swift */; };
+		64C1CB482039093C00905707 /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C1CB432039093C00905707 /* DoubleExtension.swift */; };
 		8EFB7996AFEAE7B05CF31DA5 /* Pods_Distract_FreeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D8C39DAD623DD979C92445B /* Pods_Distract_FreeUITests.framework */; };
 		9A298592B0A7C20E9F17DE12 /* Pods_Distract_Free.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD1653444E5AF0FE3E1DE937 /* Pods_Distract_Free.framework */; };
 /* End PBXBuildFile section */
@@ -101,6 +105,11 @@
 		3A4BC646202B36D90017E213 /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		3A4BC652202B70840017E213 /* SetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPasswordViewController.swift; sourceTree = "<group>"; };
 		3A4BC654202B9B970017E213 /* PasswordManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordManager.swift; sourceTree = "<group>"; };
+		64C1CB3F2039093C00905707 /* KalmanFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KalmanFilter.h; sourceTree = "<group>"; };
+		64C1CB402039093C00905707 /* KalmanFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KalmanFilter.swift; sourceTree = "<group>"; };
+		64C1CB412039093C00905707 /* KalmanFilterType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KalmanFilterType.swift; sourceTree = "<group>"; };
+		64C1CB422039093C00905707 /* Matrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
+		64C1CB432039093C00905707 /* DoubleExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
 		6D8C39DAD623DD979C92445B /* Pods_Distract_FreeUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Distract_FreeUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		851D28E66F27A012ACCF3D28 /* Pods_Distract_FreeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Distract_FreeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		99AC223DCE381BF1E863DD4E /* Pods-Distract FreeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Distract FreeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Distract FreeTests/Pods-Distract FreeTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -277,6 +286,7 @@
 		3A4BC637202B36B80017E213 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				64C1CB3E2039093C00905707 /* KalmanFilter */,
 				3A3E6042203248A800E4B0D4 /* MapStyle */,
 				3A4BC638202B36D90017E213 /* HGRippleRadarView */,
 			);
@@ -323,6 +333,18 @@
 				3A4BC646202B36D90017E213 /* UIColor.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		64C1CB3E2039093C00905707 /* KalmanFilter */ = {
+			isa = PBXGroup;
+			children = (
+				64C1CB3F2039093C00905707 /* KalmanFilter.h */,
+				64C1CB402039093C00905707 /* KalmanFilter.swift */,
+				64C1CB412039093C00905707 /* KalmanFilterType.swift */,
+				64C1CB422039093C00905707 /* Matrix.swift */,
+				64C1CB432039093C00905707 /* DoubleExtension.swift */,
+			);
+			path = KalmanFilter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -654,11 +676,13 @@
 				3A4BC64D202B36D90017E213 /* RippleView.swift in Sources */,
 				3A3E6040203230CC00E4B0D4 /* MainViewController.swift in Sources */,
 				3A4BC64B202B36D90017E213 /* RadarView.swift in Sources */,
+				64C1CB482039093C00905707 /* DoubleExtension.swift in Sources */,
 				3A3E603B2030D5BB00E4B0D4 /* BeaconSetupViewController.swift in Sources */,
 				3A4BC6292027CB5A0017E213 /* Helper Files.swift in Sources */,
 				3A4BC649202B36D90017E213 /* Item.swift in Sources */,
 				3A4BC62E202898AD0017E213 /* TokenManager.swift in Sources */,
 				3A4BC650202B36D90017E213 /* Geometry.swift in Sources */,
+				64C1CB462039093C00905707 /* KalmanFilterType.swift in Sources */,
 				3A4BC651202B36D90017E213 /* UIColor.swift in Sources */,
 				3A4BC6262027AFC50017E213 /* LoginViewController.swift in Sources */,
 				3A4BC64C202B36D90017E213 /* RadarViewProtocol.swift in Sources */,
@@ -666,6 +690,8 @@
 				3A4BC655202B9B970017E213 /* PasswordManager.swift in Sources */,
 				3A4BC631202898CA0017E213 /* DataManager.swift in Sources */,
 				3A4BC6342029FB130017E213 /* CarBluetoothViewController.swift in Sources */,
+				64C1CB472039093C00905707 /* Matrix.swift in Sources */,
+				64C1CB452039093C00905707 /* KalmanFilter.swift in Sources */,
 				3A4BC64A202B36D90017E213 /* ItemLayer.swift in Sources */,
 				3A4BC64F202B36D90017E213 /* Drawer.swift in Sources */,
 				3A3E603D2030D79C00E4B0D4 /* FinaStepViewController.swift in Sources */,

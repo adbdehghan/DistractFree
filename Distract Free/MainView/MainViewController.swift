@@ -29,6 +29,9 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     var beacons:[Beacon]!
     var driverBeacon:Beacon!
     var passengerBeacon:Beacon!
+    var filter = KalmanFilter(stateEstimatePrior: 0.0, errorCovariancePrior: 1)
+    var counter = 0
+    var rssiArray:[Double]!
     
 //    var locationManager: CLLocationManager!
 
@@ -45,11 +48,11 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         beacons = [Beacon]()
         beacons.append(beacon)
         
+        rssiArray = [Double]()
+        
         bleManager.delegate = self
         bleManager.startScanForDevices()
-//        locationManager = CLLocationManager()
-//        locationManager.delegate = self
-//        locationManager.requestAlwaysAuthorization()
+
     }
     
     func LocationInitializer()
@@ -156,10 +159,47 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     }
     
     func manager(_ manager: Manager, RSSIUpdated device: Device) {
-        let beacon = CheckBLE(device: device)
-        print(device.rssi)
-    }
+//        let beacon = CheckBLE(device: device)
 
+//        rssiArray.append(device.rssi.doubleValue)
+//        counter+=1
+        
+//        if counter == 2
+//        {
+//            for item in rssiArray
+//            {
+//
+            let prediction = filter.predict(stateTransitionModel: 1, controlInputModel: 0, controlVector: 0, covarianceOfProcessNoise: 0)
+            let update = prediction.update(measurement: device.rssi.doubleValue, observationModel: 1, covarienceOfObservationNoise: 0.1)
+            
+            filter = update
+
+          //            }
+            let distance = calculateNewDistance(txCalibratedPower: 60, rssi: Int(filter.stateEstimatePrior))
+            print("\(distance)")
+//
+//            counter = 0
+//            rssiArray.removeAll()
+//        }
+    
+ 
+        
+        
+    }
+    
+    func calculateNewDistance(txCalibratedPower: Int, rssi: Int) -> Double{
+        if rssi == 0{
+            return -1
+        }
+        let ratio = Double(exactly:rssi)!/Double(txCalibratedPower)
+        if ratio < 1.0{
+            return pow(ratio, 10.0)
+        }else{
+            let accuracy = 0.89976 * pow(ratio, 7.7095) + 0.111
+            return accuracy
+        }
+        
+    }
     
 //    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
 //        if status == .authorizedAlways {
