@@ -45,8 +45,14 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         let glbData = GlobalData.sharedInstance
         
         beacons = [Beacon]()
-        beacons.append((glbData.driverBeacon))
-        beacons.append((glbData.passengerBeacon))
+        driverBeacon = Beacon()
+        passengerBeacon = Beacon()
+        driverBeacon.identifier = "18e2870c-c04d-2034-2997-d74315f285bc"
+        passengerBeacon.identifier = "18018701-88c5-1368-73c7-30d07905e6b4"
+        beacons.append(driverBeacon)
+        beacons.append(passengerBeacon)
+//        beacons.append((glbData.driverBeacon))
+//        beacons.append((glbData.passengerBeacon))
         
         rssiArray = [Double]()
         
@@ -114,7 +120,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     {
         for item in beacons {
             
-            if device.peripheral.identifier.uuidString == item.identifier
+            if device.peripheral.identifier.uuidString.lowercased() == item.identifier
             {
                 return item
             }
@@ -159,28 +165,36 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     }
     
     func manager(_ manager: Manager, RSSIUpdated device: Device) {
-//        let beacon = CheckBLE(device: device)
-
-//        rssiArray.append(device.rssi.doubleValue)
-//        counter+=1
+        var beacon = CheckBLE(device: device)
         
-//        if counter == 2
-//        {
-//            for item in rssiArray
-//            {
-//
-            let prediction = filter.predict(stateTransitionModel: 1, controlInputModel: 0, controlVector: 0, covarianceOfProcessNoise: 0)
-            let update = prediction.update(measurement: device.rssi.doubleValue, observationModel: 1, covarienceOfObservationNoise: 0.1)
+        if beacon != nil {
+            beacon?.rssi = device.rssi
+        }
+        let beacon1 = beacons.first
+        let beacon2 = beacons.last
+        
+        if beacon1?.rssi != nil && beacon2?.rssi != nil{
             
-            filter = update
-
-          //            }
-            let distance = calculateNewDistance(txCalibratedPower: 60, rssi: Int(filter.stateEstimatePrior))
-            print("\(distance)")
+            let driverDistance = calculateNewDistance(txCalibratedPower: 60, rssi: beacon1?.rssi as! Int)
+            let passengerDistance = calculateNewDistance(txCalibratedPower: 60, rssi: beacon2?.rssi as! Int)
+            
+            if driverDistance > passengerDistance
+            {
+                self.beaconStatus.text = "Driver"
+            }
+            else
+            {
+                self.beaconStatus.text = "Passenger"
+            }
+            
+            
+        }
+//        let prediction = filter.predict(stateTransitionModel: 1, controlInputModel: 0, controlVector: 0, covarianceOfProcessNoise: 0)
+//        let update = prediction.update(measurement: device.rssi.doubleValue, observationModel: 1, covarienceOfObservationNoise: 0.1)
 //
-//            counter = 0
-//            rssiArray.removeAll()
-//        }
+//        filter = update
+        
+
     }
     
     func calculateNewDistance(txCalibratedPower: Int, rssi: Int) -> Double{
