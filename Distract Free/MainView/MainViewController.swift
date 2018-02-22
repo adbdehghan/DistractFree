@@ -47,8 +47,10 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         beacons = [Beacon]()
         driverBeacon = Beacon()
         passengerBeacon = Beacon()
-        driverBeacon.identifier = "18e2870c-c04d-2034-2997-d74315f285bc"
-        passengerBeacon.identifier = "18018701-88c5-1368-73c7-30d07905e6b4"
+        driverBeacon.identifier = "9E0C8526-EFA8-999C-55AF-CD30D347BDB8"
+        driverBeacon.type = BeaconType.Driver
+        passengerBeacon.identifier = "18E2870C-C04D-2034-2997-D74315F285BC"
+        passengerBeacon.type = BeaconType.Passenger
         beacons.append(driverBeacon)
         beacons.append(passengerBeacon)
 //        beacons.append((glbData.driverBeacon))
@@ -120,7 +122,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     {
         for item in beacons {
             
-            if device.peripheral.identifier.uuidString.lowercased() == item.identifier
+            if device.peripheral.identifier.uuidString == item.identifier
             {
                 return item
             }
@@ -134,22 +136,22 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     }
     
     func manager(_ manager: Manager, didFindDevice device: Device) {
-                let beacon = CheckBLE(device: device)
         
-                if beacon != nil {
-                    bleManager.connect(with: device)
-                    if beacon?.type == BeaconType.Driver
-                    {
-                        self.beaconStatus.text = "Driver"
-                        driverBeacon = beacon
+        let beacon = CheckBLE(device: device)
         
-                    }
-                    else
-                    {
-                        self.beaconStatus.text = "Passenger"
-                        passengerBeacon = beacon
-                    }
-                }
+        if beacon != nil {
+            bleManager.connect(with: device)
+            if beacon?.type == BeaconType.Driver
+            {
+                //                        self.beaconStatus.text = "Driver"
+                driverBeacon = beacon
+            }
+            else
+            {
+                //                        self.beaconStatus.text = "Passenger"
+                passengerBeacon = beacon
+            }
+        }
     }
     
     func manager(_ manager: Manager, willConnectToDevice device: Device) {
@@ -161,15 +163,16 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     }
     
     func manager(_ manager: Manager, disconnectedFromDevice device: Device, willRetry retry: Bool) {
-          self.beaconStatusContainer.backgroundColor = .red
+        self.beaconStatusContainer.backgroundColor = .red
     }
     
     func manager(_ manager: Manager, RSSIUpdated device: Device) {
-        var beacon = CheckBLE(device: device)
+        let beacon = CheckBLE(device: device)
         
         if beacon != nil {
             beacon?.rssi = device.rssi
         }
+        
         let beacon1 = beacons.first
         let beacon2 = beacons.last
         
@@ -186,19 +189,15 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             {
                 self.beaconStatus.text = "Passenger"
             }
-            
-            
         }
 //        let prediction = filter.predict(stateTransitionModel: 1, controlInputModel: 0, controlVector: 0, covarianceOfProcessNoise: 0)
 //        let update = prediction.update(measurement: device.rssi.doubleValue, observationModel: 1, covarienceOfObservationNoise: 0.1)
 //
 //        filter = update
-        
-
     }
     
     func calculateNewDistance(txCalibratedPower: Int, rssi: Int) -> Double{
-        if rssi == 0{
+        if rssi == 0 {
             return -1
         }
         let ratio = Double(exactly:rssi)!/Double(txCalibratedPower)
