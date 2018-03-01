@@ -56,7 +56,10 @@ open class Manager: NSObject, CBCentralManagerDelegate,CBPeripheralDelegate {
         scanning = true
         
         foundDevices.removeAll()
-        centralManager?.scanForPeripherals(withServices: services?.cbUuids, options: nil)
+        
+        centralManager?.scanForPeripherals(withServices: services?.cbUuids, options: [
+            CBCentralManagerScanOptionAllowDuplicatesKey : NSNumber(value: true as Bool)
+            ])
     }
     
     /**
@@ -186,11 +189,14 @@ open class Manager: NSObject, CBCentralManagerDelegate,CBPeripheralDelegate {
     }
     
     @objc public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        if foundDevices.has(peripheral: peripheral) {
-            return
-        }
         
         let device = Device(peripheral: peripheral,rssi:RSSI)
+        if foundDevices.has(peripheral: peripheral) {
+            
+            foundDevices.remove(at: foundDevices.index(of: device)!)
+        }
+        
+        
         foundDevices.append(device)
         
         // Only after adding it to the list to prevent issues reregistering the delegate.

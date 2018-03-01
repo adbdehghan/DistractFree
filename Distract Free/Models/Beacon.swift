@@ -11,6 +11,7 @@ import UIKit
 public enum BeaconType {
     case Driver
     case Passenger
+    case None
 }
 class Beacon: NSObject {
     

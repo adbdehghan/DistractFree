@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14092" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="DUD-j8-oUh">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14092" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3Kd-6f-aql">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -348,7 +348,7 @@
                                     </constraints>
                                 </view>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y2g-bq-s0q">
-                                    <rect key="frame" x="0.0" y="3" width="362" height="0.0"/>
+                                    <rect key="frame" x="0.0" y="37" width="362" height="0.0"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="password" translatesAutoresizingMaskIntoConstraints="NO" id="tCh-5a-eZl">
                                             <rect key="frame" x="0.0" y="124.5" width="24" height="24"/>
@@ -824,6 +824,7 @@
                     <connections>
                         <segue destination="VKv-dR-V9E" kind="presentation" identifier="login" modalTransitionStyle="crossDissolve" id="uIB-qo-tH3"/>
                         <segue destination="Vrn-oZ-9rA" kind="presentation" identifier="setup" modalTransitionStyle="crossDissolve" id="1Az-Zb-rVX"/>
+                        <segue destination="DUD-j8-oUh" kind="presentation" identifier="main" modalTransitionStyle="crossDissolve" id="ELY-jY-8pv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xef-FI-B0w" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1069,7 +1070,8 @@
         <image name="success" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="ELY-jY-8pv"/>
         <segue reference="qs5-27-teX"/>
-        <segue reference="Bbb-ao-EdL"/>
+        <segue reference="1Az-Zb-rVX"/>
     </inferredMetricsTieBreakers>
 </document>

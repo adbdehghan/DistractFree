@@ -29,7 +29,17 @@ class LaunchViewController: UIViewController {
                 
                 let glbData = GlobalData.sharedInstance
                 glbData.driverBeacon = APIResponse.first!
-                glbData.passengerBeacon = APIResponse.last!                
+                glbData.passengerBeacon = APIResponse.last!
+                
+                if PasswordManager().Password == ""
+                {
+                    self.performSegue(withIdentifier: "setup", sender: self)
+                }
+                else
+                {
+                    self.performSegue(withIdentifier: "main", sender: self)
+                }
+                
             })
         }
         else
