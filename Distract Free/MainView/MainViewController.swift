@@ -120,7 +120,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         }
         
         self.view.addSubview(mapView)
-        view.sendSubview(toBack: mapView)        
+        view.sendSubview(toBack: mapView)
     }
     
     func CheckBLE(device:Device) -> Beacon?
