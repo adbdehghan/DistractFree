@@ -11,6 +11,7 @@ import GoogleMaps
 import SwiftLocation
 import Bluetonium
 import CoreLocation
+import AEXML
 
 class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDelegate {
     
@@ -29,6 +30,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     var beacons:[Beacon]!
     var driverBeacon:Beacon!
     var passengerBeacon:Beacon!
+    var backSeatBc:Beacon!
     var appMode:BeaconType!
     var filter = KalmanFilter(stateEstimatePrior: 0.0, errorCovariancePrior: 1)
     var counter = 0
@@ -49,11 +51,12 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         beacons = [Beacon]()
 //        var driverBeacon1 = Beacon()
 //        var passengerBeacon2 = Beacon()
-//        driverBeacon1.identifier = "18018701-88C5-1368-73C7-30D07905E6B4"
-//        driverBeacon1.type = BeaconType.Driver
-//        passengerBeacon2.identifier = "18E2870C-C04D-2034-2997-D74315F285BC"
-//        passengerBeacon2.type = BeaconType.Passenger
-//        beacons.append(driverBeacon1)
+        var backBeacon = Beacon()
+//        backBeacon.identifier = "18018701-88C5-1368-73C7-30D07905E6B4"
+//        backBeacon.type = BeaconType.Driver
+        backBeacon.identifier = "9E0C8526-EFA8-999C-55AF-CD30D347BDB8"
+        backBeacon.type = BeaconType.BackSeat
+        beacons.append(backBeacon)
 //        beacons.append(passengerBeacon2)
         beacons.append((glbData.driverBeacon))
         beacons.append((glbData.passengerBeacon))
@@ -138,7 +141,6 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
 
     func manager(_ manager: Manager, didFindDevice device: Device) {
         
-//        print("\(device.peripheral)" + " and rssi:\(device.rssi)")
         let beacon = CheckBLE(device: device)
         
         if beacon != nil {
@@ -151,15 +153,37 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
                 driverBeacon = beacon
             case .Passenger:
                 passengerBeacon = beacon
+            case .BackSeat:
+                backSeatBc = beacon
             case .None:
                 passengerBeacon = nil
                 driverBeacon = nil
             }
             
-            if driverBeacon != nil && passengerBeacon != nil {
+            if driverBeacon != nil && passengerBeacon != nil && backSeatBc != nil {
                 
                 let driverDistance = calculateNewDistance(txCalibratedPower: 60, rssi: driverBeacon?.rssi as! Int)
                 let passengerDistance = calculateNewDistance(txCalibratedPower: 60, rssi: passengerBeacon?.rssi as! Int)
+                let backSeatDistance = calculateNewDistance(txCalibratedPower: 60, rssi: passengerBeacon?.rssi as! Int)
+                
+                let date = Date()
+                let calendar = Calendar.current
+                let minutes = calendar.component(.minute, from: date)
+                let seconds = calendar.component(.second, from: date)
+                let miliSeconds = calendar.component(.nanosecond, from: date)
+                
+                let soapRequest = AEXMLDocument()
+                let attributes = ["Time" : String(minutes) + ":" + String(seconds) + ":" + String(miliSeconds) ]
+                let envelope = soapRequest.addChild(name: "BeaconsData", attributes: attributes)
+                let driver = envelope.addChild(name: "DriverBeacon")
+                let passenger = envelope.addChild(name: "PassengerBeacon")
+                let backseat = envelope.addChild(name: "BackSeatBeacon")
+                driver.addChild(name: "Distance", value: String(driverDistance))
+                passenger.addChild(name: "Distance", value: String(passengerDistance))
+                backseat.addChild(name: "Distance", value: String(backSeatDistance))
+                
+                // prints the same XML structure as original
+                print(soapRequest.xml)
                 
                 if driverDistance < passengerDistance
                 {

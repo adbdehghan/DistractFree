@@ -18,6 +18,7 @@ target 'Distract Free' do
     pod 'PinCodeTextField'
     pod 'KVSpinnerView'
     pod 'GoogleMaps', '~> 2.5.0'
+    pod 'AEXML'
     
     
     target 'Distract FreeTests' do

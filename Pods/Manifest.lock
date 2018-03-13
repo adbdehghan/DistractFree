@@ -1,5 +1,6 @@
 PODS:
   - ABSteppedProgressBar (0.2.0)
+  - AEXML (4.2.2)
   - Alamofire (4.6.0)
   - Bluetonium (2.1.0)
   - GoogleMaps (2.5.0):
@@ -24,6 +25,7 @@ PODS:
 
 DEPENDENCIES:
   - ABSteppedProgressBar
+  - AEXML
   - Alamofire (~> 4.5)
   - Bluetonium
   - GoogleMaps (~> 2.5.0)
@@ -39,6 +41,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   ABSteppedProgressBar: f83d33bf8088be482dc7b2f06a3b10de097d317a
+  AEXML: 5ebafc1b75e0bcf0f1b09b8ca8fed2d5a199479b
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
   Bluetonium: 45d465084e1a663b579e2c8d937aebf5551c2d67
   GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
@@ -52,6 +55,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   ZAlertView: 59fffdb4e37a01df461835566d5101052b8af953
 
-PODFILE CHECKSUM: ea146728f7a680df007648278992d351644ab040
+PODFILE CHECKSUM: 0cc3ece7f164aa7edf5dfe77e16b3810fbed00fc
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.4.0
