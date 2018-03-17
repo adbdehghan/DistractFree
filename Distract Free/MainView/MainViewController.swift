@@ -51,12 +51,12 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         beacons = [Beacon]()
 //        var driverBeacon1 = Beacon()
 //        var passengerBeacon2 = Beacon()
-        var backBeacon = Beacon()
+        let backBeacon = Beacon()
 //        backBeacon.identifier = "18018701-88C5-1368-73C7-30D07905E6B4"
 //        backBeacon.type = BeaconType.Driver
-        backBeacon.identifier = "9E0C8526-EFA8-999C-55AF-CD30D347BDB8"
-        backBeacon.type = BeaconType.BackSeat
-        beacons.append(backBeacon)
+//        backBeacon.identifier = "9E0C8526-EFA8-999C-55AF-CD30D347BDB8"
+//        backBeacon.type = BeaconType.BackSeat
+//        beacons.append(backBeacon)
 //        beacons.append(passengerBeacon2)
         beacons.append((glbData.driverBeacon))
         beacons.append((glbData.passengerBeacon))
@@ -64,8 +64,10 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         rssiArray = [Double]()
         bleManager.delegate = self
         bleManager.startScanForDevices(advertisingWithServices: nil)
+
         
     }
+    
     
     func LocationInitializer()
     {
@@ -78,7 +80,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             if speed > 0.0
             {
                 DispatchQueue.main.async {
-                    self.speedLabel.text = String(format: "%d",Int((loc.speed) * 3.6))
+                    self.speedLabel.text = String(format: "%d",Int((loc.speed) * 2.2))
                 }
            
             }
@@ -100,8 +102,8 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     {
         SpeedContainerView.layer.cornerRadius = SpeedContainerView.frame.width/2
         speedBackLayer.layer.cornerRadius = speedBackLayer.frame.width/2
-        beaconStatusContainer.layer.cornerRadius = SpeedContainerView.frame.width/2
-        beaconStatusBackgroundView.layer.cornerRadius = speedBackLayer.frame.width/2
+        beaconStatusContainer.layer.cornerRadius = beaconStatusContainer.frame.width/2
+        beaconStatusBackgroundView.layer.cornerRadius = beaconStatusBackgroundView.frame.width/2
         
     }
     
@@ -160,30 +162,30 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
                 driverBeacon = nil
             }
             
-            if driverBeacon != nil && passengerBeacon != nil && backSeatBc != nil {
+            if driverBeacon != nil && passengerBeacon != nil  {
                 
                 let driverDistance = calculateNewDistance(txCalibratedPower: 60, rssi: driverBeacon?.rssi as! Int)
                 let passengerDistance = calculateNewDistance(txCalibratedPower: 60, rssi: passengerBeacon?.rssi as! Int)
-                let backSeatDistance = calculateNewDistance(txCalibratedPower: 60, rssi: passengerBeacon?.rssi as! Int)
+//                let backSeatDistance = calculateNewDistance(txCalibratedPower: 60, rssi: passengerBeacon?.rssi as! Int)
                 
-                let date = Date()
-                let calendar = Calendar.current
-                let minutes = calendar.component(.minute, from: date)
-                let seconds = calendar.component(.second, from: date)
-                let miliSeconds = calendar.component(.nanosecond, from: date)
-                
-                let soapRequest = AEXMLDocument()
-                let attributes = ["Time" : String(minutes) + ":" + String(seconds) + ":" + String(miliSeconds) ]
-                let envelope = soapRequest.addChild(name: "BeaconsData", attributes: attributes)
-                let driver = envelope.addChild(name: "DriverBeacon")
-                let passenger = envelope.addChild(name: "PassengerBeacon")
-                let backseat = envelope.addChild(name: "BackSeatBeacon")
-                driver.addChild(name: "Distance", value: String(driverDistance))
-                passenger.addChild(name: "Distance", value: String(passengerDistance))
-                backseat.addChild(name: "Distance", value: String(backSeatDistance))
-                
-                // prints the same XML structure as original
-                print(soapRequest.xml)
+//                let date = Date()
+//                let calendar = Calendar.current
+//                let minutes = calendar.component(.minute, from: date)
+//                let seconds = calendar.component(.second, from: date)
+//                let miliSeconds = calendar.component(.nanosecond, from: date)
+//
+//                let soapRequest = AEXMLDocument()
+//                let attributes = ["Time" : String(minutes) + ":" + String(seconds) + ":" + String(miliSeconds) ]
+//                let envelope = soapRequest.addChild(name: "BeaconsData", attributes: attributes)
+//                let driver = envelope.addChild(name: "DriverBeacon")
+//                let passenger = envelope.addChild(name: "PassengerBeacon")
+//                let backseat = envelope.addChild(name: "BackSeatBeacon")
+//                driver.addChild(name: "Distance", value: String(driverDistance))
+//                passenger.addChild(name: "Distance", value: String(passengerDistance))
+//                backseat.addChild(name: "Distance", value: String(backSeatDistance))
+//
+//                // prints the same XML structure as original
+//                print(soapRequest.xml)
                 
                 if driverDistance < passengerDistance
                 {

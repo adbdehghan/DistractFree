@@ -19,6 +19,7 @@ target 'Distract Free' do
     pod 'KVSpinnerView'
     pod 'GoogleMaps', '~> 2.5.0'
     pod 'AEXML'
+    pod 'RSLoadingView'
     
     
     target 'Distract FreeTests' do

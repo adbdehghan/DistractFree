@@ -14,6 +14,7 @@ PODS:
     - NVActivityIndicatorView/Presenter (= 4.1.0)
   - NVActivityIndicatorView/Presenter (4.1.0)
   - PinCodeTextField (0.1.0)
+  - RSLoadingView (1.1.2)
   - SDWebImage (4.2.2):
     - SDWebImage/Core (= 4.2.2)
   - SDWebImage/Core (4.2.2)
@@ -33,6 +34,7 @@ DEPENDENCIES:
   - KVSpinnerView
   - NVActivityIndicatorView
   - PinCodeTextField
+  - RSLoadingView
   - SDWebImage (~> 4.0)
   - SmileLock
   - SwiftLocation (~> 3.1.0)
@@ -49,12 +51,13 @@ SPEC CHECKSUMS:
   KVSpinnerView: ce89cec80a5776ba4639c312770f01c8a091e80a
   NVActivityIndicatorView: dc4726052dc24e89fa8576d43acf9e96f61d49db
   PinCodeTextField: a3c39be58bde3ed1d6888d0fb1d88b0a4a2277cc
+  RSLoadingView: fdfeee9968b6dad2559169a97da0ad2580371f3a
   SDWebImage: 89a9d32cd520bbb46eb14e541d5109b3564af198
   SmileLock: 94289220d5e1fbfd774115b605d3c0371024df59
   SwiftLocation: 8f5ef4f510a45e43239de57a3145b3669301e898
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   ZAlertView: 59fffdb4e37a01df461835566d5101052b8af953
 
-PODFILE CHECKSUM: 0cc3ece7f164aa7edf5dfe77e16b3810fbed00fc
+PODFILE CHECKSUM: 799f67273ede227a5376a4b461e2cc14ffb679b8
 
 COCOAPODS: 1.4.0

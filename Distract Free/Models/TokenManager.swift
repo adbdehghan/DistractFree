@@ -10,9 +10,9 @@ import UIKit
 
 class TokenManager:NSObject {
 
-    var Token :String = " "
-    var Phonenumber :String = " "
-    var Password :String = " "
+    var Token :String = ""
+    var Phonenumber :String = ""
+    var Password :String = ""
     
     func SaveToken(Phonenumber:String,Token:String,Password:String) -> Void {
         
