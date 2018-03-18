@@ -44,6 +44,7 @@
 		3AADBEC9205DBFC000BFDD50 /* FrontCalibrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AADBEC8205DBFC000BFDD50 /* FrontCalibrationViewController.swift */; };
 		3AADBECB205DBFD100BFDD50 /* RearCalibrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AADBECA205DBFD100BFDD50 /* RearCalibrationViewController.swift */; };
 		3AADBECD205DC00300BFDD50 /* TurnCarBleONViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AADBECC205DC00300BFDD50 /* TurnCarBleONViewController.swift */; };
+		3AADBECF205EEF2F00BFDD50 /* CalibrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AADBECE205EEF2F00BFDD50 /* CalibrationManager.swift */; };
 		64C1CB452039093C00905707 /* KalmanFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C1CB402039093C00905707 /* KalmanFilter.swift */; };
 		64C1CB462039093C00905707 /* KalmanFilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C1CB412039093C00905707 /* KalmanFilterType.swift */; };
 		64C1CB472039093C00905707 /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C1CB422039093C00905707 /* Matrix.swift */; };
@@ -115,6 +116,7 @@
 		3AADBEC8205DBFC000BFDD50 /* FrontCalibrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrontCalibrationViewController.swift; sourceTree = "<group>"; };
 		3AADBECA205DBFD100BFDD50 /* RearCalibrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RearCalibrationViewController.swift; sourceTree = "<group>"; };
 		3AADBECC205DC00300BFDD50 /* TurnCarBleONViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCarBleONViewController.swift; sourceTree = "<group>"; };
+		3AADBECE205EEF2F00BFDD50 /* CalibrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationManager.swift; sourceTree = "<group>"; };
 		64C1CB3F2039093C00905707 /* KalmanFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KalmanFilter.h; sourceTree = "<group>"; };
 		64C1CB402039093C00905707 /* KalmanFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KalmanFilter.swift; sourceTree = "<group>"; };
 		64C1CB412039093C00905707 /* KalmanFilterType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KalmanFilterType.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 				3A4BC654202B9B970017E213 /* PasswordManager.swift */,
 				3A3E60472033519000E4B0D4 /* BluetoothManager.swift */,
 				3A7F08A1203AEF4D0026D845 /* GlobalData.swift */,
+				3AADBECE205EEF2F00BFDD50 /* CalibrationManager.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -704,6 +707,7 @@
 				3A3E6040203230CC00E4B0D4 /* MainViewController.swift in Sources */,
 				3AADBECB205DBFD100BFDD50 /* RearCalibrationViewController.swift in Sources */,
 				3A4BC64B202B36D90017E213 /* RadarView.swift in Sources */,
+				3AADBECF205EEF2F00BFDD50 /* CalibrationManager.swift in Sources */,
 				64C1CB482039093C00905707 /* DoubleExtension.swift in Sources */,
 				3A3E603B2030D5BB00E4B0D4 /* BeaconSetupViewController.swift in Sources */,
 				3A4BC6292027CB5A0017E213 /* Helper Files.swift in Sources */,

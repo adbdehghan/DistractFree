@@ -19,21 +19,17 @@ class FrontCalibrationViewController: UIViewController,ManagerDelegate {
     var backSeatBc:Beacon!
     let loadingView = RSLoadingView()
     var counter:Int = 0
+    var timeSecond:Int = 0
+    var isFounded:Bool = false
+    var timer:Timer = Timer()
+    var driverDistanceArray:NSMutableArray = NSMutableArray()
+    var passengerDistanceArray:NSMutableArray = NSMutableArray()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let glbData = GlobalData.sharedInstance
         
         beacons = [Beacon]()
-        //        var driverBeacon1 = Beacon()
-        //        var passengerBeacon2 = Beacon()
-        let backBeacon = Beacon()
-        //        backBeacon.identifier = "18018701-88C5-1368-73C7-30D07905E6B4"
-        //        backBeacon.type = BeaconType.Driver
-        //        backBeacon.identifier = "9E0C8526-EFA8-999C-55AF-CD30D347BDB8"
-        //        backBeacon.type = BeaconType.BackSeat
-        //        beacons.append(backBeacon)
-        //        beacons.append(passengerBeacon2)
         beacons.append((glbData.driverBeacon))
         beacons.append((glbData.passengerBeacon))
 
@@ -74,16 +70,28 @@ class FrontCalibrationViewController: UIViewController,ManagerDelegate {
             
             if driverBeacon != nil && passengerBeacon != nil  {
                 
+                isFounded = true
+                
                 let driverDistance = calculateNewDistance(txCalibratedPower: 60, rssi: driverBeacon?.rssi as! Int)
                 let passengerDistance = calculateNewDistance(txCalibratedPower: 60, rssi: passengerBeacon?.rssi as! Int)
 
-                counter+=1
+                driverDistanceArray.add(driverDistance)
+                passengerDistanceArray.add(passengerDistance)
                 
-                if counter == 10
+                if counter == 15
                 {
+                    let driverArr:[Double] = NSArray(array:driverDistanceArray) as! [Double]
+                    let driverSum = driverArr.reduce(0, +) / (Double(counter))
+                    
+                    let passengerArr:[Double] = NSArray(array:passengerDistanceArray) as! [Double]
+                    let passengerSum = (passengerArr.reduce(0, +)) / Double(counter)
+                    
+                    CalibrationManager().SaveCalibValues(Driver: driverSum, Passenger: passengerSum, BackSeat: 0)
+                    bleManager.stopScanForDevices()
                     RSLoadingView.hide(from: view)
-                    shouldPerformSegue(withIdentifier: "next", sender: self)
+                    performSegue(withIdentifier: "next", sender: self)
                 }
+                counter+=1
          
             }            
         }
@@ -103,22 +111,6 @@ class FrontCalibrationViewController: UIViewController,ManagerDelegate {
     }
     
     func manager(_ manager: Manager, RSSIUpdated device: Device) {
-        let beacon = CheckBLE(device: device)
-        
-        if beacon != nil {
-            beacon?.rssi = device.rssi
-        }
-        
-        let beacon1 = beacons.first
-        let beacon2 = beacons.last
-        
-        if beacon1?.rssi != nil && beacon2?.rssi != nil{
-            
-            let driverDistance = calculateNewDistance(txCalibratedPower: 60, rssi: beacon1?.rssi as! Int)
-            let passengerDistance = calculateNewDistance(txCalibratedPower: 60, rssi: beacon2?.rssi as! Int)
-            
-      
-        }
 
     }
     
@@ -127,7 +119,46 @@ class FrontCalibrationViewController: UIViewController,ManagerDelegate {
         loadingView.show(on: view)
         bleManager.delegate = self
         bleManager.startScanForDevices(advertisingWithServices: nil)
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+    }
+    
+    @objc func update() {
         
+        timeSecond += 1
+        
+        if timeSecond == 15 && !isFounded
+        {
+            RSLoadingView.hide(from: view)
+            //Reset Values
+            timer.invalidate()
+            counter = 0
+            timeSecond = 0
+            bleManager.stopScanForDevices()
+            
+            
+            ///Show alert that beacon not found
+            var message:String = ""
+            
+            if  driverBeacon == nil && passengerBeacon == nil
+            {
+                message = "Driver and Passenger beacons are not founded"
+            }
+            else if driverBeacon == nil
+            {
+                message = "Driver beacon is not in range"
+            }
+            else
+            {
+                message = "Passenger beacon is not in range"
+            }
+            
+            let dialog = ZAlertView(title: "🙄", message: message , closeButtonText: "OK",closeButtonHandler:{alertView in
+                
+                alertView.dismissAlertView()
+            })
+            
+            dialog.show()
+        }
     }
     
     func calculateNewDistance(txCalibratedPower: Int, rssi: Int) -> Double{

@@ -139,22 +139,45 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UINavigationCo
         let manager = DataManager()
         manager.CheckCode(Code: registerPasswordField.text!, phonenumber: loginEmailField.text!, completion: {(APIResponse)-> Void in
             
-            self.showLoading(state: false)
+            
             if  !APIResponse.result!
             {
+                self.showLoading(state: false)
                 let dialog = ZAlertView(title: "🙄", message: APIResponse.message , closeButtonText: "OK",closeButtonHandler:{alertView in
                     
                     alertView.dismissAlertView()
                 })
-                dialog.show()
-                
+                dialog.show()                
             }
             else
             {
                 let tokenManager = TokenManager()
                 tokenManager.SaveToken(Phonenumber: self.loginEmailField.text!, Token: APIResponse.token!, Password: self.registerPasswordField.text!)
+                
+                manager.Beacons(completion: {(APIResponse)-> Void in
+                    self.showLoading(state: false)
+                    
+                    if APIResponse.count == 0
+                    {
+                        let dialog = ZAlertView(title: "🙄", message: "There is no beacon founded in your profile, for begin using app you should add your beacons in your profile!" , closeButtonText: "OK",closeButtonHandler:{alertView in
+                            
+                            alertView.dismissAlertView()
+                        })
+                        dialog.show()
+                    }
+                    else
+                    {
+                        let glbData = GlobalData.sharedInstance
+                        glbData.driverBeacon = APIResponse.first!
+                        glbData.passengerBeacon = APIResponse[1]
+                        glbData.backSeatBeacon = APIResponse.last!                        
+                                                
+                        self.performSegue(withIdentifier: "next", sender: self)
+                    }
+                })
+                
             }
-   
+            
             
         })
     }

@@ -106,13 +106,18 @@ class DataManager: NSObject {
                             if resData.count > 0 {
                                 let dBeacon = Beacon()
                                 let pBeacon = Beacon()
+                                let bBeacon = Beacon()
                                 
                                 dBeacon.identifier = (resData["driverMacs"] as? Array)?.first
                                 dBeacon.type = BeaconType.Driver
                                 pBeacon.identifier = (resData["frontMacs"] as? Array)?.first
                                 pBeacon.type = BeaconType.Passenger
+                                bBeacon.identifier = (resData["rearMacs"] as? Array)?.first
+                                bBeacon.type = BeaconType.BackSeat                                
+                                
                                 beacons.append(dBeacon)
                                 beacons.append(pBeacon)
+                                beacons.append(bBeacon)
                             }
                         }
                     default:
@@ -120,6 +125,7 @@ class DataManager: NSObject {
                             if resData.count > 0 {
                                 response.message = resData["message"] as? String
                                 response.result = false
+                                
                             }
                         }
                         print("error with response status: \(status)")

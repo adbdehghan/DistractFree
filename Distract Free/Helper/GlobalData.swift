@@ -12,4 +12,5 @@ class GlobalData: NSObject {
     static let sharedInstance = GlobalData()
     var driverBeacon:Beacon = Beacon()
     var passengerBeacon:Beacon = Beacon()
+    var backSeatBeacon:Beacon = Beacon()
 }

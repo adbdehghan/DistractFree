@@ -13,6 +13,8 @@ class LaunchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
+        
         Timer.scheduledTimer(timeInterval: 0,
                              target: self,
                              selector: #selector(update),
@@ -29,14 +31,19 @@ class LaunchViewController: UIViewController {
                 
                 let glbData = GlobalData.sharedInstance
                 glbData.driverBeacon = APIResponse.first!
-                glbData.passengerBeacon = APIResponse.last!
+                glbData.passengerBeacon = APIResponse[1]
+                glbData.backSeatBeacon = APIResponse.last!
                 
-                if PasswordManager().Password == ""
+                if CalibrationManager().backSeatCalibValue == 0
                 {
                     self.performSegue(withIdentifier: "setup", sender: self)
                 }
                 else
                 {
+                    glbData.driverBeacon.calibrationValue = CalibrationManager().driverCalibValue
+                    glbData.passengerBeacon.calibrationValue = CalibrationManager().passengerCalibValue
+                    glbData.backSeatBeacon.calibrationValue = CalibrationManager().backSeatCalibValue
+                    
                     self.performSegue(withIdentifier: "main", sender: self)
                 }
                 

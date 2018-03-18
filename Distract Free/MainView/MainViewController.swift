@@ -15,11 +15,7 @@ import AEXML
 
 class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDelegate {
     
-    
-    
-    @IBOutlet weak var speedBackLayer: UIView!
     @IBOutlet weak var speedLabel: UILabel!
-    @IBOutlet weak var SpeedContainerView: UIView!
     @IBOutlet weak var beaconStatus: UILabel!
     @IBOutlet weak var beaconStatusContainer: UIView!
     @IBOutlet weak var beaconStatusBackgroundView: UIView!
@@ -36,8 +32,9 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     var counter = 0
     var rssiArray:[Double]!
     var cameraUpdated:Bool = false
-    
-    //    var locationManager: CLLocationManager!
+    var driverDistance:Double = 0
+    var passengerDistance:Double = 0
+    var backSeatDistance:Double = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,23 +46,14 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         let glbData = GlobalData.sharedInstance
         
         beacons = [Beacon]()
-//        var driverBeacon1 = Beacon()
-//        var passengerBeacon2 = Beacon()
-        let backBeacon = Beacon()
-//        backBeacon.identifier = "18018701-88C5-1368-73C7-30D07905E6B4"
-//        backBeacon.type = BeaconType.Driver
-//        backBeacon.identifier = "9E0C8526-EFA8-999C-55AF-CD30D347BDB8"
-//        backBeacon.type = BeaconType.BackSeat
-//        beacons.append(backBeacon)
-//        beacons.append(passengerBeacon2)
+
         beacons.append((glbData.driverBeacon))
         beacons.append((glbData.passengerBeacon))
+        beacons.append((glbData.backSeatBeacon))
         
         rssiArray = [Double]()
         bleManager.delegate = self
         bleManager.startScanForDevices(advertisingWithServices: nil)
-
-        
     }
     
     
@@ -100,11 +88,8 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     
     func UICustomization()
     {
-        SpeedContainerView.layer.cornerRadius = SpeedContainerView.frame.width/2
-        speedBackLayer.layer.cornerRadius = speedBackLayer.frame.width/2
-        beaconStatusContainer.layer.cornerRadius = beaconStatusContainer.frame.width/2
-        beaconStatusBackgroundView.layer.cornerRadius = beaconStatusBackgroundView.frame.width/2
-        
+        beaconStatusContainer.layer.cornerRadius = 6
+        beaconStatusBackgroundView.layer.cornerRadius = 6
     }
     
     func InitMap()
@@ -147,7 +132,6 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         
         if beacon != nil {
             
-            self.beaconStatusContainer.backgroundColor = .green
             beacon?.rssi = device.rssi
             
             switch (beacon?.type)! {
@@ -157,16 +141,20 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
                 passengerBeacon = beacon
             case .BackSeat:
                 backSeatBc = beacon
+                bleManager.connect(with: device)
             case .None:
                 passengerBeacon = nil
                 driverBeacon = nil
+                backSeatBc = nil
             }
             
-            if driverBeacon != nil && passengerBeacon != nil  {
+            if driverBeacon != nil && passengerBeacon != nil && backSeatBc != nil  {
                 
-                let driverDistance = calculateNewDistance(txCalibratedPower: 60, rssi: driverBeacon?.rssi as! Int)
-                let passengerDistance = calculateNewDistance(txCalibratedPower: 60, rssi: passengerBeacon?.rssi as! Int)
-//                let backSeatDistance = calculateNewDistance(txCalibratedPower: 60, rssi: passengerBeacon?.rssi as! Int)
+                 driverDistance = calculateNewDistance(txCalibratedPower: 60, rssi: driverBeacon?.rssi as! Int)
+                 passengerDistance = calculateNewDistance(txCalibratedPower: 60, rssi: passengerBeacon?.rssi as! Int)
+                 backSeatDistance = calculateNewDistance(txCalibratedPower: 60, rssi: backSeatBc?.rssi as! Int)
+                
+                
                 
 //                let date = Date()
 //                let calendar = Calendar.current
@@ -186,23 +174,9 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
 //
 //                // prints the same XML structure as original
 //                print(soapRequest.xml)
-                
-                if driverDistance < passengerDistance
-                {
-                    UpdateBeaconStatusLabel(beacon: (driverBeacon?.type)!)
-                }
-                else
-                {
-                    UpdateBeaconStatusLabel(beacon: (passengerBeacon?.type)!)
-                }
-            }
-            else if driverBeacon?.rssi != nil
-            {
-                UpdateBeaconStatusLabel(beacon: (driverBeacon?.type)!)
-            }
-            else if passengerBeacon?.rssi != nil
-            {
-                UpdateBeaconStatusLabel(beacon: (passengerBeacon?.type)!)
+                self.beaconStatusContainer.backgroundColor = .green
+                UpdateBeaconStatusLabel(beacon: DetermineZone())
+             
             }
             else
             {
@@ -217,7 +191,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     }
     
     func manager(_ manager: Manager, connectedToDevice device: Device) {
-        self.beaconStatusContainer.backgroundColor = .green
+//        self.beaconStatusContainer.backgroundColor = .green
     }
     
     func manager(_ manager: Manager, disconnectedFromDevice device: Device, willRetry retry: Bool) {
@@ -226,50 +200,13 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     }
     
     func manager(_ manager: Manager, RSSIUpdated device: Device) {
-        let beacon = CheckBLE(device: device)
-        
-        if beacon != nil {
-            beacon?.rssi = device.rssi
-        }
-        
-        let beacon1 = beacons.first
-        let beacon2 = beacons.last
-        
-        if beacon1?.rssi != nil && beacon2?.rssi != nil{
-            
-            let driverDistance = calculateNewDistance(txCalibratedPower: 60, rssi: beacon1?.rssi as! Int)
-            let passengerDistance = calculateNewDistance(txCalibratedPower: 60, rssi: beacon2?.rssi as! Int)
-            
-            if driverDistance > passengerDistance
-            {
-                UpdateBeaconStatusLabel(beacon: (beacon1?.type)!)
-            }
-            else
-            {
-                UpdateBeaconStatusLabel(beacon: (beacon2?.type)!)
-            }
-        }
-        else if beacon1?.rssi != nil
-        {
-            UpdateBeaconStatusLabel(beacon: (beacon1?.type)!)
-        }
-        else if beacon2?.rssi != nil
-        {
-            UpdateBeaconStatusLabel(beacon: (beacon2?.type)!)
-        }
-        else
-        {
-            UpdateBeaconStatusLabel(beacon: BeaconType.None)
-        }
-        //        let prediction = filter.predict(stateTransitionModel: 1, controlInputModel: 0, controlVector: 0, covarianceOfProcessNoise: 0)
-        //        let update = prediction.update(measurement: device.rssi.doubleValue, observationModel: 1, covarienceOfObservationNoise: 0.1)
-        //
-        //        filter = update
+
     }
     
     func UpdateBeaconStatusLabel(beacon:BeaconType)
-    {
+    {        
         DispatchQueue.main.async {
+          
             switch beacon {
             case .Driver:
                 self.beaconStatus.text = "Driver"
@@ -278,11 +215,40 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             case .Passenger:
                     self.beaconStatus.text = "Passenger"
                     self.appMode = BeaconType.Passenger
+            case .BackSeat:
+                self.beaconStatus.text = "Back Seat"
+                self.appMode = BeaconType.BackSeat
             default:
                 self.beaconStatus.text = "None"
                 self.appMode = BeaconType.None
             }
         }
+    }
+    
+    func DetermineZone() -> BeaconType
+    {
+        var type:BeaconType!
+        let driverCalibValue = GlobalData.sharedInstance.driverBeacon.calibrationValue
+        let passengerCalibValue = GlobalData.sharedInstance.passengerBeacon.calibrationValue
+        let backSeatCalibValue = GlobalData.sharedInstance.backSeatBeacon.calibrationValue
+        
+        if driverDistance < driverCalibValue! + 0.1
+        {
+            type = .Driver
+        }
+        else if passengerDistance < passengerCalibValue! + 0.05
+        {
+            type = .Passenger
+        }
+        else if backSeatDistance < backSeatCalibValue! + 0.05
+        {
+            type = .BackSeat
+        }
+        else
+        {
+            type = .None
+        }
+        return type
     }
     
     func calculateNewDistance(txCalibratedPower: Int, rssi: Int) -> Double{
@@ -296,7 +262,6 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             let accuracy = 0.89976 * pow(ratio, 7.7095) + 0.111
             return accuracy
         }
-        
     }
     
     override func viewDidDisappear(_ animated: Bool) {

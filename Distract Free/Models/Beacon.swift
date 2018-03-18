@@ -19,5 +19,6 @@ class Beacon: NSObject {
     var identifier:String!
     var rssi:NSNumber!
     var type:BeaconType!
+    var calibrationValue:Double!
 
 }
