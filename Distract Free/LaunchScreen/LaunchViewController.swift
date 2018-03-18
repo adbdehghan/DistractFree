@@ -13,13 +13,28 @@ class LaunchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let steerImage:UIImageView = UIImageView(image: UIImage(named: "steering-wheel"))
+        steerImage.frame = CGRect(x: self.view.frame.size.width/2 - 62.5, y:self.view.frame.size.height/2 - 62.5 , width: 125, height: 125)
+        view.addSubview(steerImage)
+        
+        rotateView(targetView: steerImage,duration: 1, direction: 1)
         
         
-        Timer.scheduledTimer(timeInterval: 0,
+        Timer.scheduledTimer(timeInterval: 2,
                              target: self,
                              selector: #selector(update),
                              userInfo: nil,
                              repeats: false)
+    }
+    
+    private func rotateView(targetView: UIView, duration: Double = 1 ,direction:Double) {
+        
+        UIView.animate(withDuration: duration, delay: 0.0, options: .curveLinear, animations: {
+            targetView.transform = targetView.transform.rotated(by: CGFloat(Double.pi/4 * direction))
+            
+        }) { finished in
+            self.rotateView(targetView: targetView, duration: duration,direction: -1 * direction)
+        }
     }
 
     @objc func update() {

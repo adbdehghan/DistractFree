@@ -216,7 +216,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
                     self.beaconStatus.text = "Passenger"
                     self.appMode = BeaconType.Passenger
             case .BackSeat:
-                self.beaconStatus.text = "Back Seat"
+                self.beaconStatus.text = "Rear Seat"
                 self.appMode = BeaconType.BackSeat
             default:
                 self.beaconStatus.text = "None"
@@ -246,6 +246,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         }
         else
         {
+            self.beaconStatusContainer.backgroundColor = .red
             type = .None
         }
         return type

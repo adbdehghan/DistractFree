@@ -17,7 +17,7 @@ class SetPasswordViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
+        passwordTextField.keyboardType = .numberPad
     }
 
     override func didReceiveMemoryWarning() {
