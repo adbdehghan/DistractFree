@@ -109,11 +109,11 @@ class DataManager: NSObject {
                                 let bBeacon = Beacon()
                                 
                                 dBeacon.identifier = (resData["driverMacs"] as? Array)?.first
-                                dBeacon.type = BeaconType.Driver
+                                dBeacon.type = BeaconType.driving
                                 pBeacon.identifier = (resData["frontMacs"] as? Array)?.first
-                                pBeacon.type = BeaconType.Passenger
+                                pBeacon.type = BeaconType.front
                                 bBeacon.identifier = (resData["rearMacs"] as? Array)?.first
-                                bBeacon.type = BeaconType.BackSeat                                
+                                bBeacon.type = BeaconType.rear
                                 
                                 beacons.append(dBeacon)
                                 beacons.append(pBeacon)
@@ -138,46 +138,16 @@ class DataManager: NSObject {
         }
     }
     
-    func GetToken(phonenumber:String,Password:String,completion: @escaping (APIResponse) -> Void) {
+    func PostRecords(dateTime:String,speed:Double,latitude:Double,longitude:Double,phoneBattery:Int,userState:String,blutoothState:Bool,gpsState:Bool,beacons:[String],distances:[String],completion: @escaping (APIResponse) -> Void) {
         
-        
-        let params: [String: Any] = ["username":phonenumber,"password":Password,"grant_type":"password"]
-        let response = APIResponse()
-        
-        Alamofire.request("http://eventbot.ir/" + "Token", method: .post, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON { (responseData) -> Void in
-            if((responseData.result.value) != nil) {
-                
-                print(responseData)
-                //to get status code
-                if let status = responseData.response?.statusCode {
-                    switch(status){
-                    case 200:
-                        if let resData = JSON(responseData.result.value!).dictionaryObject {
-                            if resData.count > 0 {
-                                response.message = "Success"
-                                response.result = true
-                                response.token = resData["access_token"] as? String                                
-                            }
-                        }
-                    default:
-                        print("error with response status: \(status)")
-                    }
-                }
-            }
-            completion(response)
-        }
-    }
-    
-    func PostFavorites(cities:[Int],artists:[Int],completion: @escaping (APIResponse) -> Void) {
-        
-        let params: [String: Any] = ["cities":cities,"artists":artists]
+        let params: [String: Any] = ["datetime":dateTime,"speed":speed,"latitude":latitude,"longitude":longitude,"phone_battery":phoneBattery,"user_state":userState,"blutooth_state":blutoothState,"gps_state":gpsState,"beacons":beacons,"distances":distances]
         let response = APIResponse()
         
         let headers = [
             "Authorization": "Bearer " + TokenManager().Token
             ]
 
-        Alamofire.request(baseURL+"PostFavorits", method: .post, parameters: params, encoding: URLEncoding.default, headers: headers).responseJSON { (responseData) -> Void in
+        Alamofire.request(baseURL+"newrecord", method: .post, parameters: params, encoding: URLEncoding.httpBody, headers: headers).responseJSON { (responseData) -> Void in
             if((responseData.result.value) != nil) {
                 
                 print(responseData)

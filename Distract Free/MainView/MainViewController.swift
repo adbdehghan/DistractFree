@@ -14,13 +14,13 @@ import CoreLocation
 import AEXML
 
 class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDelegate {
-    
+
     @IBOutlet weak var speedLabel: UILabel!
     @IBOutlet weak var beaconStatus: UILabel!
     @IBOutlet weak var beaconStatusContainer: UIView!
     @IBOutlet weak var beaconStatusBackgroundView: UIView!
     let manager = CLLocationManager()
-    var currentSpeed = 0.0
+    var currentSpeed:Double = 0
     var mapView:GMSMapView!
     let bleManager = Manager()
     var beacons:[Beacon]!
@@ -35,10 +35,13 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     var driverDistance:Double = 0
     var passengerDistance:Double = 0
     var backSeatDistance:Double = 0
+    var speedString:String = "0"
+    var latitiude:Double = 0
+    var longitude:Double = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        UIDevice.current.isBatteryMonitoringEnabled = true
         UICustomization()
         InitMap()
         LocationInitializer()
@@ -54,6 +57,9 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         rssiArray = [Double]()
         bleManager.delegate = self
         bleManager.startScanForDevices(advertisingWithServices: nil)
+        
+        StartSendData()
+        
     }
     
     
@@ -63,14 +69,22 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         
         Locator.subscribePosition(accuracy: .block, onUpdate:{ loc in
             
-            let speed = Double((loc.speed))
+            self.latitiude = Double(loc.coordinate.latitude)
+            self.longitude = Double(loc.coordinate.longitude)
+            
+            let speed = Double((loc.speed)) * 2.2
             
             if speed > 0.0
             {
+                self.currentSpeed = speed
                 DispatchQueue.main.async {
-                    self.speedLabel.text = String(format: "%d",Int((loc.speed) * 2.2))
+                    self.speedLabel.text = String(format: "%d",Int(speed))
                 }
-           
+                
+                if speed >= 60 && self.appMode == BeaconType.driving
+                {
+                    
+                }
             }
             if !self.cameraUpdated
             {
@@ -135,14 +149,17 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             beacon?.rssi = device.rssi
             
             switch (beacon?.type)! {
-            case .Driver:
+            case .driving:
                 driverBeacon = beacon
-            case .Passenger:
+                driverBeacon.device = device
+            case .front:
                 passengerBeacon = beacon
-            case .BackSeat:
+                passengerBeacon.device = device
+            case .rear:
                 backSeatBc = beacon
-                bleManager.connect(with: device)
-            case .None:
+                backSeatBc.device = device
+//                bleManager.connect(with: device)
+            case .none:
                 passengerBeacon = nil
                 driverBeacon = nil
                 backSeatBc = nil
@@ -181,7 +198,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             else
             {
                 self.beaconStatusContainer.backgroundColor = .red
-                UpdateBeaconStatusLabel(beacon: BeaconType.None)
+                UpdateBeaconStatusLabel(beacon: BeaconType.none)
             }
         }
     }
@@ -190,13 +207,14 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         
     }
     
+    
     func manager(_ manager: Manager, connectedToDevice device: Device) {
 //        self.beaconStatusContainer.backgroundColor = .green
     }
     
     func manager(_ manager: Manager, disconnectedFromDevice device: Device, willRetry retry: Bool) {
      
-        UpdateBeaconStatusLabel(beacon: BeaconType.None)
+        UpdateBeaconStatusLabel(beacon: BeaconType.none)
     }
     
     func manager(_ manager: Manager, RSSIUpdated device: Device) {
@@ -208,19 +226,19 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         DispatchQueue.main.async {
           
             switch beacon {
-            case .Driver:
+            case .driving:
                 self.beaconStatus.text = "Driver"
-                self.appMode = BeaconType.Driver
+                self.appMode = BeaconType.driving
                 
-            case .Passenger:
+            case .front:
                     self.beaconStatus.text = "Passenger"
-                    self.appMode = BeaconType.Passenger
-            case .BackSeat:
+                    self.appMode = BeaconType.front
+            case .rear:
                 self.beaconStatus.text = "Rear Seat"
-                self.appMode = BeaconType.BackSeat
+                self.appMode = BeaconType.rear
             default:
                 self.beaconStatus.text = "None"
-                self.appMode = BeaconType.None
+                self.appMode = BeaconType.none
             }
         }
     }
@@ -228,26 +246,26 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     func DetermineZone() -> BeaconType
     {
         var type:BeaconType!
-        let driverCalibValue = GlobalData.sharedInstance.driverBeacon.calibrationValue
-        let passengerCalibValue = GlobalData.sharedInstance.passengerBeacon.calibrationValue
-        let backSeatCalibValue = GlobalData.sharedInstance.backSeatBeacon.calibrationValue
         
-        if driverDistance < driverCalibValue! + 0.1
+        if driverDistance < passengerDistance && driverDistance < backSeatDistance
         {
-            type = .Driver
+            type = .driving
+            bleManager.connect(with: driverBeacon.device)
         }
-        else if passengerDistance < passengerCalibValue! + 0.05
+        else if passengerDistance < driverDistance && passengerDistance < backSeatDistance
         {
-            type = .Passenger
+            type = .front
+            bleManager.connect(with: passengerBeacon.device)
         }
-        else if backSeatDistance < backSeatCalibValue! + 0.05
+        else if backSeatDistance < driverDistance && backSeatDistance < passengerDistance
         {
-            type = .BackSeat
+            type = .rear
+            bleManager.connect(with: backSeatBc.device)
         }
         else
         {
             self.beaconStatusContainer.backgroundColor = .red
-            type = .None
+            type = .none
         }
         return type
     }
@@ -263,6 +281,40 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             let accuracy = 0.89976 * pow(ratio, 7.7095) + 0.111
             return accuracy
         }
+    }
+    
+    func StartSendData()
+    {
+        Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.SendData), userInfo: nil, repeats: true)
+    }
+    
+    @objc func SendData()
+    {
+        let distances = [String(driverDistance),String(passengerDistance),String(backSeatDistance)]
+        let manager = DataManager()
+        
+        manager.PostRecords(dateTime: getTodayString(), speed: currentSpeed, latitude: latitiude, longitude: longitude, phoneBattery: Int(UIDevice.current.batteryLevel * 100), userState: self.appMode == nil ? "none" : self.appMode.rawValue, blutoothState: bleManager.bluetoothEnabled, gpsState: true, beacons: beacons.map{$0.identifier}, distances: distances, completion: {(APIResponse)-> Void in
+            
+        })
+    }
+    
+    func getTodayString() -> String{
+        
+        let date = Date()
+        let calender = Calendar.current
+        let components = calender.dateComponents([.year,.month,.day,.hour,.minute,.second], from: date)
+        
+        let year = components.year
+        let month = components.month
+        let day = components.day
+        let hour = components.hour
+        let minute = components.minute
+        let second = components.second
+        
+        let today_string = String(year!) + "-" + String(month!) + "-" + String(day!) + " " + String(hour!)  + ":" + String(minute!) + ":" +  String(second!)
+        
+        return today_string
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {

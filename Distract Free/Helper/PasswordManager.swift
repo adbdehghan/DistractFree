@@ -9,7 +9,7 @@
 import UIKit
 
 class PasswordManager: NSObject {
-    var Password :String = " "
+    var Password :String = ""
     
     func SavePassword(Password:String) -> Void {
         

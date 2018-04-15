@@ -7,12 +7,12 @@
 //
 
 import UIKit
-
-public enum BeaconType {
-    case Driver
-    case Passenger
-    case BackSeat
-    case None
+import Bluetonium
+public enum BeaconType: String {
+    case driving
+    case front
+    case rear
+    case none
 }
 class Beacon: NSObject {
     
@@ -20,5 +20,6 @@ class Beacon: NSObject {
     var rssi:NSNumber!
     var type:BeaconType!
     var calibrationValue:Double!
+    var device:Device!
 
 }

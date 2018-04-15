@@ -57,13 +57,13 @@ class FrontCalibrationViewController: UIViewController,ManagerDelegate {
             beacon?.rssi = device.rssi
             
             switch (beacon?.type)! {
-            case .Driver:
+            case .driving:
                 driverBeacon = beacon
-            case .Passenger:
+            case .front:
                 passengerBeacon = beacon
-            case .BackSeat:
+            case .rear:
                 backSeatBc = beacon
-            case .None:
+            case .none:
                 passengerBeacon = nil
                 driverBeacon = nil
             }

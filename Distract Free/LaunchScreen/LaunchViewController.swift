@@ -49,15 +49,15 @@ class LaunchViewController: UIViewController {
                 glbData.passengerBeacon = APIResponse[1]
                 glbData.backSeatBeacon = APIResponse.last!
                 
-                if CalibrationManager().backSeatCalibValue == 0
+                if PasswordManager().Password == ""
                 {
                     self.performSegue(withIdentifier: "setup", sender: self)
                 }
                 else
                 {
-                    glbData.driverBeacon.calibrationValue = CalibrationManager().driverCalibValue
-                    glbData.passengerBeacon.calibrationValue = CalibrationManager().passengerCalibValue
-                    glbData.backSeatBeacon.calibrationValue = CalibrationManager().backSeatCalibValue
+//                glbData.driverBeacon.calibrationValue = CalibrationManager().driverCalibValue
+//                glbData.passengerBeacon.calibrationValue = CalibrationManager().passengerCalibValue
+//                glbData.backSeatBeacon.calibrationValue = CalibrationManager().backSeatCalibValue
                     
                     self.performSegue(withIdentifier: "main", sender: self)
                 }
