@@ -144,7 +144,8 @@ class DataManager: NSObject {
         let response = APIResponse()
         
         let headers = [
-            "Authorization": "Bearer " + TokenManager().Token
+            "Authorization": "Bearer " + TokenManager().Token,
+            "Accept":"application/json"
             ]
 
         Alamofire.request(baseURL+"newrecord", method: .post, parameters: params, encoding: URLEncoding.httpBody, headers: headers).responseJSON { (responseData) -> Void in

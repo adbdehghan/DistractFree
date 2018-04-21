@@ -247,7 +247,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     {
         var type:BeaconType!
         
-        if driverDistance < passengerDistance && driverDistance < backSeatDistance
+        if driverDistance - 0.2 < passengerDistance && driverDistance - 0.2 < backSeatDistance
         {
             type = .driving
             bleManager.connect(with: driverBeacon.device)
@@ -293,7 +293,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         let distances = [String(driverDistance),String(passengerDistance),String(backSeatDistance)]
         let manager = DataManager()
         
-        manager.PostRecords(dateTime: getTodayString(), speed: currentSpeed, latitude: latitiude, longitude: longitude, phoneBattery: Int(UIDevice.current.batteryLevel * 100), userState: self.appMode == nil ? "none" : self.appMode.rawValue, blutoothState: bleManager.bluetoothEnabled, gpsState: true, beacons: beacons.map{$0.identifier}, distances: distances, completion: {(APIResponse)-> Void in
+        manager.PostRecords(dateTime: getTodayString(), speed: currentSpeed, latitude: latitiude, longitude: longitude, phoneBattery: Int(UIDevice.current.batteryLevel * 100), userState: self.appMode == nil ? "none" : self.appMode.rawValue, blutoothState: bleManager.bluetoothEnabled, gpsState: true, beacons: [], distances: [], completion: {(APIResponse)-> Void in
             
         })
     }
