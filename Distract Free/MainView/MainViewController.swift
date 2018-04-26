@@ -50,7 +50,11 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         
         beacons = [Beacon]()
 
-        beacons.append((glbData.driverBeacon))
+        let beacon = Beacon()
+        beacon.identifier = "81B516AD-449B-0BD7-66D5-3BF23FDDAAB7"
+        beacon.type = BeaconType.driving
+        
+        beacons.append(beacon)
         beacons.append((glbData.passengerBeacon))
         beacons.append((glbData.backSeatBeacon))
         
@@ -58,10 +62,8 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         bleManager.delegate = self
         bleManager.startScanForDevices(advertisingWithServices: nil)
         
-        StartSendData()
-        
+        StartSendData()        
     }
-    
     
     func LocationInitializer()
     {
@@ -152,6 +154,8 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             case .driving:
                 driverBeacon = beacon
                 driverBeacon.device = device
+                
+                bleManager.connect(with: device)
             case .front:
                 passengerBeacon = beacon
                 passengerBeacon.device = device
@@ -170,8 +174,6 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
                  driverDistance = calculateNewDistance(txCalibratedPower: 60, rssi: driverBeacon?.rssi as! Int)
                  passengerDistance = calculateNewDistance(txCalibratedPower: 60, rssi: passengerBeacon?.rssi as! Int)
                  backSeatDistance = calculateNewDistance(txCalibratedPower: 60, rssi: backSeatBc?.rssi as! Int)
-                
-                
                 
 //                let date = Date()
 //                let calendar = Calendar.current
@@ -210,7 +212,14 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     
     func manager(_ manager: Manager, connectedToDevice device: Device) {
 //        self.beaconStatusContainer.backgroundColor = .green
+        
+ 
+     
+        device.peripheral.discoverServices(nil)
+        
+        
     }
+//    00001523-1212-EFDE-1523-785FEABCD123
     
     func manager(_ manager: Manager, disconnectedFromDevice device: Device, willRetry retry: Bool) {
      
@@ -285,7 +294,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     
     func StartSendData()
     {
-        Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.SendData), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 20, target: self, selector: #selector(self.SendData), userInfo: nil, repeats: true)
     }
     
     @objc func SendData()

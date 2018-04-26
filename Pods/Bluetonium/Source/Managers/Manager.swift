@@ -241,6 +241,33 @@ open class Manager: NSObject, CBCentralManagerDelegate,CBPeripheralDelegate {
         print("didFailToConnect \(peripheral)")
     }
     
+    @objc public func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+        let BLEServiceUUID = CBUUID(string: "00001523-1212-EFDE-1523-785FEABCD123")
+        for service in peripheral.services!
+        {
+            if service.uuid == BLEServiceUUID
+            {
+                peripheral.discoverCharacteristics(nil, for: service as CBService)
+            }
+        }
+    }
+    
+    @objc public func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+        for characteristic in service.characteristics! {
+            if characteristic.uuid == CBUUID(string: "00001525-1212-EFDE-1523-785FEABCD123")
+            {
+                let bytes : [UInt8] = [ 0x81]//,1,1,10 ]
+                let data = Data(bytes)
+                peripheral.writeValue(data, for: characteristic, type: CBCharacteristicWriteType.withResponse)
+            }
+        }
+    }
+    //00001524-1212-EFDE-1523-785FEABCD123
+    //00001525-1212-EFDE-1523-785FEABCD123
+    @objc public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor descriptor: CBDescriptor, error: Error?) {
+        
+    }
+    
     @objc public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         guard peripheral.identifier.uuidString == connectedDevice?.peripheral.identifier.uuidString else {
             return
