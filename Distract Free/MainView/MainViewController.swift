@@ -15,6 +15,9 @@ import AEXML
 
 class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDelegate {
 
+    @IBOutlet weak var rearStatusView: UIView!
+    @IBOutlet weak var passengerStatusView: UIView!
+    @IBOutlet weak var driverStatusView: UIView!
     @IBOutlet weak var speedLabel: UILabel!
     @IBOutlet weak var beaconStatus: UILabel!
     @IBOutlet weak var beaconStatusContainer: UIView!
@@ -50,11 +53,11 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         
         beacons = [Beacon]()
 
-        let beacon = Beacon()
-        beacon.identifier = "81B516AD-449B-0BD7-66D5-3BF23FDDAAB7"
-        beacon.type = BeaconType.driving
-        
-        beacons.append(beacon)
+//        let beacon = Beacon()
+//        beacon.identifier = "81B516AD-449B-0BD7-66D5-3BF23FDDAAB7"
+//        beacon.type = BeaconType.driving
+//        beacons.append(beacon)
+        beacons.append((glbData.driverBeacon))
         beacons.append((glbData.passengerBeacon))
         beacons.append((glbData.backSeatBeacon))
         
@@ -104,6 +107,9 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     
     func UICustomization()
     {
+        driverStatusView.layer.cornerRadius = 4
+        passengerStatusView.layer.cornerRadius = 4
+        rearStatusView.layer.cornerRadius = 4
         beaconStatusContainer.layer.cornerRadius = 6
         beaconStatusBackgroundView.layer.cornerRadius = 6
     }
@@ -154,15 +160,18 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             case .driving:
                 driverBeacon = beacon
                 driverBeacon.device = device
-                
+                driverStatusView.backgroundColor = .green
                 bleManager.connect(with: device)
             case .front:
                 passengerBeacon = beacon
                 passengerBeacon.device = device
+                passengerStatusView.backgroundColor = .green
+                bleManager.connect(with: device)
             case .rear:
                 backSeatBc = beacon
                 backSeatBc.device = device
-//                bleManager.connect(with: device)
+                rearStatusView.backgroundColor = .green
+                bleManager.connect(with: device)
             case .none:
                 passengerBeacon = nil
                 driverBeacon = nil
@@ -223,7 +232,25 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     
     func manager(_ manager: Manager, disconnectedFromDevice device: Device, willRetry retry: Bool) {
      
-        UpdateBeaconStatusLabel(beacon: BeaconType.none)
+        let beacon = CheckBLE(device: device)
+        
+        if beacon != nil {
+            
+            beacon?.rssi = device.rssi
+            
+            switch (beacon?.type)! {
+            case .driving:
+                driverStatusView.backgroundColor = .red
+            case .front:
+                passengerStatusView.backgroundColor = .red
+            case .rear:
+                rearStatusView.backgroundColor = .red
+            case .none:
+                break
+            }
+        }
+        
+//        UpdateBeaconStatusLabel(beacon: BeaconType.none)
     }
     
     func manager(_ manager: Manager, RSSIUpdated device: Device) {
@@ -240,8 +267,8 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
                 self.appMode = BeaconType.driving
                 
             case .front:
-                    self.beaconStatus.text = "Passenger"
-                    self.appMode = BeaconType.front
+                self.beaconStatus.text = "Passenger"
+                self.appMode = BeaconType.front
             case .rear:
                 self.beaconStatus.text = "Rear Seat"
                 self.appMode = BeaconType.rear

@@ -934,6 +934,30 @@
                                             <constraint firstAttribute="width" constant="1" id="gJR-Y7-E6U"/>
                                         </constraints>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aqI-sU-2Ep">
+                                        <rect key="frame" x="71" y="63" width="8" height="8"/>
+                                        <color key="backgroundColor" red="1" green="0.14901960780000001" blue="0.45098039220000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="8" id="PcV-da-zt6"/>
+                                            <constraint firstAttribute="height" constant="8" id="ZJz-kr-ieC"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6mr-hU-WeJ">
+                                        <rect key="frame" x="83" y="63" width="8" height="8"/>
+                                        <color key="backgroundColor" red="1" green="0.14901960780000001" blue="0.45098039220000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="8" id="5wz-rh-csj"/>
+                                            <constraint firstAttribute="height" constant="8" id="WeU-5f-fBg"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="02h-hB-i4J">
+                                        <rect key="frame" x="95.33333333333303" y="63" width="8" height="8"/>
+                                        <color key="backgroundColor" red="1" green="0.14901960780000001" blue="0.45098039220000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="8" id="AmF-dX-TS8"/>
+                                            <constraint firstAttribute="height" constant="8" id="iz3-lE-G51"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.24059460599999999" green="0.24059460599999999" blue="0.24059460599999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -942,12 +966,18 @@
                                     <constraint firstAttribute="bottom" secondItem="PEK-9X-Xqn" secondAttribute="bottom" constant="24" id="H2x-BD-l0E"/>
                                     <constraint firstAttribute="height" constant="92" id="Jpk-Fr-QVJ"/>
                                     <constraint firstItem="zKH-GS-8oE" firstAttribute="leading" secondItem="J0T-ov-XGq" secondAttribute="trailing" constant="18.5" id="Kws-T3-ISP"/>
+                                    <constraint firstItem="6mr-hU-WeJ" firstAttribute="top" secondItem="J0T-ov-XGq" secondAttribute="bottom" constant="10" id="Q0v-UY-kXQ"/>
                                     <constraint firstItem="0u3-w3-g2H" firstAttribute="top" secondItem="SBg-ch-5lb" secondAttribute="top" constant="19" id="RdN-4N-USD"/>
+                                    <constraint firstItem="02h-hB-i4J" firstAttribute="centerY" secondItem="6mr-hU-WeJ" secondAttribute="centerY" id="Wt5-F4-tND"/>
                                     <constraint firstAttribute="bottom" secondItem="J0T-ov-XGq" secondAttribute="bottom" constant="39" id="XNH-SQ-ckT"/>
+                                    <constraint firstItem="02h-hB-i4J" firstAttribute="leading" secondItem="6mr-hU-WeJ" secondAttribute="trailing" constant="4.3333333333330302" id="fWr-l0-2YD"/>
                                     <constraint firstAttribute="bottom" secondItem="zKH-GS-8oE" secondAttribute="bottom" constant="18" id="gyx-6n-ijS"/>
                                     <constraint firstAttribute="trailing" secondItem="0u3-w3-g2H" secondAttribute="trailing" constant="8" id="kjv-4A-jHB"/>
                                     <constraint firstItem="zKH-GS-8oE" firstAttribute="centerX" secondItem="SBg-ch-5lb" secondAttribute="centerX" id="puM-C9-9pj"/>
+                                    <constraint firstItem="6mr-hU-WeJ" firstAttribute="centerY" secondItem="aqI-sU-2Ep" secondAttribute="centerY" id="qux-go-dVe"/>
                                     <constraint firstItem="J0T-ov-XGq" firstAttribute="leading" secondItem="SBg-ch-5lb" secondAttribute="leading" constant="21.5" id="tob-as-DeE"/>
+                                    <constraint firstItem="6mr-hU-WeJ" firstAttribute="leading" secondItem="aqI-sU-2Ep" secondAttribute="trailing" constant="4" id="vhQ-kl-cSF"/>
+                                    <constraint firstItem="6mr-hU-WeJ" firstAttribute="centerX" secondItem="J0T-ov-XGq" secondAttribute="centerX" id="wZM-j1-LPG"/>
                                     <constraint firstItem="PEK-9X-Xqn" firstAttribute="centerX" secondItem="SBg-ch-5lb" secondAttribute="centerX" constant="85.5" id="wbK-aI-saI"/>
                                 </constraints>
                             </view>
@@ -970,6 +1000,9 @@
                         <outlet property="beaconStatus" destination="J0T-ov-XGq" id="bI2-T5-wlk"/>
                         <outlet property="beaconStatusBackgroundView" destination="SBg-ch-5lb" id="sBl-fx-CYe"/>
                         <outlet property="beaconStatusContainer" destination="2qU-6c-VCh" id="fyV-UL-wBa"/>
+                        <outlet property="driverStatusView" destination="aqI-sU-2Ep" id="DDe-iq-aco"/>
+                        <outlet property="passengerStatusView" destination="6mr-hU-WeJ" id="fmO-ED-HO3"/>
+                        <outlet property="rearStatusView" destination="02h-hB-i4J" id="Yqf-Er-gv2"/>
                         <outlet property="speedLabel" destination="0u3-w3-g2H" id="ScD-uS-eKG"/>
                     </connections>
                 </viewController>

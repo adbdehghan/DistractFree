@@ -245,29 +245,41 @@ open class Manager: NSObject, CBCentralManagerDelegate,CBPeripheralDelegate {
         let BLEServiceUUID = CBUUID(string: "00001523-1212-EFDE-1523-785FEABCD123")
         for service in peripheral.services!
         {
-            if service.uuid == BLEServiceUUID
-            {
+//            if service.uuid == BLEServiceUUID
+//            {
                 peripheral.discoverCharacteristics(nil, for: service as CBService)
-            }
+//            }
         }
     }
     
     @objc public func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         for characteristic in service.characteristics! {
-            if characteristic.uuid == CBUUID(string: "00001525-1212-EFDE-1523-785FEABCD123")
-            {
-                let bytes : [UInt8] = [ 0x81]//,1,1,10 ]
-                let data = Data(bytes)
-                peripheral.writeValue(data, for: characteristic, type: CBCharacteristicWriteType.withResponse)
-            }
+//            if characteristic.uuid == CBUUID(string: "00001525-1212-EFDE-1523-785FEABCD123")
+//            {
+                let bytes : [UInt8] = [ 0x10,toUint(signed: 1),toUint(signed: 0),toUint(signed: 100) ]
+                let data = Data(bytes: bytes)
+                
+                peripheral.writeValue(data as Data, for: characteristic, type: CBCharacteristicWriteType.withResponse)
+//            }
         }
     }
+    
+    func toUint(signed: Int) -> UInt8 {
+        
+        let unsigned = signed >= 0 ?
+            UInt8(signed) :
+            UInt8(signed  - Int.min) + UInt8(Int.max) + 1
+        
+        return unsigned
+    }
+
+    
     //00001524-1212-EFDE-1523-785FEABCD123
     //00001525-1212-EFDE-1523-785FEABCD123
     @objc public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor descriptor: CBDescriptor, error: Error?) {
         
     }
-    
+
     @objc public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         guard peripheral.identifier.uuidString == connectedDevice?.peripheral.identifier.uuidString else {
             return
