@@ -256,7 +256,7 @@ open class Manager: NSObject, CBCentralManagerDelegate,CBPeripheralDelegate {
         for characteristic in service.characteristics! {
 //            if characteristic.uuid == CBUUID(string: "00001525-1212-EFDE-1523-785FEABCD123")
 //            {
-                let bytes : [UInt8] = [ 0x10,toUint(signed: 1),toUint(signed: 0),toUint(signed: 100) ]
+                let bytes : [UInt8] = [ 0x10,toUint(signed: 2),toUint(signed: 10),toUint(signed: 10) ]
                 let data = Data(bytes: bytes)
                 
                 peripheral.writeValue(data as Data, for: characteristic, type: CBCharacteristicWriteType.withResponse)

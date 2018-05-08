@@ -41,6 +41,10 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     var speedString:String = "0"
     var latitiude:Double = 0
     var longitude:Double = 0
+    var globalSpeed = 0.0
+    var commandIntervalTimer:Timer!
+    var isCommandSent = false
+    var timeInterval = 1.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +52,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         UICustomization()
         InitMap()
         LocationInitializer()
+        commandIntervalTimer = Timer()
         
         let glbData = GlobalData.sharedInstance
         
@@ -78,6 +83,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             self.longitude = Double(loc.coordinate.longitude)
             
             let speed = Double((loc.speed)) * 2.2
+            self.globalSpeed = speed
             
             if speed > 0.0
             {
@@ -86,8 +92,14 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
                     self.speedLabel.text = String(format: "%d",Int(speed))
                 }
                 
-                if speed >= 60 && self.appMode == BeaconType.driving
+                if speed >= 5 && self.appMode == BeaconType.driving
                 {
+                    if self.isCommandSent
+                    {
+                        self.commandIntervalTimer = Timer.scheduledTimer(timeInterval: self.timeInterval, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: false)
+                        self.isCommandSent = false
+                    }
+                    
                     
                 }
             }
@@ -103,6 +115,13 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         },onFail: { err, last in
             print("Failed with error: \(err)")
         })
+    }
+    
+    @objc func timerAction()
+    {
+        timeInterval = 10
+        isCommandSent = true
+        self.beacons.first?.device.peripheral.discoverServices(nil)
     }
     
     func UICustomization()
