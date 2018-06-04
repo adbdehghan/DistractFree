@@ -110,10 +110,13 @@ class DataManager: NSObject {
                                 
                                 dBeacon.identifier = (resData["driverMacs"] as? Array)?.first
                                 dBeacon.type = BeaconType.driving
+                                dBeacon.name = "Lock3D52EDD973EC"
                                 pBeacon.identifier = (resData["frontMacs"] as? Array)?.first
                                 pBeacon.type = BeaconType.front
+                                pBeacon.name = "Lock3D52EDD973EC"
                                 bBeacon.identifier = (resData["rearMacs"] as? Array)?.first
                                 bBeacon.type = BeaconType.rear
+                                bBeacon.name = "Lock3D52EDD973EC"
                                 
                                 beacons.append(dBeacon)
                                 beacons.append(pBeacon)

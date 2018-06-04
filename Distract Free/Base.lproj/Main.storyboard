@@ -881,13 +881,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zWL-bK-Ie7">
-                                <rect key="frame" x="330" y="28" width="33" height="33"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zWL-bK-Ie7">
+                                <rect key="frame" x="338" y="48" width="25" height="25"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="33" id="Y1U-or-SdH"/>
-                                    <constraint firstAttribute="height" constant="33" id="Zfs-QX-iQ0"/>
+                                    <constraint firstAttribute="width" constant="25" id="Y1U-or-SdH"/>
+                                    <constraint firstAttribute="height" constant="25" id="Zfs-QX-iQ0"/>
                                 </constraints>
-                                <state key="normal" image="settings"/>
+                                <state key="normal" image="blueetooth-logo"/>
+                                <connections>
+                                    <action selector="ShowBLEList:" destination="B8J-tp-QY0" eventType="touchUpInside" id="EAP-A9-oVU"/>
+                                </connections>
                             </button>
                             <view alpha="0.89999997615814209" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2qU-6c-VCh">
                                 <rect key="frame" x="11" y="716" width="353" height="96"/>
@@ -981,16 +984,29 @@
                                     <constraint firstItem="PEK-9X-Xqn" firstAttribute="centerX" secondItem="SBg-ch-5lb" secondAttribute="centerX" constant="85.5" id="wbK-aI-saI"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jDu-EW-UIp">
+                                <rect key="frame" x="12" y="48" width="25" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="Xww-ne-B3C"/>
+                                    <constraint firstAttribute="width" constant="25" id="fLB-Lc-3AD"/>
+                                </constraints>
+                                <state key="normal" image="test"/>
+                                <connections>
+                                    <action selector="ActivateTestModeEvent:" destination="B8J-tp-QY0" eventType="touchUpInside" id="KrW-KQ-MGc"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="2qU-6c-VCh" firstAttribute="bottom" secondItem="EbU-TJ-4nU" secondAttribute="bottom" constant="34" id="4xX-yV-won"/>
+                            <constraint firstItem="jDu-EW-UIp" firstAttribute="leading" secondItem="A4Z-az-OSj" secondAttribute="leading" constant="12" id="9EM-tt-cm5"/>
                             <constraint firstAttribute="trailing" secondItem="zWL-bK-Ie7" secondAttribute="trailing" constant="12" id="BKh-xc-mgf"/>
                             <constraint firstItem="2qU-6c-VCh" firstAttribute="leading" secondItem="EbU-TJ-4nU" secondAttribute="leading" constant="11" id="Tf6-8W-OpB"/>
                             <constraint firstItem="EbU-TJ-4nU" firstAttribute="trailing" secondItem="SBg-ch-5lb" secondAttribute="trailing" constant="15" id="cJx-Un-rd2"/>
                             <constraint firstItem="SBg-ch-5lb" firstAttribute="leading" secondItem="EbU-TJ-4nU" secondAttribute="leading" constant="15" id="dzG-st-y0D"/>
-                            <constraint firstItem="zWL-bK-Ie7" firstAttribute="top" secondItem="A4Z-az-OSj" secondAttribute="top" constant="28" id="ldo-zg-QTk"/>
+                            <constraint firstItem="zWL-bK-Ie7" firstAttribute="top" secondItem="A4Z-az-OSj" secondAttribute="top" constant="48" id="ldo-zg-QTk"/>
                             <constraint firstAttribute="bottom" secondItem="SBg-ch-5lb" secondAttribute="bottom" id="n35-tB-6YH"/>
+                            <constraint firstItem="jDu-EW-UIp" firstAttribute="top" secondItem="A4Z-az-OSj" secondAttribute="top" constant="48" id="o3q-P2-rFD"/>
                             <constraint firstItem="EbU-TJ-4nU" firstAttribute="trailing" secondItem="2qU-6c-VCh" secondAttribute="trailing" constant="11" id="u94-cn-Xrz"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="EbU-TJ-4nU"/>
@@ -1205,8 +1221,8 @@
         <image name="locked" width="512" height="512"/>
         <image name="password" width="24" height="24"/>
         <image name="phone-call" width="32" height="32"/>
-        <image name="settings" width="128" height="128"/>
         <image name="success" width="512" height="512"/>
+        <image name="test" width="18" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="ELY-jY-8pv"/>

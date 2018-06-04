@@ -15,7 +15,7 @@ public enum BeaconType: String {
     case none
 }
 class Beacon: NSObject {
-    
+    var name:String!
     var identifier:String!
     var rssi:NSNumber!
     var type:BeaconType!

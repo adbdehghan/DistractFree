@@ -12,6 +12,8 @@ import SwiftLocation
 import Bluetonium
 import CoreLocation
 import AEXML
+import TCPickerView
+import ZAlertView
 
 class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDelegate {
 
@@ -43,25 +45,22 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     var longitude:Double = 0
     var globalSpeed = 0.0
     var commandIntervalTimer:Timer!
-    var isCommandSent = false
+    var isCommandSent = true
+    var isTestMode = false
     var timeInterval = 1.0
+    let picker = TCPickerView()
+    var bleList:Array<Any>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         UIDevice.current.isBatteryMonitoringEnabled = true
-        UICustomization()
-        InitMap()
-        LocationInitializer()
-        commandIntervalTimer = Timer()
-        
-        let glbData = GlobalData.sharedInstance
         
         beacons = [Beacon]()
-
-//        let beacon = Beacon()
-//        beacon.identifier = "81B516AD-449B-0BD7-66D5-3BF23FDDAAB7"
-//        beacon.type = BeaconType.driving
-//        beacons.append(beacon)
+        let glbData = GlobalData.sharedInstance
+//                let beacon = Beacon()
+//                beacon.identifier = "81B516AD-449B-0BD7-66D5-3BF23FDDAAB7"
+//                beacon.type = BeaconType.driving
+//                beacons.append(beacon)
         beacons.append((glbData.driverBeacon))
         beacons.append((glbData.passengerBeacon))
         beacons.append((glbData.backSeatBeacon))
@@ -70,7 +69,16 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         bleManager.delegate = self
         bleManager.startScanForDevices(advertisingWithServices: nil)
         
-        StartSendData()        
+        UICustomization()
+        InitMap()
+        LocationInitializer()
+        commandIntervalTimer = Timer()
+        
+     
+        
+
+        
+        StartSendData()
     }
     
     func LocationInitializer()
@@ -85,14 +93,27 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             let speed = Double((loc.speed)) * 2.2
             self.globalSpeed = speed
             
-            if speed > 0.0
+            if self.isTestMode
+            {
+                DispatchQueue.main.async {
+                    self.speedLabel.text = "👻"
+                }
+                
+                if self.isCommandSent
+                {
+                    self.commandIntervalTimer = Timer.scheduledTimer(timeInterval: self.timeInterval, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: false)
+                    self.isCommandSent = false
+                }
+            }
+            
+            if speed > 0.0 && !self.isTestMode
             {
                 self.currentSpeed = speed
                 DispatchQueue.main.async {
                     self.speedLabel.text = String(format: "%d",Int(speed))
                 }
                 
-                if speed >= 5 && self.appMode == BeaconType.driving
+                if speed >= 10 && self.appMode == BeaconType.driving
                 {
                     if self.isCommandSent
                     {
@@ -103,6 +124,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
                     
                 }
             }
+            
             if !self.cameraUpdated
             {
                 self.cameraUpdated = true
@@ -117,11 +139,22 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         })
     }
     
+    @IBAction func ShowBLEList(_ sender: Any) {
+        bleList = bleManager.foundDevices
+        picker.title = "BLE List"
+        picker.values = bleManager.foundDevices.map{TCPickerView.Value(title: ($0.peripheral.name ?? "no name") + ": " + $0.peripheral.identifier.uuidString)}
+        picker.selection = .none
+        picker.mainColor = UIColor.init(red: 235.0/255.0, green: 38.0/255.0, blue: 115.0/255.0, alpha: 1)
+        picker.show()
+    }
+    
     @objc func timerAction()
     {
         timeInterval = 10
         isCommandSent = true
-        self.beacons.first?.device.peripheral.discoverServices(nil)
+        if self.driverBeacon != nil {
+            self.driverBeacon.device.peripheral.discoverServices(nil)
+        }
     }
     
     func UICustomization()
@@ -167,9 +200,28 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         return beacon
     }
 
+    func CheckBLEWithName(device:Device) -> Beacon?
+    {
+        var beacon:Beacon? = nil
+        for item in beacons {
+            
+            if device.peripheral.name?.lowercased() ?? " " == item.identifier.lowercased()
+            {
+                beacon = item
+            }
+        }
+        return beacon
+    }
+    
     func manager(_ manager: Manager, didFindDevice device: Device) {
         
-        let beacon = CheckBLE(device: device)
+        let name = (device.peripheral.name ?? "no name") + ": " + device.peripheral.identifier.uuidString
+        
+        if !picker.values.contains(where: {$0.title == name}) {
+            picker.values = bleManager.foundDevices.map{TCPickerView.Value(title: ($0.peripheral.name ?? "no name") + ": " + $0.peripheral.identifier.uuidString)}
+        }
+        
+        let beacon = CheckBLEWithName(device: device)
         
         if beacon != nil {
             
@@ -180,6 +232,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
                 driverBeacon = beacon
                 driverBeacon.device = device
                 driverStatusView.backgroundColor = .green
+                driverBeacon.device.peripheral.delegate = bleManager
                 bleManager.connect(with: device)
             case .front:
                 passengerBeacon = beacon
@@ -227,7 +280,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             }
             else
             {
-                self.beaconStatusContainer.backgroundColor = .red
+                self.beaconStatusContainer.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
                 UpdateBeaconStatusLabel(beacon: BeaconType.none)
             }
         }
@@ -240,18 +293,13 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     
     func manager(_ manager: Manager, connectedToDevice device: Device) {
 //        self.beaconStatusContainer.backgroundColor = .green
-        
- 
-     
-        device.peripheral.discoverServices(nil)
-        
-        
+//        device.peripheral.discoverServices(nil)
     }
 //    00001523-1212-EFDE-1523-785FEABCD123
     
     func manager(_ manager: Manager, disconnectedFromDevice device: Device, willRetry retry: Bool) {
      
-        let beacon = CheckBLE(device: device)
+        let beacon = CheckBLEWithName(device: device)
         
         if beacon != nil {
             
@@ -298,6 +346,10 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         }
     }
     
+    @IBAction func ShowBlesEvent(_ sender: Any) {
+        
+    }
+    
     func DetermineZone() -> BeaconType
     {
         var type:BeaconType!
@@ -319,7 +371,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         }
         else
         {
-            self.beaconStatusContainer.backgroundColor = .red
+            self.beaconStatusContainer.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
             type = .none
         }
         return type
@@ -351,6 +403,24 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         manager.PostRecords(dateTime: getTodayString(), speed: currentSpeed, latitude: latitiude, longitude: longitude, phoneBattery: Int(UIDevice.current.batteryLevel * 100), userState: self.appMode == nil ? "none" : self.appMode.rawValue, blutoothState: bleManager.bluetoothEnabled, gpsState: true, beacons: [], distances: [], completion: {(APIResponse)-> Void in
             
         })
+    }
+    @IBAction func ActivateTestModeEvent(_ sender: Any) {
+        
+        if isTestMode {
+            let dialog = ZAlertView(title: "🙄", message: "Test Mode Deactivated!" , closeButtonText: "OK",closeButtonHandler:{alertView in
+                self.isTestMode = false
+                self.speedLabel.text = "0"
+                alertView.dismissAlertView()
+            })
+            dialog.show()
+        }
+        else{
+            let dialog = ZAlertView(title: "🙄", message: "Test Mode Activated!" , closeButtonText: "OK",closeButtonHandler:{alertView in
+                self.isTestMode = true
+                alertView.dismissAlertView()
+            })
+            dialog.show()
+        }
     }
     
     func getTodayString() -> String{

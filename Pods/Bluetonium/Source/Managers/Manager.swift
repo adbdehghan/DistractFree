@@ -157,7 +157,8 @@ open class Manager: NSObject, CBCentralManagerDelegate,CBPeripheralDelegate {
         case .poweredOn:
             
             if connectedDevice != nil {
-                connectToDevice()
+                scanning = false
+                startScanForDevices(advertisingWithServices:nil)
                 
             } else if let storedUUID = storedConnectedUUID {
                 guard let uuid = UUID(uuidString: storedUUID), let peripheral = central.retrievePeripherals(withIdentifiers: [ uuid ]).first else {
@@ -247,7 +248,7 @@ open class Manager: NSObject, CBCentralManagerDelegate,CBPeripheralDelegate {
         {
 //            if service.uuid == BLEServiceUUID
 //            {
-                peripheral.discoverCharacteristics(nil, for: service as CBService)
+                peripheral.discoverCharacteristics(nil, for: service)
 //            }
         }
     }

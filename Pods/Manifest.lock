@@ -22,6 +22,7 @@ PODS:
   - SwiftLocation (3.1.0):
     - SwiftyJSON (~> 4.0.0-alpha.1)
   - SwiftyJSON (4.0.0)
+  - TCPickerView (0.1.8)
   - ZAlertView (1.0.4)
 
 DEPENDENCIES:
@@ -39,6 +40,7 @@ DEPENDENCIES:
   - SmileLock
   - SwiftLocation (~> 3.1.0)
   - SwiftyJSON
+  - TCPickerView
   - ZAlertView
 
 SPEC CHECKSUMS:
@@ -56,8 +58,9 @@ SPEC CHECKSUMS:
   SmileLock: 94289220d5e1fbfd774115b605d3c0371024df59
   SwiftLocation: 8f5ef4f510a45e43239de57a3145b3669301e898
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
+  TCPickerView: eb6f39d3cc10b72a66c9db5300bffde08d9077e8
   ZAlertView: 59fffdb4e37a01df461835566d5101052b8af953
 
-PODFILE CHECKSUM: 799f67273ede227a5376a4b461e2cc14ffb679b8
+PODFILE CHECKSUM: d1d6b600ae3e92a6418878cc69653c0abb80eab1
 
 COCOAPODS: 1.4.0

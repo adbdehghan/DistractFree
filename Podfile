@@ -20,6 +20,7 @@ target 'Distract Free' do
     pod 'GoogleMaps', '~> 2.5.0'
     pod 'AEXML'
     pod 'RSLoadingView'
+    pod 'TCPickerView'
     
     
     target 'Distract FreeTests' do
