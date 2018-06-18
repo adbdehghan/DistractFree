@@ -13,6 +13,7 @@ import KVSpinnerView
 
 class CarBluetoothViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,ManagerDelegate,RadarViewDelegate {
 
+
     var radarView: RadarView?
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var bluetoothListTableView: UITableView!
@@ -70,6 +71,11 @@ class CarBluetoothViewController: UIViewController,UITableViewDelegate,UITableVi
     func radarView(radarView: RadarView, didSelect item: Item) {
         
     }
+    
+    func manager(_ manager: Manager, IsBLEOn status: Bool) {
+        
+    }
+    
     
     
     override func didReceiveMemoryWarning() {

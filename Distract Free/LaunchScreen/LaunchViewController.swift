@@ -47,7 +47,7 @@ class LaunchViewController: UIViewController {
                 if (APIResponse.count > 0)
                 {
                     let glbData = GlobalData.sharedInstance
-                    glbData.driverBeacon = APIResponse.first!
+                    glbData.beacons = APIResponse
                     glbData.passengerBeacon = APIResponse[1]
                     glbData.backSeatBeacon = APIResponse.last!
                     

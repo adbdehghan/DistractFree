@@ -168,9 +168,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UINavigationCo
                     else
                     {
                         let glbData = GlobalData.sharedInstance
-                        glbData.driverBeacon = APIResponse.first!
-                        glbData.passengerBeacon = APIResponse[1]
-                        glbData.backSeatBeacon = APIResponse.last!                        
+                        glbData.beacons = APIResponse
+//                        glbData.passengerBeacon = APIResponse[1]
+//                        glbData.backSeatBeacon = APIResponse.last!                        
                                                 
                         self.performSegue(withIdentifier: "next", sender: self)
                     }

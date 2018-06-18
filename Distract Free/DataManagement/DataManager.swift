@@ -108,19 +108,34 @@ class DataManager: NSObject {
                                 let pBeacon = Beacon()
                                 let bBeacon = Beacon()
                                 
-                                dBeacon.identifier = (resData["driverMacs"] as? Array)?.first
-                                dBeacon.type = BeaconType.driving
-                                dBeacon.name = "Lock3D52EDD973EC"
-                                pBeacon.identifier = (resData["frontMacs"] as? Array)?.first
-                                pBeacon.type = BeaconType.front
-                                pBeacon.name = "Lock3D52EDD973EC"
-                                bBeacon.identifier = (resData["rearMacs"] as? Array)?.first
-                                bBeacon.type = BeaconType.rear
-                                bBeacon.name = "Lock3D52EDD973EC"
+                                let driverMacs:[String] = resData["driverMacs"] as! [String]
                                 
-                                beacons.append(dBeacon)
-                                beacons.append(pBeacon)
-                                beacons.append(bBeacon)
+                                for item in driverMacs
+                                {
+                                    dBeacon.identifier = item
+                                    dBeacon.type = BeaconType.driving
+                                    dBeacon.name = "Lock3D52EDD973EC"
+                                    beacons.append(dBeacon)
+                                }
+                                
+                                for item in (resData["frontMacs"] as? [String])!
+                                {
+                                    pBeacon.identifier = item
+                                    pBeacon.type = BeaconType.front
+                                    pBeacon.name = "Lock3D52EDD973EC"
+                                    beacons.append(pBeacon)
+                                }
+                                
+                                
+                                for item in (resData["rearMacs"] as? [String])!
+                                {
+                                    bBeacon.identifier = item
+                                    bBeacon.type = BeaconType.rear
+                                    bBeacon.name = "Lock3D52EDD973EC"
+                                    beacons.append(bBeacon)
+                                }
+                                
+                                
                             }
                         }
                     default:

@@ -33,7 +33,6 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     var passengerBeacon:Beacon!
     var backSeatBc:Beacon!
     var appMode:BeaconType!
-    var filter = KalmanFilter(stateEstimatePrior: 0.0, errorCovariancePrior: 1)
     var counter = 0
     var rssiArray:[Double]!
     var cameraUpdated:Bool = false
@@ -46,7 +45,9 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     var globalSpeed = 0.0
     var commandIntervalTimer:Timer!
     var isCommandSent = true
+    var isUpdated = false
     var isTestMode = false
+    var disconnectMode = false
     var timeInterval = 1.0
     let picker = TCPickerView()
     var bleList:Array<Any>!
@@ -57,33 +58,28 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         
         beacons = [Beacon]()
         let glbData = GlobalData.sharedInstance
-//                let beacon = Beacon()
-//                beacon.identifier = "81B516AD-449B-0BD7-66D5-3BF23FDDAAB7"
-//                beacon.type = BeaconType.driving
-//                beacons.append(beacon)
-        beacons.append((glbData.driverBeacon))
-        beacons.append((glbData.passengerBeacon))
-        beacons.append((glbData.backSeatBeacon))
+        beacons = glbData.beacons
         
         rssiArray = [Double]()
         bleManager.delegate = self
         bleManager.startScanForDevices(advertisingWithServices: nil)
         
+        if !bleManager.bluetoothEnabled
+        {
+            ShowEnableBLEAlert()
+        }
+        
         UICustomization()
         InitMap()
         LocationInitializer()
         commandIntervalTimer = Timer()
-        
-     
-        
-
-        
         StartSendData()
     }
     
     func LocationInitializer()
     {
         Locator.requestAuthorizationIfNeeded(.always)
+        Locator.backgroundLocationUpdates = true
         
         Locator.subscribePosition(accuracy: .block, onUpdate:{ loc in
             
@@ -120,8 +116,6 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
                         self.commandIntervalTimer = Timer.scheduledTimer(timeInterval: self.timeInterval, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: false)
                         self.isCommandSent = false
                     }
-                    
-                    
                 }
             }
             
@@ -153,7 +147,11 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         timeInterval = 10
         isCommandSent = true
         if self.driverBeacon != nil {
-            self.driverBeacon.device.peripheral.discoverServices(nil)
+            if self.driverBeacon.device != nil
+            {
+                self.driverBeacon.device.peripheral.discoverServices(nil)
+//                bleManager.startScanForServices(device: self.driverBeacon.device)
+            }
         }
     }
     
@@ -204,10 +202,13 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     {
         var beacon:Beacon? = nil
         for item in beacons {
-            
-            if device.peripheral.name?.lowercased() ?? " " == item.identifier.lowercased()
+            if device.peripheral.name?.lowercased() != nil
             {
-                beacon = item
+                if device.peripheral.name?.lowercased() == item.identifier.lowercased()
+                {
+                    beacon = item
+                    beacon?.device = device
+                }
             }
         }
         return beacon
@@ -230,18 +231,18 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             switch (beacon?.type)! {
             case .driving:
                 driverBeacon = beacon
-                driverBeacon.device = device
                 driverStatusView.backgroundColor = .green
                 driverBeacon.device.peripheral.delegate = bleManager
-                bleManager.connect(with: device)
+                if !disconnectMode
+                {
+                    bleManager.connect(with: device)
+                }
             case .front:
                 passengerBeacon = beacon
-                passengerBeacon.device = device
                 passengerStatusView.backgroundColor = .green
                 bleManager.connect(with: device)
             case .rear:
                 backSeatBc = beacon
-                backSeatBc.device = device
                 rearStatusView.backgroundColor = .green
                 bleManager.connect(with: device)
             case .none:
@@ -252,36 +253,78 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             
             if driverBeacon != nil && passengerBeacon != nil && backSeatBc != nil  {
                 
-                 driverDistance = calculateNewDistance(txCalibratedPower: 60, rssi: driverBeacon?.rssi as! Int)
-                 passengerDistance = calculateNewDistance(txCalibratedPower: 60, rssi: passengerBeacon?.rssi as! Int)
-                 backSeatDistance = calculateNewDistance(txCalibratedPower: 60, rssi: backSeatBc?.rssi as! Int)
+                driverDistance = calculateNewDistance(txCalibratedPower: 60, rssi: driverBeacon?.rssi as! Int)
+                passengerDistance = calculateNewDistance(txCalibratedPower: 60, rssi: passengerBeacon?.rssi as! Int)
+                backSeatDistance = calculateNewDistance(txCalibratedPower: 60, rssi: backSeatBc?.rssi as! Int)
                 
-//                let date = Date()
-//                let calendar = Calendar.current
-//                let minutes = calendar.component(.minute, from: date)
-//                let seconds = calendar.component(.second, from: date)
-//                let miliSeconds = calendar.component(.nanosecond, from: date)
-//
-//                let soapRequest = AEXMLDocument()
-//                let attributes = ["Time" : String(minutes) + ":" + String(seconds) + ":" + String(miliSeconds) ]
-//                let envelope = soapRequest.addChild(name: "BeaconsData", attributes: attributes)
-//                let driver = envelope.addChild(name: "DriverBeacon")
-//                let passenger = envelope.addChild(name: "PassengerBeacon")
-//                let backseat = envelope.addChild(name: "BackSeatBeacon")
-//                driver.addChild(name: "Distance", value: String(driverDistance))
-//                passenger.addChild(name: "Distance", value: String(passengerDistance))
-//                backseat.addChild(name: "Distance", value: String(backSeatDistance))
-//
-//                // prints the same XML structure as original
-//                print(soapRequest.xml)
                 self.beaconStatusContainer.backgroundColor = .green
-                UpdateBeaconStatusLabel(beacon: DetermineZone())
-             
+                
+                if  !isUpdated
+                {
+                    self.isUpdated = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
+                        self.UpdateBeaconStatusLabel(beacon: self.DetermineZone())
+                    })
+                }
+                
             }
             else
             {
                 self.beaconStatusContainer.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
                 UpdateBeaconStatusLabel(beacon: BeaconType.none)
+            }
+        }
+    }
+    
+    @IBAction func DisconnectManually(_ sender: Any) {
+    
+        disconnectMode = !disconnectMode
+        if disconnectMode
+        {
+            bleManager.disconnectFromDevice()
+            bleManager.stopScanForDevices()
+        }
+        else
+        {
+            let dialog = ZAlertView(title: "🤖", message: "Start Connecting" , closeButtonText: "OK",closeButtonHandler:{alertView in
+                self.bleManager.startScanForDevices()
+                alertView.dismissAlertView()
+            })
+            dialog.show()
+        }
+        
+    }
+    
+    @IBAction func ToggleKeyboardEvent(_ sender: Any) {
+        
+  
+        bleManager.mangeKeyboard = true
+        
+            let dialog = ZAlertView(title: "👻", message: "Do you want to use your keyboard? (If NO until you are in the car, keyboard will not popup!)" , closeButtonText: "OK",closeButtonHandler:{alertView in
+                let textField = alertView.getTextFieldWithIdentifier("1")
+                if textField?.text?.lowercased() == "no"
+                {
+                    Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.SendKeyboardCommand), userInfo: nil, repeats: false)
+                }
+                alertView.dismissAlertView()
+            })
+        
+        dialog.addTextField("1", placeHolder: "Say Yes or No...")
+        dialog.show()
+        
+        let textField = dialog.getTextFieldWithIdentifier("1")
+        textField?.becomeFirstResponder()
+        
+        Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.SendKeyboardCommand), userInfo: nil, repeats: false)
+        
+    }
+    
+    @objc func SendKeyboardCommand()
+    {
+        if self.driverBeacon != nil {
+            if self.driverBeacon.device != nil
+            {
+                self.driverBeacon.device.peripheral.discoverServices(nil)                
             }
         }
     }
@@ -292,13 +335,19 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     
     
     func manager(_ manager: Manager, connectedToDevice device: Device) {
-//        self.beaconStatusContainer.backgroundColor = .green
-//        device.peripheral.discoverServices(nil)
+
+        
+        
     }
-//    00001523-1212-EFDE-1523-785FEABCD123
+
     
     func manager(_ manager: Manager, disconnectedFromDevice device: Device, willRetry retry: Bool) {
      
+        let dialog = ZAlertView(title: "💀", message: "Disconnected" , closeButtonText: "OK",closeButtonHandler:{alertView in
+            alertView.dismissAlertView()
+        })
+        dialog.show()
+        
         let beacon = CheckBLEWithName(device: device)
         
         if beacon != nil {
@@ -307,25 +356,36 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             
             switch (beacon?.type)! {
             case .driving:
-                driverStatusView.backgroundColor = .red
+                driverStatusView.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
             case .front:
-                passengerStatusView.backgroundColor = .red
+                passengerStatusView.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
             case .rear:
-                rearStatusView.backgroundColor = .red
+                rearStatusView.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
             case .none:
                 break
             }
         }
-        
-//        UpdateBeaconStatusLabel(beacon: BeaconType.none)
     }
     
     func manager(_ manager: Manager, RSSIUpdated device: Device) {
 
     }
     
+    func manager(_ manager: Manager,IsBLEOn status:Bool)
+    {
+        ShowEnableBLEAlert()
+    }
+    
+    fileprivate func ShowEnableBLEAlert() {
+        let dialog = ZAlertView(title: "🙄", message: "Please turn Bluetooth ON!" , closeButtonText: "OK",closeButtonHandler:{alertView in
+            alertView.dismissAlertView()
+        })
+        dialog.show()
+    }
+
+    
     func UpdateBeaconStatusLabel(beacon:BeaconType)
-    {        
+    {
         DispatchQueue.main.async {
           
             switch beacon {
@@ -344,6 +404,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
                 self.appMode = BeaconType.none
             }
         }
+        isUpdated = false
     }
     
     @IBAction func ShowBlesEvent(_ sender: Any) {
@@ -352,27 +413,24 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     
     func DetermineZone() -> BeaconType
     {
-        var type:BeaconType!
+        var type:BeaconType = BeaconType.none
         
-        if driverDistance - 0.2 < passengerDistance && driverDistance - 0.2 < backSeatDistance
+        if driverDistance - 0.15 < passengerDistance && driverDistance - 0.15 < backSeatDistance
         {
             type = .driving
-            bleManager.connect(with: driverBeacon.device)
         }
         else if passengerDistance < driverDistance && passengerDistance < backSeatDistance
         {
             type = .front
-            bleManager.connect(with: passengerBeacon.device)
         }
-        else if backSeatDistance < driverDistance && backSeatDistance < passengerDistance
+        else if backSeatDistance < driverDistance - 0.15 && backSeatDistance < passengerDistance
         {
             type = .rear
-            bleManager.connect(with: backSeatBc.device)
         }
         else
         {
             self.beaconStatusContainer.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
-            type = .none
+            type = BeaconType.none
         }
         return type
     }

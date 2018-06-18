@@ -28,7 +28,6 @@
 		3A4BC631202898CA0017E213 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC630202898CA0017E213 /* DataManager.swift */; };
 		3A4BC6342029FB130017E213 /* CarBluetoothViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC6332029FB130017E213 /* CarBluetoothViewController.swift */; };
 		3A4BC647202B36D90017E213 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 3A4BC63A202B36D90017E213 /* .gitkeep */; };
-		3A4BC648202B36D90017E213 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 3A4BC63C202B36D90017E213 /* .gitkeep */; };
 		3A4BC649202B36D90017E213 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC63D202B36D90017E213 /* Item.swift */; };
 		3A4BC64A202B36D90017E213 /* ItemLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC63E202B36D90017E213 /* ItemLayer.swift */; };
 		3A4BC64B202B36D90017E213 /* RadarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC63F202B36D90017E213 /* RadarView.swift */; };
@@ -497,7 +496,6 @@
 				3A4BC6022025DB960017E213 /* LaunchScreen.storyboard in Resources */,
 				3A4BC5FF2025DB960017E213 /* Assets.xcassets in Resources */,
 				3A3E6044203248D100E4B0D4 /* MapStyle.json in Resources */,
-				3A4BC648202B36D90017E213 /* .gitkeep in Resources */,
 				3A4BC5FD2025DB960017E213 /* Main.storyboard in Resources */,
 				3A4BC647202B36D90017E213 /* .gitkeep in Resources */,
 			);

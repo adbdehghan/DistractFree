@@ -12,6 +12,10 @@ import ZAlertView
 import RSLoadingView
 
 class RearCalibrationViewController: UIViewController,ManagerDelegate {
+    func manager(_ manager: Manager, IsBLEOn status: Bool) {
+        
+    }
+    
     let bleManager = Manager()
     var beacons:[Beacon]!
     var driverBeacon:Beacon!
@@ -81,7 +85,7 @@ class RearCalibrationViewController: UIViewController,ManagerDelegate {
                     CalibrationManager().SaveCalibValues(Driver: CalibrationManager().driverCalibValue, Passenger: CalibrationManager().passengerCalibValue, BackSeat: backSeatSum)
                     
                     let glbData = GlobalData.sharedInstance
-                    glbData.driverBeacon.calibrationValue = CalibrationManager().driverCalibValue
+//                    glbData.driverBeacon.calibrationValue = CalibrationManager().driverCalibValue
                     glbData.passengerBeacon.calibrationValue = CalibrationManager().passengerCalibValue
                     glbData.backSeatBeacon.calibrationValue = CalibrationManager().backSeatCalibValue
                     bleManager.stopScanForDevices()

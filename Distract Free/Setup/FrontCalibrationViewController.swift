@@ -12,6 +12,10 @@ import ZAlertView
 import RSLoadingView
 
 class FrontCalibrationViewController: UIViewController,ManagerDelegate {
+    func manager(_ manager: Manager, IsBLEOn status: Bool) {
+        
+    }
+    
     let bleManager = Manager()
     var beacons:[Beacon]!
     var driverBeacon:Beacon!
@@ -30,7 +34,7 @@ class FrontCalibrationViewController: UIViewController,ManagerDelegate {
         let glbData = GlobalData.sharedInstance
         
         beacons = [Beacon]()
-        beacons.append((glbData.driverBeacon))
+//        beacons.append((glbData.driverBeacon))
         beacons.append((glbData.passengerBeacon))
 
     }

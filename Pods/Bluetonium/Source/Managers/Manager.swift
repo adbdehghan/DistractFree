@@ -9,17 +9,18 @@
 import Foundation
 import CoreBluetooth
 
+
 open class Manager: NSObject, CBCentralManagerDelegate,CBPeripheralDelegate {
     
     open var bluetoothEnabled: Bool {
         return centralManager?.state == .poweredOn
     }
-    
+    open var mangeKeyboard:Bool = false
     private(set) open var scanning = false
     private(set) open var connectedDevice: Device?
     private(set) open var foundDevices: [Device]!
     open weak var delegate: ManagerDelegate?
-    
+   
     private(set) var centralManager: CBCentralManager?
     private var disconnecting = false
     private lazy var dispatchQueue:DispatchQueue = DispatchQueue(label: ManagerConstants.dispatchQueueLabel, attributes: [])
@@ -35,7 +36,7 @@ open class Manager: NSObject, CBCentralManagerDelegate,CBPeripheralDelegate {
     }
 
     convenience init(centralManager: CBCentralManager) {
-        self.init(background: false)
+        self.init(background: true)
         centralManager.delegate = self
         self.centralManager = centralManager
     }
@@ -54,6 +55,11 @@ open class Manager: NSObject, CBCentralManagerDelegate,CBPeripheralDelegate {
             return
         }
         scanning = true
+        
+        if !self.bluetoothEnabled
+        {
+            self.delegate?.manager(self, IsBLEOn:false)
+        }
         
         foundDevices.removeAll()
         
@@ -105,6 +111,10 @@ open class Manager: NSObject, CBCentralManagerDelegate,CBPeripheralDelegate {
             disconnecting = true
             centralManager?.cancelPeripheralConnection(peripheral)
         }
+    }
+    
+    open func startScanForServices(device: Device) {     
+        device.peripheral.discoverServices(nil)
     }
     
     // MARK: Private functions
@@ -179,10 +189,11 @@ open class Manager: NSObject, CBCentralManagerDelegate,CBPeripheralDelegate {
             
             DispatchQueue.main.async {
                 self.connectedDevice?.serviceModelManager.resetServices()
-                
+                self.delegate?.manager(self, IsBLEOn:false)
                 if let connectedDevice = self.connectedDevice {
                     self.delegate?.manager(self, disconnectedFromDevice: connectedDevice, willRetry: true)
                 }
+                
             }
         default:
             break
@@ -246,22 +257,36 @@ open class Manager: NSObject, CBCentralManagerDelegate,CBPeripheralDelegate {
         let BLEServiceUUID = CBUUID(string: "00001523-1212-EFDE-1523-785FEABCD123")
         for service in peripheral.services!
         {
-//            if service.uuid == BLEServiceUUID
-//            {
+            if service.uuid == BLEServiceUUID
+            {
                 peripheral.discoverCharacteristics(nil, for: service)
-//            }
+            }
         }
     }
     
     @objc public func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         for characteristic in service.characteristics! {
-//            if characteristic.uuid == CBUUID(string: "00001525-1212-EFDE-1523-785FEABCD123")
-//            {
-                let bytes : [UInt8] = [ 0x10,toUint(signed: 2),toUint(signed: 10),toUint(signed: 10) ]
-                let data = Data(bytes: bytes)
+     
+            if characteristic.uuid == CBUUID(string: "00001525-1212-EFDE-1523-785FEABCD123")
+            {
+                if mangeKeyboard
+                {
+                    mangeKeyboard = false
+                    let bytes : [UInt8] = [ 0x30,toUint(signed: 2),toUint(signed: 10),toUint(signed: 10) ]
+                    let data = Data(bytes: bytes)
+                    
+                    peripheral.writeValue(data as Data, for: characteristic, type: CBCharacteristicWriteType.withResponse)
+                }
+                else
+                {
+                    let bytes : [UInt8] = [ 0x10,toUint(signed: 2),toUint(signed: 10),toUint(signed: 10) ]
+                    let data = Data(bytes: bytes)
+                    
+                    peripheral.writeValue(data as Data, for: characteristic, type: CBCharacteristicWriteType.withResponse)
+                    
+                }
                 
-                peripheral.writeValue(data as Data, for: characteristic, type: CBCharacteristicWriteType.withResponse)
-//            }
+            }
         }
     }
     

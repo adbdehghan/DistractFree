@@ -10,7 +10,8 @@ import UIKit
 
 class GlobalData: NSObject {
     static let sharedInstance = GlobalData()
-    var driverBeacon:Beacon = Beacon()
+    var beacons:[Beacon] = [Beacon]()
     var passengerBeacon:Beacon = Beacon()
     var backSeatBeacon:Beacon = Beacon()
+    var toggleKeyboard:Bool = false
 }
