@@ -14,4 +14,5 @@ class GlobalData: NSObject {
     var passengerBeacon:Beacon = Beacon()
     var backSeatBeacon:Beacon = Beacon()
     var toggleKeyboard:Bool = false
+    var appMode:BeaconType = BeaconType.none
 }

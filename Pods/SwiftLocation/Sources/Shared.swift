@@ -284,12 +284,13 @@ public extension CLLocationManager {
 		if CLLocationManager.validateInfoPlistRequiredKeys(forLevel: level) == false {
 			fatalError("Missing Info.plist entries for required authorization level")
 		}
-		switch level {
-		case .always:
-			self.requestAlwaysAuthorization()
-		case .whenInUse:
-			self.requestWhenInUseAuthorization()
-		}
+        self.requestAlwaysAuthorization()
+//        switch level {
+//        case .always:
+//            self.requestAlwaysAuthorization()
+//        case .whenInUse:
+//            self.requestWhenInUseAuthorization()
+//        }
 	}
 	
 	/// Return is specified value is set in Info.plist of the host application

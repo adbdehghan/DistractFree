@@ -51,6 +51,8 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     var timeInterval = 1.0
     let picker = TCPickerView()
     var bleList:Array<Any>!
+    var locationRequest:LocationRequest!
+    var locationIsUpdating = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,10 +80,11 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     
     func LocationInitializer()
     {
+        locationIsUpdating = true
         Locator.requestAuthorizationIfNeeded(.always)
         Locator.backgroundLocationUpdates = true
         
-        Locator.subscribePosition(accuracy: .block, onUpdate:{ loc in
+        locationRequest = Locator.subscribePosition(accuracy: .block, onUpdate:{ loc in
             
             self.latitiude = Double(loc.coordinate.latitude)
             self.longitude = Double(loc.coordinate.longitude)
@@ -274,6 +277,11 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
                 UpdateBeaconStatusLabel(beacon: BeaconType.none)
             }
         }
+        else
+        {
+            self.beaconStatusContainer.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
+            UpdateBeaconStatusLabel(beacon: BeaconType.none)
+        }
     }
     
     @IBAction func DisconnectManually(_ sender: Any) {
@@ -392,16 +400,24 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             case .driving:
                 self.beaconStatus.text = "Driver"
                 self.appMode = BeaconType.driving
-                
+                if !self.locationIsUpdating
+                {
+                    self.LocationInitializer()
+                    self.mapView.isMyLocationEnabled = true
+                }
             case .front:
                 self.beaconStatus.text = "Passenger"
                 self.appMode = BeaconType.front
+                self.StopLocationRequest()
+                
             case .rear:
                 self.beaconStatus.text = "Rear Seat"
                 self.appMode = BeaconType.rear
+                self.StopLocationRequest()
             default:
                 self.beaconStatus.text = "None"
                 self.appMode = BeaconType.none
+                self.StopLocationRequest()
             }
         }
         isUpdated = false
@@ -411,9 +427,25 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         
     }
     
+    func StopLocationRequest()
+    {
+        if locationRequest != nil {
+            locationRequest.stop()
+            Locator.stopRequest(locationRequest)
+            locationIsUpdating = false
+            mapView.isMyLocationEnabled = false
+            Locator.completeAllLocationRequests()
+        }
+    }
+    
     func DetermineZone() -> BeaconType
     {
         var type:BeaconType = BeaconType.none
+        
+        if driverDistance == 0 && passengerDistance == 0 && backSeatDistance == 0{
+            self.beaconStatusContainer.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
+            type = BeaconType.none
+        }
         
         if driverDistance - 0.15 < passengerDistance && driverDistance - 0.15 < backSeatDistance
         {
@@ -432,7 +464,17 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             self.beaconStatusContainer.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
             type = BeaconType.none
         }
+        
+        ResetDistances()
+        
         return type
+    }
+    
+    func ResetDistances()
+    {
+        driverDistance = 0
+        passengerDistance = 0
+        backSeatDistance = 0
     }
     
     func calculateNewDistance(txCalibratedPower: Int, rssi: Int) -> Double{
@@ -455,12 +497,15 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     
     @objc func SendData()
     {
-        let distances = [String(driverDistance),String(passengerDistance),String(backSeatDistance)]
-        let manager = DataManager()
-        
-        manager.PostRecords(dateTime: getTodayString(), speed: currentSpeed, latitude: latitiude, longitude: longitude, phoneBattery: Int(UIDevice.current.batteryLevel * 100), userState: self.appMode == nil ? "none" : self.appMode.rawValue, blutoothState: bleManager.bluetoothEnabled, gpsState: true, beacons: [], distances: [], completion: {(APIResponse)-> Void in
+        if locationIsUpdating
+        {
+            let distances = [String(driverDistance),String(passengerDistance),String(backSeatDistance)]
+            let manager = DataManager()
             
-        })
+            manager.PostRecords(dateTime: getTodayString(), speed: currentSpeed, latitude: latitiude, longitude: longitude, phoneBattery: Int(UIDevice.current.batteryLevel * 100), userState: self.appMode == nil ? "none" : self.appMode.rawValue, blutoothState: bleManager.bluetoothEnabled, gpsState: true, beacons: [], distances: [], completion: {(APIResponse)-> Void in
+                
+            })
+        }
     }
     @IBAction func ActivateTestModeEvent(_ sender: Any) {
         
@@ -502,7 +547,12 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
-        bleManager.stopScanForDevices()
+//        bleManager.stopScanForDevices()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+    
     }
     
     override func didReceiveMemoryWarning() {
