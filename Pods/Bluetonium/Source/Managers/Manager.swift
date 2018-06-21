@@ -56,10 +56,10 @@ open class Manager: NSObject, CBCentralManagerDelegate,CBPeripheralDelegate {
         }
         scanning = true
         
-        if !self.bluetoothEnabled
-        {
-            self.delegate?.manager(self, IsBLEOn:false)
-        }
+//        if !self.bluetoothEnabled
+//        {
+//            self.delegate?.manager(self, IsBLEOn:false)
+//        }
         
         foundDevices.removeAll()
         

@@ -65,12 +65,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         rssiArray = [Double]()
         bleManager.delegate = self
         bleManager.startScanForDevices(advertisingWithServices: nil)
-        
-        if !bleManager.bluetoothEnabled
-        {
-            ShowEnableBLEAlert()
-        }
-        
+
         UICustomization()
         InitMap()
         LocationInitializer()
@@ -153,7 +148,6 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             if self.driverBeacon.device != nil
             {
                 self.driverBeacon.device.peripheral.discoverServices(nil)
-//                bleManager.startScanForServices(device: self.driverBeacon.device)
             }
         }
     }
@@ -300,7 +294,6 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             })
             dialog.show()
         }
-        
     }
     
     @IBAction func ToggleKeyboardEvent(_ sender: Any) {
@@ -324,7 +317,6 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         textField?.becomeFirstResponder()
         
         Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.SendKeyboardCommand), userInfo: nil, repeats: false)
-        
     }
     
     @objc func SendKeyboardCommand()
@@ -341,13 +333,10 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         
     }
     
-    
     func manager(_ manager: Manager, connectedToDevice device: Device) {
 
         
-        
     }
-
     
     func manager(_ manager: Manager, disconnectedFromDevice device: Device, willRetry retry: Bool) {
      
@@ -391,7 +380,6 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         dialog.show()
     }
 
-    
     func UpdateBeaconStatusLabel(beacon:BeaconType)
     {
         DispatchQueue.main.async {
@@ -507,6 +495,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             })
         }
     }
+    
     @IBAction func ActivateTestModeEvent(_ sender: Any) {
         
         if isTestMode {
@@ -547,7 +536,6 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
-//        bleManager.stopScanForDevices()
     }
     
     override func viewDidAppear(_ animated: Bool) {
