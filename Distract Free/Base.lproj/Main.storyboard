@@ -369,7 +369,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fyQ-xQ-Adf">
-                                <rect key="frame" x="313" y="766" width="46" height="30"/>
+                                <rect key="frame" x="313" y="732" width="46" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Kxr-b1-g1F"/>
                                     <constraint firstAttribute="width" constant="46" id="Kzo-st-53b"/>
@@ -659,7 +659,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Wy-NV-kQd">
-                                <rect key="frame" x="313" y="732" width="46" height="30"/>
+                                <rect key="frame" x="313" y="766" width="46" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="46" id="Hfx-Nr-94g"/>
                                     <constraint firstAttribute="height" constant="30" id="LWi-O6-6bL"/>
@@ -673,7 +673,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UFC-i9-lBv">
-                                <rect key="frame" x="16" y="732" width="46" height="30"/>
+                                <rect key="frame" x="16" y="766" width="46" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="2xh-JA-W3x"/>
                                     <constraint firstAttribute="width" constant="46" id="P2k-0L-kSv"/>
@@ -731,7 +731,7 @@
                                 <rect key="frame" x="-0.66666666666665719" y="0.0" width="375.33333333333326" height="812"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distract Free" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="02C-D2-65T">
-                                <rect key="frame" x="88" y="644" width="198" height="21"/>
+                                <rect key="frame" x="88" y="678" width="198" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="198" id="3xe-ub-NNs"/>
                                     <constraint firstAttribute="height" constant="21" id="qdD-4Y-OAI"/>
@@ -790,7 +790,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FoL-4d-CjF">
-                                <rect key="frame" x="276" y="732" width="83" height="30"/>
+                                <rect key="frame" x="276" y="766" width="83" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="1Lz-bj-eyu"/>
                                     <constraint firstAttribute="width" constant="83" id="adV-Fg-EjH"/>
@@ -804,7 +804,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MWD-Hs-aoU">
-                                <rect key="frame" x="16" y="732" width="46" height="30"/>
+                                <rect key="frame" x="16" y="766" width="46" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="46" id="JVX-8x-gWB"/>
                                     <constraint firstAttribute="height" constant="30" id="v0W-Rx-jV8"/>
@@ -817,10 +817,10 @@
                                     <action selector="BackButtonAction:" destination="DMu-0N-g17" eventType="touchUpInside" id="j4a-I1-1At"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.94999998807907104" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your installation is Complete!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z6j-6G-5rh">
-                                <rect key="frame" x="70" y="454" width="236" height="48"/>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.94999998807907104" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your installation is Complete! In order to use app, you should pair your phone with all installed devices in the car." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z6j-6G-5rh">
+                                <rect key="frame" x="70" y="454" width="236" height="93"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="AFX-ER-ArD"/>
+                                    <constraint firstAttribute="height" constant="93" id="AFX-ER-ArD"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1062,7 +1062,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nap-bt-kCY">
-                                <rect key="frame" x="313" y="732" width="46" height="30"/>
+                                <rect key="frame" x="313" y="766" width="46" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="QLM-FS-c5c"/>
                                     <constraint firstAttribute="width" constant="46" id="xdn-5Z-1Tr"/>
@@ -1102,7 +1102,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KqA-6e-XG8">
-                                <rect key="frame" x="16" y="732" width="46" height="30"/>
+                                <rect key="frame" x="16" y="766" width="46" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="46" id="hhU-8V-Hfe"/>
                                     <constraint firstAttribute="height" constant="30" id="wMC-Z1-COy"/>
@@ -1251,7 +1251,7 @@
         <image name="test" width="18" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ELY-jY-8pv"/>
+        <segue reference="IGd-4g-jL4"/>
         <segue reference="EZZ-DB-Mob"/>
         <segue reference="1Az-Zb-rVX"/>
     </inferredMetricsTieBreakers>
