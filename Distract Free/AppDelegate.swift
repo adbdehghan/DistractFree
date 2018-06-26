@@ -21,14 +21,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.sharedManager().enable = true
         GMSServices.provideAPIKey("AIzaSyAKoZxownJnAdIayjsIiu9n488xfJWsnlw")
         UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
-        if let _ = launchOptions?[UIApplicationLaunchOptionsKey.location] {
-            Locator.subscribeSignificantLocations(onUpdate: { newLocation in
-                // This block will be executed with the details of the significant location change that triggered the background app launch,
-                // and will continue to execute for any future significant location change events as well (unless canceled).
-            }, onFail: { (err, lastLocation) in
-                // Something bad has occurred
-            })
-        }
+//        if let _ = launchOptions?[UIApplicationLaunchOptionsKey.location] {
+//            Locator.subscribeSignificantLocations(onUpdate: { newLocation in
+//                // This block will be executed with the details of the significant location change that triggered the background app launch,
+//                // and will continue to execute for any future significant location change events as well (unless canceled).
+//            }, onFail: { (err, lastLocation) in
+//                // Something bad has occurred
+//            })
+//        }
         
         return true
     }

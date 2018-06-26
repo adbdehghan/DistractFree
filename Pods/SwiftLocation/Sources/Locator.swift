@@ -75,7 +75,7 @@ public class LocatorManager: NSObject, CLLocationManagerDelegate {
 	internal static let shared = LocatorManager()
 	
 	/// Core location internal manager
-	internal var manager: CLLocationManager
+	public var manager: CLLocationManager
 	
 	/// Current queued location requests
 	private var locationRequests: [LocationRequest] = []
@@ -408,9 +408,9 @@ public class LocatorManager: NSObject, CLLocationManagerDelegate {
 	/// - Parameter request: request
 	/// - Returns: `true` if request is removed
 	@discardableResult
-	private func stopLocationRequest(_ request: LocationRequest?) -> Bool {
+	public func stopLocationRequest(_ request: LocationRequest?) -> Bool {
 		guard let r = request, let idx = self.locationRequests.index(of: r) else { return false }
-		
+		self.manager.stopUpdatingLocation()
 		if r.isRecurring { // Recurring requests can only be canceled
 			r.timeout?.abort()
 			self.locationRequests.remove(at: idx)

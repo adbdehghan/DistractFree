@@ -265,8 +265,14 @@ open class Manager: NSObject, CBCentralManagerDelegate,CBPeripheralDelegate {
     }
     
     @objc public func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+         peripheral.readRSSI()
         for characteristic in service.characteristics! {
      
+            if characteristic.uuid == CBUUID(string: "2A19")
+            {
+                peripheral.setNotifyValue(true, for: characteristic)
+            }
+            
             if characteristic.uuid == CBUUID(string: "00001525-1212-EFDE-1523-785FEABCD123")
             {
                 if mangeKeyboard
@@ -288,6 +294,11 @@ open class Manager: NSObject, CBCentralManagerDelegate,CBPeripheralDelegate {
                 
             }
         }
+    }
+    
+    @objc public func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+        
+        peripheral.readRSSI()
     }
     
     func toUint(signed: Int) -> UInt8 {

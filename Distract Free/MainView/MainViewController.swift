@@ -14,6 +14,7 @@ import CoreLocation
 import AEXML
 import TCPickerView
 import ZAlertView
+import CoreBluetooth
 
 class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDelegate {
 
@@ -53,6 +54,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     var bleList:Array<Any>!
     var locationRequest:LocationRequest!
     var locationIsUpdating = true
+    var isBleAvailable = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,13 +66,19 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         
         rssiArray = [Double]()
         bleManager.delegate = self
+        
         bleManager.startScanForDevices(advertisingWithServices: nil)
 
         UICustomization()
         InitMap()
         LocationInitializer()
         commandIntervalTimer = Timer()
-        StartSendData()
+        Timer.scheduledTimer(timeInterval: 20, target: self, selector: #selector(self.CheckAvailableBLE), userInfo: nil, repeats: false)
+    }
+  
+    @objc func CheckAvailableBLE()
+    {
+        isBleAvailable = false
     }
     
     func LocationInitializer()
@@ -213,6 +221,11 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     
     func manager(_ manager: Manager, didFindDevice device: Device) {
         
+        MainBLEProcess(device: device)
+    }
+    
+    func MainBLEProcess(device:Device)
+    {
         let name = (device.peripheral.name ?? "no name") + ": " + device.peripheral.identifier.uuidString
         
         if !picker.values.contains(where: {$0.title == name}) {
@@ -250,6 +263,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             
             if driverBeacon != nil && passengerBeacon != nil && backSeatBc != nil  {
                 
+                isBleAvailable = true
                 driverDistance = calculateNewDistance(txCalibratedPower: 60, rssi: driverBeacon?.rssi as! Int)
                 passengerDistance = calculateNewDistance(txCalibratedPower: 60, rssi: passengerBeacon?.rssi as! Int)
                 backSeatDistance = calculateNewDistance(txCalibratedPower: 60, rssi: backSeatBc?.rssi as! Int)
@@ -262,19 +276,28 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
                     DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
                         self.UpdateBeaconStatusLabel(beacon: self.DetermineZone())
                     })
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 20, execute: {
+                        self.SendData()
+                    })
                 }
                 
             }
             else
             {
-                self.beaconStatusContainer.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
-                UpdateBeaconStatusLabel(beacon: BeaconType.none)
+                if !isBleAvailable
+                {
+                    self.beaconStatusContainer.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
+                    UpdateBeaconStatusLabel(beacon: BeaconType.none)
+                }
             }
         }
         else
         {
-            self.beaconStatusContainer.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
-            UpdateBeaconStatusLabel(beacon: BeaconType.none)
+            if !isBleAvailable
+            {
+                self.beaconStatusContainer.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
+                UpdateBeaconStatusLabel(beacon: BeaconType.none)
+            }
         }
     }
     
@@ -366,6 +389,8 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     
     func manager(_ manager: Manager, RSSIUpdated device: Device) {
 
+        MainBLEProcess(device: device)
+        
     }
     
     func manager(_ manager: Manager,IsBLEOn status:Bool)
@@ -419,6 +444,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     {
         if locationRequest != nil {
             locationRequest.stop()
+            Locator.manager.stopUpdatingLocation()
             Locator.stopRequest(locationRequest)
             locationIsUpdating = false
             mapView.isMyLocationEnabled = false
