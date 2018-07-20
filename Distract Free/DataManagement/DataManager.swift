@@ -104,14 +104,15 @@ class DataManager: NSObject {
                     case 200:
                         if let resData = JSON(responseData.result.value!).dictionaryObject {
                             if resData.count > 0 {
-                                let dBeacon = Beacon()
-                                let pBeacon = Beacon()
-                                let bBeacon = Beacon()
+                             
+                              
+                      
                                 
                                 let driverMacs:[String] = resData["driverMacs"] as! [String]
                                 
                                 for item in driverMacs
                                 {
+                                    let dBeacon = Beacon()
                                     dBeacon.identifier = item
                                     dBeacon.type = BeaconType.driving
                                     dBeacon.name = "Lock3D52EDD973EC"
@@ -120,6 +121,7 @@ class DataManager: NSObject {
                                 
                                 for item in (resData["frontMacs"] as? [String])!
                                 {
+                                    let pBeacon = Beacon()
                                     pBeacon.identifier = item
                                     pBeacon.type = BeaconType.front
                                     pBeacon.name = "Lock3D52EDD973EC"
@@ -129,6 +131,7 @@ class DataManager: NSObject {
                                 
                                 for item in (resData["rearMacs"] as? [String])!
                                 {
+                                    let bBeacon = Beacon()
                                     bBeacon.identifier = item
                                     bBeacon.type = BeaconType.rear
                                     bBeacon.name = "Lock3D52EDD973EC"

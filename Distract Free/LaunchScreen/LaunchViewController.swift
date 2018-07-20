@@ -48,8 +48,8 @@ class LaunchViewController: UIViewController {
                 {
                     let glbData = GlobalData.sharedInstance
                     glbData.beacons = APIResponse
-                    glbData.passengerBeacon = APIResponse[1]
-                    glbData.backSeatBeacon = APIResponse.last!
+//                    glbData.passengerBeacon = APIResponse[1]
+//                    glbData.backSeatBeacon = APIResponse.last!
                     
                     if PasswordManager().Password == ""
                     {

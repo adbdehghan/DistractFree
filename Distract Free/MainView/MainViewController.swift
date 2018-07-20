@@ -46,6 +46,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     var globalSpeed = 0.0
     var commandIntervalTimer:Timer!
     var isCommandSent = true
+    var isDataSent = false
     var isUpdated = false
     var isTestMode = false
     var disconnectMode = false
@@ -55,6 +56,13 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     var locationRequest:LocationRequest!
     var locationIsUpdating = true
     var isBleAvailable = true
+    var driverUpdated = false
+    var passengerUpdated = false
+    var rearUpdated = false
+    
+    var driverZoneUpdated = false
+    var passengerZoneUpdated = false
+    var rearZoneUpdated = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,12 +81,26 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         InitMap()
         LocationInitializer()
         commandIntervalTimer = Timer()
-        Timer.scheduledTimer(timeInterval: 20, target: self, selector: #selector(self.CheckAvailableBLE), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(timeInterval: 20, target: self, selector: #selector(self.CheckAvailableBLE), userInfo: nil, repeats: true)
     }
   
     @objc func CheckAvailableBLE()
     {
         isBleAvailable = false
+        CheckBLEConncetivity()
+    }
+  
+    func CheckBLEConncetivity()
+    {
+        if  !passengerUpdated
+        {
+            passengerStatusView.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
+        }
+        
+        if  !rearUpdated
+        {
+            rearStatusView.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
+        }
     }
     
     func LocationInitializer()
@@ -243,6 +265,11 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
                 driverBeacon = beacon
                 driverStatusView.backgroundColor = .green
                 driverBeacon.device.peripheral.delegate = bleManager
+                driverUpdated = true
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 20.0, execute: {
+//                    self.driverUpdated = false
+//                    self.driverBeacon = nil
+//                })
                 if !disconnectMode
                 {
                     bleManager.connect(with: device)
@@ -251,14 +278,34 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
                 passengerBeacon = beacon
                 passengerStatusView.backgroundColor = .green
                 bleManager.connect(with: device)
+                if !passengerUpdated
+                {
+                    passengerUpdated = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 20.0, execute: {
+                        self.passengerUpdated = false
+                        self.passengerBeacon = nil
+                    })
+                }
+                
             case .rear:
                 backSeatBc = beacon
                 rearStatusView.backgroundColor = .green
                 bleManager.connect(with: device)
-            case .none:
-                passengerBeacon = nil
-                driverBeacon = nil
-                backSeatBc = nil
+                if !rearUpdated
+                {
+                    rearUpdated = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 20.0, execute: {
+                        self.rearUpdated = false
+                        self.backSeatBc = nil
+                    })
+                }
+              
+            case .none: break
+                
+//                passengerBeacon = nil
+//                driverBeacon = nil
+//                backSeatBc = nil
+            
             }
             
             if driverBeacon != nil && passengerBeacon != nil && backSeatBc != nil  {
@@ -275,14 +322,145 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
                     self.isUpdated = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
                         self.UpdateBeaconStatusLabel(beacon: self.DetermineZone())
+                        self.isUpdated = false
                     })
+                    
+                }
+                if  !isDataSent
+                {
+                    isDataSent = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 20, execute: {
                         self.SendData()
+                        self.isDataSent = false
                     })
                 }
                 
             }
+            else if driverBeacon != nil && passengerBeacon != nil
+            {
+                isBleAvailable = true
+                driverDistance = calculateNewDistance(txCalibratedPower: 60, rssi: driverBeacon?.rssi as! Int)
+                passengerDistance = calculateNewDistance(txCalibratedPower: 60, rssi: passengerBeacon?.rssi as! Int)
+                self.beaconStatusContainer.backgroundColor = .green
+                if  !isUpdated
+                {
+                    self.isUpdated = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
+                        self.UpdateBeaconStatusLabel(beacon: self.DetermineZone())
+                        self.isUpdated = false
+                    })
+                }
+                if  !isDataSent
+                {
+                    isDataSent = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 10.0, execute: {
+                        self.SendData()
+                        self.isDataSent = false
+                    })
+                }
+            }
+            else if driverBeacon != nil && backSeatBc != nil
+            {
+                isBleAvailable = true
+                driverDistance = calculateNewDistance(txCalibratedPower: 60, rssi: driverBeacon?.rssi as! Int)
+                backSeatDistance = calculateNewDistance(txCalibratedPower: 60, rssi: backSeatBc?.rssi as! Int)
+                self.beaconStatusContainer.backgroundColor = .green
+                if  !isUpdated
+                {
+                    self.isUpdated = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
+                        self.UpdateBeaconStatusLabel(beacon: self.DetermineZone())
+                        self.isUpdated = false
+                    })
+                }
+                if  !isDataSent
+                {
+                    isDataSent = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 10.0, execute: {
+                        self.SendData()
+                        self.isDataSent = false
+                    })
+                }
+            }
+            else if passengerBeacon != nil && backSeatBc != nil
+            {
+                isBleAvailable = true
+                passengerDistance = calculateNewDistance(txCalibratedPower: 60, rssi: passengerBeacon?.rssi as! Int)
+                backSeatDistance = calculateNewDistance(txCalibratedPower: 60, rssi: backSeatBc?.rssi as! Int)
+                self.beaconStatusContainer.backgroundColor = .green
+                if  !isUpdated
+                {
+                    self.isUpdated = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
+                        self.UpdateBeaconStatusLabel(beacon: self.DetermineZone())
+                        self.isUpdated = false
+                    })
+                }
+                if  !isDataSent
+                {
+                    isDataSent = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 10.0, execute: {
+                        self.SendData()
+                        self.isDataSent = false
+                    })
+                }
+            }
             else
+            {
+                if driverBeacon != nil
+                {
+                    isBleAvailable = true
+                    driverDistance = calculateNewDistance(txCalibratedPower: 60, rssi: driverBeacon?.rssi as! Int)
+                    self.beaconStatusContainer.backgroundColor = .green
+                    if  !driverZoneUpdated
+                    {
+                        self.driverZoneUpdated = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
+                            self.UpdateBeaconStatusLabel(beacon: self.DetermineZone())
+                            self.driverZoneUpdated = false
+                        })
+                    }
+                    if  !isDataSent
+                    {
+                        isDataSent = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 10.0, execute: {
+                            self.SendData()
+                            self.isDataSent = false
+                        })
+                    }
+                }
+                if passengerBeacon != nil
+                {
+                    isBleAvailable = true
+                    passengerDistance = calculateNewDistance(txCalibratedPower: 60, rssi: passengerBeacon?.rssi as! Int)
+                    self.beaconStatusContainer.backgroundColor = .green
+                    if  !passengerZoneUpdated
+                    {
+                        self.passengerZoneUpdated = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
+                            self.UpdateBeaconStatusLabel(beacon: self.DetermineZone())
+                            self.passengerZoneUpdated = false
+                        })
+                    }
+                    
+                }
+                if backSeatBc != nil
+                {
+                    isBleAvailable = true
+                    backSeatDistance = calculateNewDistance(txCalibratedPower: 60, rssi: backSeatBc?.rssi as! Int)
+                    self.beaconStatusContainer.backgroundColor = .green
+                    if  !rearZoneUpdated
+                    {
+                        self.rearZoneUpdated = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
+                            self.UpdateBeaconStatusLabel(beacon: self.DetermineZone())
+                            self.rearZoneUpdated = false
+                        })
+                    }
+                    
+                }
+            }
+            if driverBeacon == nil && passengerBeacon == nil && backSeatBc == nil
             {
                 if !isBleAvailable
                 {
@@ -291,14 +469,14 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
                 }
             }
         }
-        else
-        {
-            if !isBleAvailable
-            {
-                self.beaconStatusContainer.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
-                UpdateBeaconStatusLabel(beacon: BeaconType.none)
-            }
-        }
+//        else
+//        {
+//            if !isBleAvailable
+//            {
+//                self.beaconStatusContainer.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
+//                UpdateBeaconStatusLabel(beacon: BeaconType.none)
+//            }
+//        }
     }
     
     @IBAction func DisconnectManually(_ sender: Any) {
@@ -376,11 +554,14 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             
             switch (beacon?.type)! {
             case .driving:
+                driverBeacon = nil
                 driverStatusView.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
             case .front:
                 passengerStatusView.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
+                passengerBeacon = nil
             case .rear:
                 rearStatusView.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
+                backSeatBc = nil
             case .none:
                 break
             }
@@ -421,19 +602,18 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             case .front:
                 self.beaconStatus.text = "Passenger"
                 self.appMode = BeaconType.front
-                self.StopLocationRequest()
+                
                 
             case .rear:
                 self.beaconStatus.text = "Rear Seat"
                 self.appMode = BeaconType.rear
-                self.StopLocationRequest()
+                
             default:
                 self.beaconStatus.text = "None"
                 self.appMode = BeaconType.none
                 self.StopLocationRequest()
             }
         }
-        isUpdated = false
     }
     
     @IBAction func ShowBlesEvent(_ sender: Any) {
@@ -456,22 +636,51 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     {
         var type:BeaconType = BeaconType.none
         
-        if driverDistance == 0 && passengerDistance == 0 && backSeatDistance == 0{
-            self.beaconStatusContainer.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
-            type = BeaconType.none
+        if driverBeacon != nil && passengerBeacon != nil && backSeatBc != nil  {
+            
+            if driverDistance - 0.15 < passengerDistance && driverDistance - 0.15 < backSeatDistance
+            {
+                type = .driving
+            }
+            else if passengerDistance < driverDistance && passengerDistance < backSeatDistance
+            {
+                type = .front
+            }
+            else if backSeatDistance < driverDistance - 0.15 && backSeatDistance < passengerDistance
+            {
+                type = .rear
+            }
+            else
+            {
+                self.beaconStatusContainer.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
+                type = BeaconType.none
+            }
         }
-        
-        if driverDistance - 0.15 < passengerDistance && driverDistance - 0.15 < backSeatDistance
+        else if driverBeacon != nil && passengerBeacon != nil
+        {
+            if driverDistance - 0.15 < passengerDistance
+            {
+                type = .driving
+            }
+            else if passengerDistance < driverDistance
+            {
+                type = .front
+            }
+        }
+        else if driverBeacon != nil && backSeatBc != nil
+        {
+            if backSeatDistance < driverDistance - 0.15
+            {
+                type = .rear
+            }
+            else
+            {
+                 type = .driving
+            }
+        }
+        else if driverBeacon != nil
         {
             type = .driving
-        }
-        else if passengerDistance < driverDistance && passengerDistance < backSeatDistance
-        {
-            type = .front
-        }
-        else if backSeatDistance < driverDistance - 0.15 && backSeatDistance < passengerDistance
-        {
-            type = .rear
         }
         else
         {
@@ -479,7 +688,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             type = BeaconType.none
         }
         
-        ResetDistances()
+//        ResetDistances()
         
         return type
     }

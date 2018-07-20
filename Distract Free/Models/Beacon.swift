@@ -21,5 +21,6 @@ class Beacon: NSObject {
     var type:BeaconType!
     var calibrationValue:Double!
     var device:Device!
+    var Updated = false
 
 }
