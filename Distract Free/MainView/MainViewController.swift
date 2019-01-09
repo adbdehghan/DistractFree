@@ -59,10 +59,11 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     var driverUpdated = false
     var passengerUpdated = false
     var rearUpdated = false
-    
+    var isKeyboardActivated = false
     var driverZoneUpdated = false
     var passengerZoneUpdated = false
     var rearZoneUpdated = false
+    var stopLockCommand = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,7 +110,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         Locator.requestAuthorizationIfNeeded(.always)
         Locator.backgroundLocationUpdates = true
         
-        locationRequest = Locator.subscribePosition(accuracy: .block, onUpdate:{ loc in
+        locationRequest = Locator.subscribePosition(accuracy: .room, onUpdate:{ loc in
             
             self.latitiude = Double(loc.coordinate.latitude)
             self.longitude = Double(loc.coordinate.longitude)
@@ -139,15 +140,25 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
                 
                 if speed >= 10 && self.appMode == BeaconType.driving
                 {
+                    self.stopLockCommand = true
                     if self.isCommandSent
                     {
                         self.commandIntervalTimer = Timer.scheduledTimer(timeInterval: self.timeInterval, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: false)
                         self.isCommandSent = false
                     }
                 }
+                else if speed < 10 && self.appMode == BeaconType.driving
+                {
+                    if self.stopLockCommand
+                    {
+                        self.stopLockCommand = false
+                        self.commandIntervalTimer = Timer.scheduledTimer(timeInterval: self.timeInterval, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: false)
+                        self.isCommandSent = false
+                    }
+                }
             }
             
-            if !self.cameraUpdated
+            if true
             {
                 self.cameraUpdated = true
                 
@@ -172,7 +183,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
     
     @objc func timerAction()
     {
-        timeInterval = 10
+        timeInterval = 2
         isCommandSent = true
         if self.driverBeacon != nil {
             if self.driverBeacon.device != nil
@@ -277,11 +288,11 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             case .front:
                 passengerBeacon = beacon
                 passengerStatusView.backgroundColor = .green
-                bleManager.connect(with: device)
+//                bleManager.connect(with: device)
                 if !passengerUpdated
                 {
                     passengerUpdated = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 20.0, execute: {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 22.0, execute: {
                         self.passengerUpdated = false
                         self.passengerBeacon = nil
                     })
@@ -290,11 +301,11 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             case .rear:
                 backSeatBc = beacon
                 rearStatusView.backgroundColor = .green
-                bleManager.connect(with: device)
+//                bleManager.connect(with: device)
                 if !rearUpdated
                 {
                     rearUpdated = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 20.0, execute: {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 22.0, execute: {
                         self.rearUpdated = false
                         self.backSeatBc = nil
                     })
@@ -506,6 +517,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
                 let textField = alertView.getTextFieldWithIdentifier("1")
                 if textField?.text?.lowercased() == "no"
                 {
+                    self.isKeyboardActivated = !self.isKeyboardActivated
                     Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.SendKeyboardCommand), userInfo: nil, repeats: false)
                 }
                 alertView.dismissAlertView()
@@ -516,7 +528,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         
         let textField = dialog.getTextFieldWithIdentifier("1")
         textField?.becomeFirstResponder()
-        
+        self.isKeyboardActivated = !self.isKeyboardActivated
         Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.SendKeyboardCommand), userInfo: nil, repeats: false)
     }
     
@@ -566,6 +578,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
                 break
             }
         }
+         isKeyboardActivated = false
     }
     
     func manager(_ manager: Manager, RSSIUpdated device: Device) {
@@ -644,14 +657,17 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             }
             else if passengerDistance < driverDistance && passengerDistance < backSeatDistance
             {
+                ActivateKeyboardAutomaticly()
                 type = .front
             }
             else if backSeatDistance < driverDistance - 0.15 && backSeatDistance < passengerDistance
             {
+                ActivateKeyboardAutomaticly()
                 type = .rear
             }
             else
             {
+                ActivateKeyboardAutomaticly()
                 self.beaconStatusContainer.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
                 type = BeaconType.none
             }
@@ -664,6 +680,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
             }
             else if passengerDistance < driverDistance
             {
+                ActivateKeyboardAutomaticly()
                 type = .front
             }
         }
@@ -671,6 +688,7 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         {
             if backSeatDistance < driverDistance - 0.15
             {
+                ActivateKeyboardAutomaticly()
                 type = .rear
             }
             else
@@ -682,8 +700,19 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
         {
             type = .driving
         }
+        else if passengerBeacon != nil
+        {
+            ActivateKeyboardAutomaticly()
+            type = .front
+        }
+        else if backSeatBc != nil
+        {
+            ActivateKeyboardAutomaticly()
+            type = .rear
+        }
         else
         {
+            ActivateKeyboardAutomaticly()
             self.beaconStatusContainer.backgroundColor = UIColor.init(red: 255/255.0, green: 38/255.0, blue: 115/255.0, alpha: 0.9)
             type = BeaconType.none
         }
@@ -691,6 +720,13 @@ class MainViewController: UIViewController,CLLocationManagerDelegate,ManagerDele
 //        ResetDistances()
         
         return type
+    }
+    
+    func ActivateKeyboardAutomaticly()
+    {
+        if !isKeyboardActivated {
+            ToggleKeyboardEvent(self)
+        }
     }
     
     func ResetDistances()

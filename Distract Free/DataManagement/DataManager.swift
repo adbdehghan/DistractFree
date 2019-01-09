@@ -16,7 +16,7 @@ protocol DataManagerDelegate :class {
 }
 class DataManager: NSObject {
 
-    var baseURL = "http://rasamfard.ir/api/"
+    var baseURL = "http://104.248.14.199/api/"
     var delegate:DataManagerDelegate?
 
     func RegisterNumber(phonenumber:String,completion: @escaping (APIResponse) -> Void) {
@@ -105,9 +105,6 @@ class DataManager: NSObject {
                         if let resData = JSON(responseData.result.value!).dictionaryObject {
                             if resData.count > 0 {
                              
-                              
-                      
-                                
                                 let driverMacs:[String] = resData["driverMacs"] as! [String]
                                 
                                 for item in driverMacs

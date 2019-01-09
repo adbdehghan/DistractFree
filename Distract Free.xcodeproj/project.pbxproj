@@ -15,6 +15,7 @@
 		3A3E60482033519000E4B0D4 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3E60472033519000E4B0D4 /* BluetoothManager.swift */; };
 		3A3E604B2038C5A100E4B0D4 /* Beacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3E604A2038C5A100E4B0D4 /* Beacon.swift */; };
 		3A3E604E203AD90500E4B0D4 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3E604D203AD90500E4B0D4 /* LaunchViewController.swift */; };
+		3A44620C2130B23800A9BDEA /* BeaconsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A44620B2130B23800A9BDEA /* BeaconsManager.swift */; };
 		3A4BC5F82025DB960017E213 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4BC5F72025DB960017E213 /* AppDelegate.swift */; };
 		3A4BC5FD2025DB960017E213 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A4BC5FB2025DB960017E213 /* Main.storyboard */; };
 		3A4BC5FF2025DB960017E213 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A4BC5FE2025DB960017E213 /* Assets.xcassets */; };
@@ -80,6 +81,7 @@
 		3A3E60472033519000E4B0D4 /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 		3A3E604A2038C5A100E4B0D4 /* Beacon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Beacon.swift; sourceTree = "<group>"; };
 		3A3E604D203AD90500E4B0D4 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
+		3A44620B2130B23800A9BDEA /* BeaconsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconsManager.swift; sourceTree = "<group>"; };
 		3A4BC5F42025DB960017E213 /* Distract Free.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Distract Free.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A4BC5F72025DB960017E213 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A4BC5FC2025DB960017E213 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 				3A3E60472033519000E4B0D4 /* BluetoothManager.swift */,
 				3A7F08A1203AEF4D0026D845 /* GlobalData.swift */,
 				3AADBECE205EEF2F00BFDD50 /* CalibrationManager.swift */,
+				3A44620B2130B23800A9BDEA /* BeaconsManager.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -403,8 +406,6 @@
 				3A4BC6042025DB970017E213 /* Sources */,
 				3A4BC6052025DB970017E213 /* Frameworks */,
 				3A4BC6062025DB970017E213 /* Resources */,
-				B69B986717B27CA92E7E9B1A /* [CP] Embed Pods Frameworks */,
-				7E85254E3FBB36EB05752310 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -424,8 +425,6 @@
 				3A4BC60F2025DB970017E213 /* Sources */,
 				3A4BC6102025DB970017E213 /* Frameworks */,
 				3A4BC6112025DB970017E213 /* Resources */,
-				8BB95667299E855916AF0CCD /* [CP] Embed Pods Frameworks */,
-				F441A1C78E69C5B664C6EA2A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -536,21 +535,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Distract Free/Pods-Distract Free-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7E85254E3FBB36EB05752310 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Distract FreeTests/Pods-Distract FreeTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		8BA6B2F44DFDB0DAF68D5850 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -567,36 +551,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8BB95667299E855916AF0CCD /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Distract FreeUITests/Pods-Distract FreeUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B69B986717B27CA92E7E9B1A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Distract FreeTests/Pods-Distract FreeTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BB39E457C00F5E1F8F613BAE /* [CP] Check Pods Manifest.lock */ = {
@@ -628,17 +582,20 @@
 				"${BUILT_PRODUCTS_DIR}/AEXML/AEXML.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bluetonium/Bluetonium.framework",
+				"${BUILT_PRODUCTS_DIR}/CTKFlagPhoneNumber/CTKFlagPhoneNumber.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/KVSpinnerView/KVSpinnerView.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/PinCodeTextField/PinCodeTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/RSLoadingView/RSLoadingView.framework",
+				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SmileLock/SmileLock.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftLocation/SwiftLocation.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/TCPickerView/TCPickerView.framework",
 				"${BUILT_PRODUCTS_DIR}/ZAlertView/ZAlertView.framework",
+				"${BUILT_PRODUCTS_DIR}/libPhoneNumber-iOS/libPhoneNumber_iOS.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -646,17 +603,20 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AEXML.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bluetonium.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CTKFlagPhoneNumber.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KVSpinnerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PinCodeTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RSLoadingView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SmileLock.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftLocation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TCPickerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZAlertView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libPhoneNumber_iOS.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -679,21 +639,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F441A1C78E69C5B664C6EA2A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Distract FreeUITests/Pods-Distract FreeUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -728,6 +673,7 @@
 				64C1CB452039093C00905707 /* KalmanFilter.swift in Sources */,
 				3A3E604E203AD90500E4B0D4 /* LaunchViewController.swift in Sources */,
 				3A4BC64A202B36D90017E213 /* ItemLayer.swift in Sources */,
+				3A44620C2130B23800A9BDEA /* BeaconsManager.swift in Sources */,
 				3A4BC64F202B36D90017E213 /* Drawer.swift in Sources */,
 				3A3E603D2030D79C00E4B0D4 /* FinaStepViewController.swift in Sources */,
 				3A4BC653202B70840017E213 /* SetPasswordViewController.swift in Sources */,

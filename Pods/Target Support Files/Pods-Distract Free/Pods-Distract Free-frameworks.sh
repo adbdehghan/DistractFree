@@ -1,9 +1,18 @@
 #!/bin/sh
 set -e
+set -u
+set -o pipefail
+
+if [ -z ${FRAMEWORKS_FOLDER_PATH+x} ]; then
+    # If FRAMEWORKS_FOLDER_PATH is not set, then there's nowhere for us to copy
+    # frameworks to, so exit 0 (signalling the script phase was successful).
+    exit 0
+fi
 
 echo "mkdir -p ${CONFIGURATION_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
 mkdir -p "${CONFIGURATION_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
 
+COCOAPODS_PARALLEL_CODE_SIGN="${COCOAPODS_PARALLEL_CODE_SIGN:-false}"
 SWIFT_STDLIB_PATH="${DT_TOOLCHAIN_DIR}/usr/lib/swift/${PLATFORM_NAME}"
 
 # Used as a return value for each invocation of `strip_invalid_archs` function.
@@ -92,10 +101,10 @@ install_dsym() {
 
 # Signs a framework with the provided identity
 code_sign_if_enabled() {
-  if [ -n "${EXPANDED_CODE_SIGN_IDENTITY}" -a "${CODE_SIGNING_REQUIRED}" != "NO" -a "${CODE_SIGNING_ALLOWED}" != "NO" ]; then
+  if [ -n "${EXPANDED_CODE_SIGN_IDENTITY}" -a "${CODE_SIGNING_REQUIRED:-}" != "NO" -a "${CODE_SIGNING_ALLOWED}" != "NO" ]; then
     # Use the current code_sign_identitiy
     echo "Code Signing $1 with Identity ${EXPANDED_CODE_SIGN_IDENTITY_NAME}"
-    local code_sign_cmd="/usr/bin/codesign --force --sign ${EXPANDED_CODE_SIGN_IDENTITY} ${OTHER_CODE_SIGN_FLAGS} --preserve-metadata=identifier,entitlements '$1'"
+    local code_sign_cmd="/usr/bin/codesign --force --sign ${EXPANDED_CODE_SIGN_IDENTITY} ${OTHER_CODE_SIGN_FLAGS:-} --preserve-metadata=identifier,entitlements '$1'"
 
     if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
       code_sign_cmd="$code_sign_cmd &"
@@ -138,34 +147,40 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AEXML/AEXML.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Bluetonium/Bluetonium.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CTKFlagPhoneNumber/CTKFlagPhoneNumber.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/KVSpinnerView/KVSpinnerView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PinCodeTextField/PinCodeTextField.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RSLoadingView/RSLoadingView.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SmileLock/SmileLock.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftLocation/SwiftLocation.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/TCPickerView/TCPickerView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ZAlertView/ZAlertView.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/libPhoneNumber-iOS/libPhoneNumber_iOS.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/ABSteppedProgressBar/ABSteppedProgressBar.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AEXML/AEXML.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Bluetonium/Bluetonium.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CTKFlagPhoneNumber/CTKFlagPhoneNumber.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/KVSpinnerView/KVSpinnerView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PinCodeTextField/PinCodeTextField.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RSLoadingView/RSLoadingView.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SmileLock/SmileLock.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftLocation/SwiftLocation.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/TCPickerView/TCPickerView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ZAlertView/ZAlertView.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/libPhoneNumber-iOS/libPhoneNumber_iOS.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

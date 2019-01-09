@@ -89,7 +89,6 @@ class CalibrationManager: NSObject {
         else
         {
             print("WARNING: Couldn't create dictionary from Calib.plist! Default values will be used!")
-        }
-        
+        }        
     }
 }

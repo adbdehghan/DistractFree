@@ -21,7 +21,8 @@ target 'Distract Free' do
     pod 'AEXML'
     pod 'RSLoadingView'
     pod 'TCPickerView'
-    
+    pod 'ReachabilitySwift'
+    pod 'CTKFlagPhoneNumber'
     
     target 'Distract FreeTests' do
         inherit! :search_paths

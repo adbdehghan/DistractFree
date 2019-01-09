@@ -8,6 +8,7 @@
 
 import UIKit
 import ZAlertView
+import CTKFlagPhoneNumber
 
 class LoginViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate {
     //MARK: Properties
@@ -18,8 +19,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UINavigationCo
     @IBOutlet weak var registerNameField: UITextField!
     @IBOutlet weak var registerEmailField: UITextField!
     @IBOutlet weak var registerPasswordField: UITextField!
+    @IBOutlet weak var BackButton: UIButton!
     @IBOutlet var waringLabels: [UILabel]!
-    @IBOutlet weak var loginEmailField: UITextField!
+    @IBOutlet weak var loginEmailField: CTKFlagPhoneNumberTextField!
     @IBOutlet weak var loginPasswordField: UITextField!
     @IBOutlet weak var cloudsView: UIImageView!
     @IBOutlet weak var cloudsViewLeading: NSLayoutConstraint!
@@ -37,6 +39,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UINavigationCo
     func customization()  {
         self.darkView.alpha = 0
         
+        loginEmailField.parentViewController = self
+        loginEmailField.setFlag(for: "US")
         //LoginView customization
         self.view.insertSubview(self.loginView, belowSubview: self.cloudsView)
         self.loginView.translatesAutoresizingMaskIntoConstraints = false
@@ -137,7 +141,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UINavigationCo
         }
         self.showLoading(state: true)
         let manager = DataManager()
-        manager.CheckCode(Code: registerPasswordField.text!, phonenumber: loginEmailField.text!, completion: {(APIResponse)-> Void in
+        manager.CheckCode(Code: registerPasswordField.text!, phonenumber: self.loginEmailField.getCountryPhoneCode()! + (self.loginEmailField.text?.replacingOccurrences(of: "-", with: "").replacingOccurrences(of: " ", with: ""))!, completion: {(APIResponse)-> Void in
             
             
             if  !APIResponse.result!
@@ -152,7 +156,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UINavigationCo
             else
             {
                 let tokenManager = TokenManager()
-                tokenManager.SaveToken(Phonenumber: self.loginEmailField.text!, Token: APIResponse.token!, Password: self.registerPasswordField.text!)
+                tokenManager.SaveToken(Phonenumber: self.loginEmailField.getCountryPhoneCode()! + (self.loginEmailField.text?.replacingOccurrences(of: "-", with: "").replacingOccurrences(of: " ", with: ""))!, Token: APIResponse.token!, Password: self.registerPasswordField.text!)
                 
                 manager.Beacons(completion: {(APIResponse)-> Void in
                     self.showLoading(state: false)
@@ -189,8 +193,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UINavigationCo
         self.showLoading(state: true)
         let manager = DataManager()
         
-        manager.RegisterNumber(phonenumber: loginEmailField.text!, completion: {(APIResponse)-> Void in
+        manager.RegisterNumber(phonenumber:self.loginEmailField.getCountryPhoneCode()! + (self.loginEmailField.text?.replacingOccurrences(of: "-", with: "").replacingOccurrences(of: " ", with: ""))!, completion: {(APIResponse)-> Void in
             
+            self.BackButton.isHidden = false
             self.showLoading(state: false)
             self.switchViewsAuto(Login: true)
         })

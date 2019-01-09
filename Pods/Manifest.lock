@@ -3,6 +3,8 @@ PODS:
   - AEXML (4.2.2)
   - Alamofire (4.6.0)
   - Bluetonium (2.1.0)
+  - CTKFlagPhoneNumber (0.5.0):
+    - libPhoneNumber-iOS
   - GoogleMaps (2.5.0):
     - GoogleMaps/Maps (= 2.5.0)
   - GoogleMaps/Base (2.5.0)
@@ -10,10 +12,12 @@ PODS:
     - GoogleMaps/Base
   - IQKeyboardManagerSwift (5.0.6)
   - KVSpinnerView (1.0.1)
+  - libPhoneNumber-iOS (0.9.13)
   - NVActivityIndicatorView (4.1.0):
     - NVActivityIndicatorView/Presenter (= 4.1.0)
   - NVActivityIndicatorView/Presenter (4.1.0)
   - PinCodeTextField (0.1.0)
+  - ReachabilitySwift (4.1.0)
   - RSLoadingView (1.1.2)
   - SDWebImage (4.2.2):
     - SDWebImage/Core (= 4.2.2)
@@ -30,11 +34,13 @@ DEPENDENCIES:
   - AEXML
   - Alamofire (~> 4.5)
   - Bluetonium
+  - CTKFlagPhoneNumber
   - GoogleMaps (~> 2.5.0)
   - IQKeyboardManagerSwift
   - KVSpinnerView
   - NVActivityIndicatorView
   - PinCodeTextField
+  - ReachabilitySwift
   - RSLoadingView
   - SDWebImage (~> 4.0)
   - SmileLock
@@ -43,16 +49,41 @@ DEPENDENCIES:
   - TCPickerView
   - ZAlertView
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - ABSteppedProgressBar
+    - AEXML
+    - Alamofire
+    - Bluetonium
+    - CTKFlagPhoneNumber
+    - GoogleMaps
+    - IQKeyboardManagerSwift
+    - KVSpinnerView
+    - libPhoneNumber-iOS
+    - NVActivityIndicatorView
+    - PinCodeTextField
+    - ReachabilitySwift
+    - RSLoadingView
+    - SDWebImage
+    - SmileLock
+    - SwiftLocation
+    - SwiftyJSON
+    - TCPickerView
+    - ZAlertView
+
 SPEC CHECKSUMS:
   ABSteppedProgressBar: f83d33bf8088be482dc7b2f06a3b10de097d317a
   AEXML: 5ebafc1b75e0bcf0f1b09b8ca8fed2d5a199479b
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
   Bluetonium: 45d465084e1a663b579e2c8d937aebf5551c2d67
+  CTKFlagPhoneNumber: 6c00bfb94d8517cefee96537a376470376a20321
   GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
   IQKeyboardManagerSwift: 02bfbb0dff71c66d0ab77d80d25dfce0c3717735
   KVSpinnerView: ce89cec80a5776ba4639c312770f01c8a091e80a
+  libPhoneNumber-iOS: e444379ac18bbfbdefad571da735b2cd7e096caa
   NVActivityIndicatorView: dc4726052dc24e89fa8576d43acf9e96f61d49db
   PinCodeTextField: a3c39be58bde3ed1d6888d0fb1d88b0a4a2277cc
+  ReachabilitySwift: 6849231cd4e06559f3b9ef4a97a0a0f96d41e09f
   RSLoadingView: fdfeee9968b6dad2559169a97da0ad2580371f3a
   SDWebImage: 89a9d32cd520bbb46eb14e541d5109b3564af198
   SmileLock: 94289220d5e1fbfd774115b605d3c0371024df59
@@ -61,6 +92,6 @@ SPEC CHECKSUMS:
   TCPickerView: eb6f39d3cc10b72a66c9db5300bffde08d9077e8
   ZAlertView: 59fffdb4e37a01df461835566d5101052b8af953
 
-PODFILE CHECKSUM: d1d6b600ae3e92a6418878cc69653c0abb80eab1
+PODFILE CHECKSUM: beb02d92f31c48e1587a9bd14208371b1f8e6ed0
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.3
